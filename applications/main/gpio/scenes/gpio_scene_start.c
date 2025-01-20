@@ -21,8 +21,8 @@ enum GpioOtg {
 };
 
 const char* const gpio_otg_text[GpioOtgSettingsNum] = {
-    "OFF",
-    "ON",
+    "关闭",
+    "开启",
 };
 
 static void gpio_scene_start_var_list_enter_callback(void* context, uint32_t index) {
@@ -59,13 +59,13 @@ void gpio_scene_start_on_enter(void* context) {
     variable_item_list_set_enter_callback(
         var_item_list, gpio_scene_start_var_list_enter_callback, app);
 
-    variable_item_list_add(var_item_list, "USB-UART Bridge", 0, NULL, NULL);
+    variable_item_list_add(var_item_list, "USB-UART 桥接", 0, NULL, NULL);
 
-    variable_item_list_add(var_item_list, "GPIO Manual Control", 0, NULL, NULL);
+    variable_item_list_add(var_item_list, "GPIO 手动控制", 0, NULL, NULL);
 
     item = variable_item_list_add(
         var_item_list,
-        "5V on GPIO",
+        "GPIO 供电 5V",
         GpioOtgSettingsNum,
         gpio_scene_start_var_list_change_callback,
         app);
@@ -77,7 +77,7 @@ void gpio_scene_start_on_enter(void* context) {
         variable_item_set_current_value_text(item, gpio_otg_text[GpioOtgOff]);
     }
 
-    variable_item_list_add(var_item_list, "I2C-Scanner", 0, NULL, NULL);
+    variable_item_list_add(var_item_list, "I2C-扫描器", 0, NULL, NULL);
     variable_item_list_add(var_item_list, "I2C-SFP", 0, NULL, NULL);
 
     variable_item_list_set_selected_item(
