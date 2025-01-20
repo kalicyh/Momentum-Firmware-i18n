@@ -11,7 +11,7 @@ enum PowerSettingsSubmenuIndex {
 
 #define AUTO_POWEROFF_DELAY_COUNT 13
 const char* const auto_poweroff_delay_text[AUTO_POWEROFF_DELAY_COUNT] = {
-    "OFF",
+    "禁用",
     "5min",
     "10min",
     "15min",
@@ -76,15 +76,15 @@ void power_settings_scene_start_on_enter(void* context) {
     VariableItem* item;
     uint8_t value_index;
 
-    variable_item_list_add(variable_item_list, "Battery Info", 1, NULL, NULL);
+    variable_item_list_add(variable_item_list, "电池信息", 1, NULL, NULL);
 
-    variable_item_list_add(variable_item_list, "Reboot", 1, NULL, NULL);
+    variable_item_list_add(variable_item_list, "重启", 1, NULL, NULL);
 
-    variable_item_list_add(variable_item_list, "Power OFF", 1, NULL, NULL);
+    variable_item_list_add(variable_item_list, "关机", 1, NULL, NULL);
 
     item = variable_item_list_add(
         variable_item_list,
-        "Auto PowerOff",
+        "闲置时关机",
         AUTO_POWEROFF_DELAY_COUNT,
         power_settings_scene_start_auto_poweroff_delay_changed,
         app);
