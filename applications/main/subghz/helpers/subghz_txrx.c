@@ -122,7 +122,7 @@ uint8_t*
 
     //I had to skip the +10dBM and -6dBm Values, use only ones AM/FM have in common.
     //Highest Value is 12dBm for AM, 10 for FM. So Menu needs to reflect that.
-    const uint8_t tx_pa_table[TX_PATABLE_COUNT] = {
+    static const uint8_t tx_pa_table[TX_PATABLE_COUNT] = {
         0,
         0xC0, //12dBm
         0xCD, //7dBm
