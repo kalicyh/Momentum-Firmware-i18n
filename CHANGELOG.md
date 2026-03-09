@@ -1,7 +1,7 @@
 ## Main changes
 - Current API: 87.6
 * NFC: Add Mifare Ultralight C Write Support (by @haw8411)
-* Apps: Build tag (**9mar2026p2**) - **Check out more Apps updates and fixes by following** [this link](https://github.com/xMasterX/all-the-plugins/commits/dev)
+* Apps: Build tag (**9mar2026p3**) - **Check out more Apps updates and fixes by following** [this link](https://github.com/xMasterX/all-the-plugins/commits/dev)
 ## Other changes
 * Display: Extend lcd contrast range to full ST756x 6-bit range (by @ShaTie) (reduced to -10 to +18 to avoid fully unreadable state)
 <br><br>
