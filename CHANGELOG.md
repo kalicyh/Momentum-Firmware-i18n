@@ -6,7 +6,7 @@
 * SubGHz: **Fix CAME TWEE repeats count for button click**
 * NFC: **Fix "MIR" and other EMV cards crash on Read** (by @Dmitry422)
 * NFC: Add **Mifare Ultralight C Write Support** (by @haw8411)
-* NFC: Add **new parsers SZPPK, SKPPK and SevPPK** (PR #981 | by @mxcdoam)
+* NFC: Add **new parsers SZPPK, SKPPK and SevPPK**, upgrade Plantain parser, fix TwoCities parser (PR #981 | by @mxcdoam)
 * OFW PR 4362: NFC: **Fix BusFault** in Write to Initial Card (by @akrylysov)
 * Apps: Build tag (**27mar2026**) - **Check out more Apps updates and fixes by following** [this link](https://github.com/xMasterX/all-the-plugins/commits/dev)
 ## Other changes
