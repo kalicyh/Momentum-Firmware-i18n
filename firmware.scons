@@ -1,4 +1,5 @@
 import itertools
+import os
 
 from fbt.sdk.cache import LazySdkVersionLoader
 from fbt.version import get_git_commit_unix_timestamp
@@ -83,6 +84,11 @@ env = ENV.Clone(
     ),
 )
 
+momentum_ui_lang = os.environ.get("MOMENTUM_UI_LANG", "en_US")
+env.Replace(MOMENTUM_UI_LANG_ZH="1" if momentum_ui_lang == "zh_CN" else "0")
+if momentum_ui_lang == "zh_CN":
+    env.AppendUnique(CPPDEFINES=["MOMENTUM_UI_LANG_ZH_CN"])
+
 env.PreConfigureFwEnvionment()
 
 if env["IS_BASE_FIRMWARE"]:
@@ -163,11 +169,17 @@ if env["IS_BASE_FIRMWARE"]:
     fw_artifacts.append(fw_extapps.sdk_tree)
 
     # Resources & manifest for SD card
+    extra_dist = [fwenv["DOLPHIN_EXTERNAL_OUT_DIR"], fwenv["ASSET_PACKS_OUT_DIR"]]
+    if momentum_ui_lang == "zh_CN":
+        extra_dist.append(fwenv["ZH_FONTS_OUT_DIR"])
+
     manifest = fwenv.ManifestBuilder(
         "${RESOURCES_ROOT}/Manifest",
         GIT_UNIX_TIMESTAMP=get_git_commit_unix_timestamp(),
-        _EXTRA_DIST=[fwenv["DOLPHIN_EXTERNAL_OUT_DIR"], fwenv["ASSET_PACKS_OUT_DIR"]],
+        _EXTRA_DIST=extra_dist,
     )
+    if momentum_ui_lang == "zh_CN":
+        fwenv.Depends(manifest, fwenv["MOMENTUM_ZH_FONT_GEN"])
     fwenv.Replace(FW_RESOURCES_MANIFEST=manifest)
     fwenv.Alias("resources", manifest)
 

@@ -19,22 +19,23 @@ void momentum_app_scene_interface_on_enter(void* context) {
     VariableItemList* var_item_list = app->var_item_list;
     VariableItem* item;
 
-    item = variable_item_list_add(var_item_list, "Graphics", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("Graphics", "图形"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "Mainmenu", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("Mainmenu", "主菜单"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "Lockscreen", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("Lockscreen", "锁屏"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "Statusbar", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("Statusbar", "状态栏"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "File Browser", 0, NULL, app);
+    item = variable_item_list_add(
+        var_item_list, MOMENTUM_UI_TEXT("File Browser", "文件浏览器"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "General", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("General", "通用"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
     variable_item_list_set_enter_callback(

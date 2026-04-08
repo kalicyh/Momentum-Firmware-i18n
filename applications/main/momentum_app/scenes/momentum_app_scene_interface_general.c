@@ -13,7 +13,8 @@ void momentum_app_scene_interface_general_var_item_list_callback(void* context, 
 static void momentum_app_scene_interface_general_scroll_marquee_changed(VariableItem* item) {
     MomentumApp* app = variable_item_get_context(item);
     bool value = variable_item_get_current_value_index(item);
-    variable_item_set_current_value_text(item, value ? "Marquee" : "Standard");
+    variable_item_set_current_value_text(
+        item, value ? MOMENTUM_UI_TEXT("Marquee", "跑马灯") : MOMENTUM_UI_TEXT("Standard", "标准"));
     momentum_settings.scroll_marquee = value;
     app->save_settings = true;
 }
@@ -29,7 +30,8 @@ static void momentum_app_scene_interface_general_midnight_format_changed(Variabl
 static void momentum_app_scene_interface_general_popup_overlay_changed(VariableItem* item) {
     MomentumApp* app = variable_item_get_context(item);
     bool value = variable_item_get_current_value_index(item);
-    variable_item_set_current_value_text(item, value ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item, value ? MOMENTUM_UI_TEXT("ON", "开") : MOMENTUM_UI_TEXT("OFF", "关"));
     momentum_settings.popup_overlay = value;
     app->save_settings = true;
 }
@@ -41,17 +43,19 @@ void momentum_app_scene_interface_general_on_enter(void* context) {
 
     item = variable_item_list_add(
         var_item_list,
-        "Text Scroll",
+        MOMENTUM_UI_TEXT("Text Scroll", "文字滚动"),
         2,
         momentum_app_scene_interface_general_scroll_marquee_changed,
         app);
     variable_item_set_current_value_index(item, momentum_settings.scroll_marquee);
     variable_item_set_current_value_text(
-        item, momentum_settings.scroll_marquee ? "Marquee" : "Standard");
+        item,
+        momentum_settings.scroll_marquee ? MOMENTUM_UI_TEXT("Marquee", "跑马灯") :
+                                           MOMENTUM_UI_TEXT("Standard", "标准"));
 
     item = variable_item_list_add(
         var_item_list,
-        "Clock Midnight Format",
+        MOMENTUM_UI_TEXT("Clock Midnight Format", "午夜格式"),
         2,
         momentum_app_scene_interface_general_midnight_format_changed,
         app);
@@ -61,12 +65,15 @@ void momentum_app_scene_interface_general_on_enter(void* context) {
 
     item = variable_item_list_add(
         var_item_list,
-        "Popup Overlay",
+        MOMENTUM_UI_TEXT("Popup Overlay", "弹窗覆盖"),
         2,
         momentum_app_scene_interface_general_popup_overlay_changed,
         app);
     variable_item_set_current_value_index(item, momentum_settings.popup_overlay);
-    variable_item_set_current_value_text(item, momentum_settings.popup_overlay ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item,
+        momentum_settings.popup_overlay ? MOMENTUM_UI_TEXT("ON", "开") :
+                                          MOMENTUM_UI_TEXT("OFF", "关"));
 
     variable_item_list_set_enter_callback(
         var_item_list, momentum_app_scene_interface_general_var_item_list_callback, app);

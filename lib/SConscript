@@ -1,5 +1,45 @@
 Import("env")
 
+momentum_tools_root = Dir("#/tools/u8g2_cn_tools")
+momentum_zh_fonts_out_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts")
+momentum_zh_fonts_work_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_work")
+momentum_zh_font_stamp = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_state").File("stamp")
+
+momentum_zh_font_gen = env.Command(
+    [momentum_zh_font_stamp, momentum_zh_fonts_out_dir.File("primary_zh.u8f")],
+    [
+        File("#/scripts/momentum_zh_font_gen.py"),
+        File("#/localization/zh_CN/strings.json"),
+        momentum_tools_root.File("bdfconv"),
+        momentum_tools_root.Dir("bdf").File("wenquanyi_9pt.bdf"),
+    ],
+    [
+        [
+            "${PYTHON3}",
+            "${ROOT_DIR}/scripts/momentum_zh_font_gen.py",
+            "--strings",
+            "${ROOT_DIR}/localization/zh_CN/strings.json",
+            "--tools-dir",
+            momentum_tools_root,
+            "--bdf",
+            momentum_tools_root.Dir("bdf").File("wenquanyi_9pt.bdf"),
+            "--work-dir",
+            momentum_zh_fonts_work_dir,
+            "--out-dir",
+            momentum_zh_fonts_out_dir,
+            "--stamp",
+            momentum_zh_font_stamp,
+            "--enabled",
+            "${MOMENTUM_UI_LANG_ZH}",
+        ]
+    ],
+)
+
+env.Replace(
+    MOMENTUM_ZH_FONT_GEN=momentum_zh_font_gen,
+    ZH_FONTS_OUT_DIR=momentum_zh_fonts_out_dir,
+)
+
 
 env.Append(
     CPPPATH=[

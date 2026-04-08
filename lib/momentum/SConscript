@@ -14,6 +14,7 @@ libenv = env.Clone(FW_LIB_NAME="momentum")
 libenv.ApplyLibFlags()
 
 sources = libenv.GlobRecursive("*.c")
+libenv.Depends(sources, env["MOMENTUM_ZH_FONT_GEN"])
 
 lib = libenv.StaticLibrary("${FW_LIB_NAME}", sources)
 libenv.Install("${LIB_DIST_DIR}", lib)

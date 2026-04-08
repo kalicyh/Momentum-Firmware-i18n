@@ -45,6 +45,12 @@ ARRAY_DEF(CharList, char*)
 
 #define DOLPHIN_MAX_XP (DOLPHIN_LEVELS[DOLPHIN_LEVEL_COUNT - 1] + 1)
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define MOMENTUM_UI_TEXT(en, zh) (zh)
+#else
+#define MOMENTUM_UI_TEXT(en, zh) (en)
+#endif
+
 typedef struct {
     Gui* gui;
     Storage* storage;

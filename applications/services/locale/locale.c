@@ -1,5 +1,7 @@
 #include "locale.h"
 
+#include <furi.h>
+#include <furi_hal_rtc.h>
 #define TAG "LocaleSrv"
 
 LocaleMeasurementUnits locale_get_measurement_unit(void) {

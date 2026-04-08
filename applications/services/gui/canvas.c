@@ -3,10 +3,14 @@
 
 #include <furi.h>
 #include <furi_hal.h>
+#include <storage/storage.h>
 #include <stdint.h>
 #include <u8g2_glue.h>
 #include <momentum/asset_packs_i.h>
 #include <momentum/settings.h>
+
+#define CANVAS_ZH_FONT_PATH EXT_PATH("zh_fonts/primary_zh.u8f")
+#define U8G2_FONT_DATA_STRUCT_SIZE 23
 
 const CanvasFontParameters canvas_font_params[FontTotalNumber] = {
     [FontPrimary] = {.leading_default = 12, .leading_min = 11, .height = 8, .descender = 2},
@@ -15,6 +19,87 @@ const CanvasFontParameters canvas_font_params[FontTotalNumber] = {
     [FontBigNumbers] = {.leading_default = 18, .leading_min = 16, .height = 15, .descender = 0},
     [FontBatteryPercent] = {.leading_default = 11, .leading_min = 9, .height = 6, .descender = 0},
 };
+
+static bool canvas_string_has_non_ascii(const char* str) {
+    if(!str) return false;
+
+    while(*str) {
+        if(((uint8_t)*str) & 0x80) {
+            return true;
+        }
+        str++;
+    }
+
+    return false;
+}
+
+static uint8_t* canvas_zh_font = NULL;
+
+static const uint8_t* canvas_get_zh_font(void) {
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+    if(canvas_zh_font) {
+        return canvas_zh_font;
+    }
+
+    Storage* storage = furi_record_open(RECORD_STORAGE);
+    File* file = storage_file_alloc(storage);
+    uint8_t* font = NULL;
+
+    do {
+        if(!storage_file_open(file, CANVAS_ZH_FONT_PATH, FSAM_READ, FSOM_OPEN_EXISTING)) {
+            break;
+        }
+
+        uint64_t size = storage_file_size(file);
+        if(size <= U8G2_FONT_DATA_STRUCT_SIZE || size > UINT32_MAX) {
+            break;
+        }
+
+        font = malloc(size);
+        if(!font) {
+            break;
+        }
+
+        if(storage_file_read(file, font, size) != size) {
+            free(font);
+            font = NULL;
+            break;
+        }
+
+        canvas_zh_font = font;
+    } while(false);
+
+    storage_file_close(file);
+    storage_file_free(file);
+    furi_record_close(RECORD_STORAGE);
+
+    return canvas_zh_font;
+#else
+    return NULL;
+#endif
+}
+
+static const uint8_t* canvas_push_zh_font(Canvas* canvas, const char* str) {
+    if(!canvas_string_has_non_ascii(str)) {
+        return NULL;
+    }
+
+    const uint8_t* zh_font = canvas_get_zh_font();
+    if(!zh_font) {
+        return NULL;
+    }
+
+    const uint8_t* previous_font = canvas->fb.font;
+    u8g2_SetFontMode(&canvas->fb, 1);
+    u8g2_SetFont(&canvas->fb, zh_font);
+    return previous_font;
+}
+
+static void canvas_pop_zh_font(Canvas* canvas, const uint8_t* previous_font) {
+    if(previous_font) {
+        u8g2_SetFont(&canvas->fb, previous_font);
+    }
+}
 
 Canvas* canvas_init(void) {
     Canvas* canvas = malloc(sizeof(Canvas));
@@ -47,6 +132,8 @@ void canvas_free(Canvas* canvas) {
     CanvasCallbackPairArray_clear(canvas->canvas_callback_pair);
     furi_mutex_free(canvas->mutex);
     free(canvas);
+    free(canvas_zh_font);
+    canvas_zh_font = NULL;
 }
 
 static void canvas_lock(Canvas* canvas) {
@@ -221,7 +308,9 @@ void canvas_draw_str(Canvas* canvas, int32_t x, int32_t y, const char* str) {
     if(!str) return;
     x += canvas->offset_x;
     y += canvas->offset_y;
+    const uint8_t* previous_font = canvas_push_zh_font(canvas, str);
     u8g2_DrawUTF8(&canvas->fb, x, y, str);
+    canvas_pop_zh_font(canvas, previous_font);
 }
 
 void canvas_draw_str_aligned(
@@ -235,6 +324,7 @@ void canvas_draw_str_aligned(
     if(!str) return;
     x += canvas->offset_x;
     y += canvas->offset_y;
+    const uint8_t* previous_font = canvas_push_zh_font(canvas, str);
 
     switch(horizontal) {
     case AlignLeft:
@@ -265,12 +355,16 @@ void canvas_draw_str_aligned(
     }
 
     u8g2_DrawUTF8(&canvas->fb, x, y, str);
+    canvas_pop_zh_font(canvas, previous_font);
 }
 
 uint16_t canvas_string_width(Canvas* canvas, const char* str) {
     furi_check(canvas);
     if(!str) return 0;
-    return u8g2_GetUTF8Width(&canvas->fb, str);
+    const uint8_t* previous_font = canvas_push_zh_font(canvas, str);
+    uint16_t width = u8g2_GetUTF8Width(&canvas->fb, str);
+    canvas_pop_zh_font(canvas, previous_font);
+    return width;
 }
 
 size_t canvas_glyph_width(Canvas* canvas, uint16_t symbol) {

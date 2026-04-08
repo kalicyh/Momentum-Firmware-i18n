@@ -1,4 +1,5 @@
 #include <furi.h>
+#include <furi_hal_rtc.h>
 
 #include <gui/elements.h>
 #include <gui/icon.h>
