@@ -16,36 +16,44 @@ void subghz_scene_start_on_enter(void* context) {
     }
 
     submenu_add_item(
-        subghz->submenu, "Read", SubmenuIndexRead, subghz_scene_start_submenu_callback, subghz);
+        subghz->submenu,
+        SUBGHZ_UI_TEXT("Read", "读取"),
+        SubmenuIndexRead,
+        subghz_scene_start_submenu_callback,
+        subghz);
     submenu_add_item(
         subghz->submenu,
-        "Read RAW",
+        SUBGHZ_UI_TEXT("Read RAW", "读取 RAW"),
         SubmenuIndexReadRAW,
         subghz_scene_start_submenu_callback,
         subghz);
     submenu_add_item(
-        subghz->submenu, "Saved", SubmenuIndexSaved, subghz_scene_start_submenu_callback, subghz);
+        subghz->submenu,
+        SUBGHZ_UI_TEXT("Saved", "已保存"),
+        SubmenuIndexSaved,
+        subghz_scene_start_submenu_callback,
+        subghz);
     submenu_add_item(
         subghz->submenu,
-        "Add Manually",
+        SUBGHZ_UI_TEXT("Add Manually", "手动添加"),
         SubmenuIndexAddManually,
         subghz_scene_start_submenu_callback,
         subghz);
     submenu_add_item(
         subghz->submenu,
-        "Add Manually [Advanced]",
+        SUBGHZ_UI_TEXT("Add Manually [Advanced]", "手动添加 [高级]"),
         SubmenuIndexAddManuallyAdvanced,
         subghz_scene_start_submenu_callback,
         subghz);
     submenu_add_item(
         subghz->submenu,
-        "Frequency Analyzer",
+        SUBGHZ_UI_TEXT("Frequency Analyzer", "频率分析仪"),
         SubmenuIndexFrequencyAnalyzer,
         subghz_scene_start_submenu_callback,
         subghz);
     submenu_add_item(
         subghz->submenu,
-        "Radio Settings",
+        SUBGHZ_UI_TEXT("Radio Settings", "无线电设置"),
         SubmenuIndexExtSettings,
         subghz_scene_start_submenu_callback,
         subghz);

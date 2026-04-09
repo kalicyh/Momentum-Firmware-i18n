@@ -22,14 +22,24 @@ void subghz_scene_delete_raw_on_enter(void* context) {
     FuriString* file_name;
     file_name = furi_string_alloc();
     path_extract_filename(subghz->file_path, file_name, true);
-    snprintf(delete_str, sizeof(delete_str), "\e#Delete %s?\e#", furi_string_get_cstr(file_name));
+    snprintf(
+        delete_str,
+        sizeof(delete_str),
+        SUBGHZ_UI_TEXT("\e#Delete %s?\e#", "\e#删除 %s?\e#"),
+        furi_string_get_cstr(file_name));
     furi_string_free(file_name);
 
     widget_add_text_box_element(
         subghz->widget, 0, 0, 128, 23, AlignCenter, AlignCenter, delete_str, false);
 
     widget_add_string_element(
-        subghz->widget, 38, 25, AlignLeft, AlignTop, FontSecondary, "RAW signal");
+        subghz->widget,
+        38,
+        25,
+        AlignLeft,
+        AlignTop,
+        FontSecondary,
+        SUBGHZ_UI_TEXT("RAW signal", "RAW 信号"));
     subghz_txrx_get_frequency_and_modulation(subghz->txrx, frequency_str, modulation_str, false);
     widget_add_string_element(
         subghz->widget,
@@ -53,9 +63,17 @@ void subghz_scene_delete_raw_on_enter(void* context) {
     furi_string_free(modulation_str);
 
     widget_add_button_element(
-        subghz->widget, GuiButtonTypeRight, "Delete", subghz_scene_delete_raw_callback, subghz);
+        subghz->widget,
+        GuiButtonTypeRight,
+        SUBGHZ_UI_TEXT("Delete", "删除"),
+        subghz_scene_delete_raw_callback,
+        subghz);
     widget_add_button_element(
-        subghz->widget, GuiButtonTypeLeft, "Back", subghz_scene_delete_raw_callback, subghz);
+        subghz->widget,
+        GuiButtonTypeLeft,
+        SUBGHZ_UI_TEXT("Back", "返回"),
+        subghz_scene_delete_raw_callback,
+        subghz);
 
     view_dispatcher_switch_to_view(subghz->view_dispatcher, SubGhzViewIdWidget);
 }

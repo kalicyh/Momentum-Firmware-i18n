@@ -47,6 +47,12 @@
 #define SUBGHZ_EXT_PRESET_NAME true
 #define SUBGHZ_MEASURE_LOADING false
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define SUBGHZ_UI_TEXT(en, zh) (zh)
+#else
+#define SUBGHZ_UI_TEXT(en, zh) (en)
+#endif
+
 struct SubGhz {
     Gui* gui;
     NotificationApp* notifications;

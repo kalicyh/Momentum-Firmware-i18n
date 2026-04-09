@@ -1,4 +1,5 @@
 #include "subghz_read_raw.h"
+#include "../subghz_i.h"
 
 #include <furi.h>
 #include <furi_hal.h>
@@ -302,7 +303,9 @@ void subghz_read_raw_draw(Canvas* canvas, SubGhzReadRAWModel* model) {
             canvas,
             77,
             7,
-            (model->device_type == SubGhzRadioDeviceTypeInternal) ? "R: Int" : "R: Ext");
+            (model->device_type == SubGhzRadioDeviceTypeInternal) ?
+                SUBGHZ_UI_TEXT("R: Int", "R: 内") :
+                SUBGHZ_UI_TEXT("R: Ext", "R: 外"));
     } else {
         canvas_draw_str(
             canvas, 70, 7, (model->device_type == SubGhzRadioDeviceTypeInternal) ? "I" : "E");
@@ -317,16 +320,16 @@ void subghz_read_raw_draw(Canvas* canvas, SubGhzReadRAWModel* model) {
 
     switch(model->status) {
     case SubGhzReadRAWStatusIDLE:
-        elements_button_left(canvas, "Erase");
-        elements_button_center(canvas, "Send");
-        elements_button_right(canvas, "Save");
+        elements_button_left(canvas, SUBGHZ_UI_TEXT("Erase", "清除"));
+        elements_button_center(canvas, SUBGHZ_UI_TEXT("Send", "发送"));
+        elements_button_right(canvas, SUBGHZ_UI_TEXT("Save", "保存"));
         break;
     case SubGhzReadRAWStatusLoadKeyIDLE:
         if(!model->raw_send_only) {
-            elements_button_left(canvas, "New");
-            elements_button_right(canvas, "More");
+            elements_button_left(canvas, SUBGHZ_UI_TEXT("New", "新建"));
+            elements_button_right(canvas, SUBGHZ_UI_TEXT("More", "更多"));
         }
-        elements_button_center(canvas, "Send");
+        elements_button_center(canvas, SUBGHZ_UI_TEXT("Send", "发送"));
         elements_text_box(
             canvas,
             4,
@@ -344,16 +347,16 @@ void subghz_read_raw_draw(Canvas* canvas, SubGhzReadRAWModel* model) {
     case SubGhzReadRAWStatusLoadKeyTX:
     case SubGhzReadRAWStatusLoadKeyTXRepeat:
         graphics_mode = 0;
-        elements_button_center(canvas, "Hold to repeat");
+        elements_button_center(canvas, SUBGHZ_UI_TEXT("Hold to repeat", "长按重复"));
         break;
 
     case SubGhzReadRAWStatusStart:
-        elements_button_left(canvas, "Config");
+        elements_button_left(canvas, SUBGHZ_UI_TEXT("Config", "配置"));
         elements_button_center(canvas, "REC");
         break;
 
     default:
-        elements_button_center(canvas, "Stop");
+        elements_button_center(canvas, SUBGHZ_UI_TEXT("Stop", "停止"));
         break;
     }
 

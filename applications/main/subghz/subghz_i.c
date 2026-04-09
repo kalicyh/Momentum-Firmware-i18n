@@ -43,7 +43,7 @@ bool subghz_tx_start(SubGhz* subghz, FlipperFormat* flipper_format) {
 void subghz_dialog_message_freq_error(SubGhz* subghz, SubGhzTx can_tx) {
     DialogsApp* dialogs = subghz->dialogs;
     DialogMessage* message = dialog_message_alloc();
-    const char* header_text = "Transmission is blocked";
+    const char* header_text = SUBGHZ_UI_TEXT("Transmission is blocked", "发送被阻止");
     const char* message_text;
 
     switch(can_tx) {
@@ -51,17 +51,25 @@ void subghz_dialog_message_freq_error(SubGhz* subghz, SubGhzTx can_tx) {
     default:
         return;
     case SubGhzTxBlockedRegionNotProvisioned:
-        message_text = "Missing region file.\nReinstall firmware\nwith Web/App\nor bypass region.";
+        message_text = SUBGHZ_UI_TEXT(
+            "Missing region file.\nReinstall firmware\nwith Web/App\nor bypass region.",
+            "缺少区域文件。\n请通过网页/应用\n重新安装固件\n或绕过区域限制。");
         break;
     case SubGhzTxBlockedRegion:
-        message_text = "Frequency outside\nof region range.\nMNTM > Protocols\n> Bypass Region";
+        message_text = SUBGHZ_UI_TEXT(
+            "Frequency outside\nof region range.\nMNTM > Protocols\n> Bypass Region",
+            "频率超出区域范围。\nMNTM > 协议\n> 绕过区域限制");
         break;
     case SubGhzTxBlockedDefault:
-        message_text = "Frequency outside\nof default range.\nMNTM > Protocols\n> Extend Bands";
+        message_text = SUBGHZ_UI_TEXT(
+            "Frequency outside\nof default range.\nMNTM > Protocols\n> Extend Bands",
+            "频率超出默认范围。\nMNTM > 协议\n> 扩展频段");
         break;
     case SubGhzTxUnsupported:
-        header_text = "Frequency not supported";
-        message_text = "Frequency is\noutside of\nsupported range.";
+        header_text = SUBGHZ_UI_TEXT("Frequency not supported", "频率不受支持");
+        message_text = SUBGHZ_UI_TEXT(
+            "Frequency is\noutside of\nsupported range.",
+            "频率超出\n支持范围。");
         break;
     }
 

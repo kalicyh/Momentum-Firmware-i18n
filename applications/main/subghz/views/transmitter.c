@@ -1,4 +1,5 @@
 #include "transmitter.h"
+#include "../subghz_i.h"
 
 #include <assets_icons.h>
 #include <input/input.h>
@@ -117,8 +118,10 @@ void subghz_view_transmitter_draw(Canvas* canvas, SubGhzViewTransmitterModel* mo
             canvas,
             58,
             62,
-            (model->device_type == SubGhzRadioDeviceTypeInternal) ? "R: Int" : "R: Ext");
-        subghz_view_transmitter_button_right(canvas, "Send");
+            (model->device_type == SubGhzRadioDeviceTypeInternal) ?
+                SUBGHZ_UI_TEXT("R: Int", "R: 内") :
+                SUBGHZ_UI_TEXT("R: Ext", "R: 外"));
+        subghz_view_transmitter_button_right(canvas, SUBGHZ_UI_TEXT("Send", "发送"));
     }
 }
 

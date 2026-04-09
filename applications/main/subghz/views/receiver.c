@@ -281,7 +281,7 @@ void subghz_view_receiver_draw(Canvas* canvas, SubGhzViewReceiverModel* model) {
     canvas_set_font(canvas, FontSecondary);
 
     if(model->mode == SubGhzViewReceiverModeLive) {
-        elements_button_left(canvas, "Config");
+        elements_button_left(canvas, SUBGHZ_UI_TEXT("Config", "配置"));
         //canvas_draw_line(canvas, 46, 51, 125, 51);
     } else {
         canvas_draw_line(canvas, 2, 52, 125, 52);
@@ -344,11 +344,11 @@ void subghz_view_receiver_draw(Canvas* canvas, SubGhzViewReceiverModel* model) {
                                                                         &I_Fishing_123x52);
             canvas_set_font(canvas, FontPrimary);
             if(model->repeater_state != SubGhzRepeaterStateOff) {
-                canvas_draw_str(canvas, 59, 46, "Repeater...");
+                canvas_draw_str(canvas, 59, 46, SUBGHZ_UI_TEXT("Repeater...", "转发中..."));
             } else if(model->hopping_enabled) {
-                canvas_draw_str(canvas, 59, 46, "Hopper scan...");
+                canvas_draw_str(canvas, 59, 46, SUBGHZ_UI_TEXT("Hopper scan...", "跳频扫描..."));
             } else {
-                canvas_draw_str(canvas, 59, 46, "Fixed scan...");
+                canvas_draw_str(canvas, 59, 46, SUBGHZ_UI_TEXT("Fixed scan...", "固定扫描..."));
             }
             //canvas_draw_line(canvas, 46, 51, 125, 51);
             canvas_set_font(canvas, FontSecondary);
@@ -366,7 +366,7 @@ void subghz_view_receiver_draw(Canvas* canvas, SubGhzViewReceiverModel* model) {
                 (model->device_type == SubGhzRadioDeviceTypeInternal) ? &I_Scanning_123x52 :
                                                                         &I_Fishing_123x52);
             canvas_set_font(canvas, FontPrimary);
-            canvas_draw_str(canvas, 63, 46, "Decoding...");
+            canvas_draw_str(canvas, 63, 46, SUBGHZ_UI_TEXT("Decoding...", "解码中..."));
             canvas_set_font(canvas, FontSecondary);
         }
     }
@@ -377,7 +377,7 @@ void subghz_view_receiver_draw(Canvas* canvas, SubGhzViewReceiverModel* model) {
     switch(model->bar_show) {
     case SubGhzViewReceiverBarShowLock:
         canvas_draw_icon(canvas, 64, 55, &I_Lock_7x8);
-        canvas_draw_str(canvas, 74, 62, "Locked");
+        canvas_draw_str(canvas, 74, 62, SUBGHZ_UI_TEXT("Locked", "已锁定"));
         break;
     case SubGhzViewReceiverBarShowToUnlockPress:
         canvas_draw_str(canvas, 44, 62, furi_string_get_cstr(model->frequency_str));
@@ -428,7 +428,7 @@ void subghz_view_receiver_draw(Canvas* canvas, SubGhzViewReceiverModel* model) {
         break;
     case SubGhzViewReceiverBarShowUnlock:
         canvas_draw_icon(canvas, 64, 55, &I_Unlock_7x8);
-        canvas_draw_str(canvas, 74, 62, "Unlocked");
+        canvas_draw_str(canvas, 74, 62, SUBGHZ_UI_TEXT("Unlocked", "已解锁"));
         break;
     default: {
         const char* frequency_str = furi_string_get_cstr(model->frequency_str);
