@@ -29,7 +29,8 @@ void momentum_app_scene_protocols_freqs_add_on_enter(void* context) {
     MomentumApp* app = context;
     NumberInput* number_input = app->number_input;
 
-    number_input_set_header_text(number_input, "Use kHz values, like 433920");
+    number_input_set_header_text(
+        number_input, MOMENTUM_UI_TEXT("Use kHz values, like 433920", "使用 kHz 数值，例如 433920"));
 
     number_input_set_result_callback(
         number_input,
@@ -58,11 +59,18 @@ bool momentum_app_scene_protocols_freqs_add_on_event(void* context, SceneManager
             scene_manager_previous_scene(app->scene_manager);
             break;
         case NumberInputResultError:
-            popup_set_header(app->popup, "Invalid frequency!", 64, 18, AlignCenter, AlignCenter);
+            popup_set_header(
+                app->popup,
+                MOMENTUM_UI_TEXT("Invalid frequency!", "无效频率!"),
+                64,
+                18,
+                AlignCenter,
+                AlignCenter);
             popup_set_text(
                 app->popup,
-                "Must be 281-361,\n"
-                "378-481, 749-962 MHz",
+                MOMENTUM_UI_TEXT(
+                    "Must be 281-361,\n378-481, 749-962 MHz",
+                    "必须在 281-361、\n378-481、749-962 MHz"),
                 64,
                 40,
                 AlignCenter,

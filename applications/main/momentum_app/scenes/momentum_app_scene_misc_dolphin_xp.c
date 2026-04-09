@@ -16,7 +16,8 @@ void momentum_app_scene_misc_dolphin_xp_on_enter(void* context) {
     MomentumApp* app = context;
     NumberInput* number_input = app->number_input;
 
-    number_input_set_header_text(number_input, "Enter Dolphin XP value");
+    number_input_set_header_text(
+        number_input, MOMENTUM_UI_TEXT("Enter Dolphin XP value", "输入海豚经验值"));
 
     number_input_set_result_callback(
         number_input,

@@ -12,10 +12,22 @@ void momentum_app_scene_interface_mainmenu_reset_on_enter(void* context) {
     MomentumApp* app = context;
     DialogEx* dialog_ex = app->dialog_ex;
 
-    dialog_ex_set_header(dialog_ex, "Reset Menu Items?", 64, 10, AlignCenter, AlignCenter);
-    dialog_ex_set_text(dialog_ex, "Your edits will be lost!", 64, 32, AlignCenter, AlignCenter);
-    dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-    dialog_ex_set_right_button_text(dialog_ex, "Reset");
+    dialog_ex_set_header(
+        dialog_ex,
+        MOMENTUM_UI_TEXT("Reset Menu Items?", "重置菜单项目?"),
+        64,
+        10,
+        AlignCenter,
+        AlignCenter);
+    dialog_ex_set_text(
+        dialog_ex,
+        MOMENTUM_UI_TEXT("Your edits will be lost!", "你的修改将会丢失!"),
+        64,
+        32,
+        AlignCenter,
+        AlignCenter);
+    dialog_ex_set_left_button_text(dialog_ex, MOMENTUM_UI_TEXT("Cancel", "取消"));
+    dialog_ex_set_right_button_text(dialog_ex, MOMENTUM_UI_TEXT("Reset", "重置"));
 
     dialog_ex_set_context(dialog_ex, app);
     dialog_ex_set_result_callback(

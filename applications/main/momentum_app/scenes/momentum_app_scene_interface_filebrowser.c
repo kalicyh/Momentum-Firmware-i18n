@@ -8,10 +8,10 @@ enum VarItemListIndex {
 };
 
 const char* const browser_path_names[BrowserPathModeCount] = {
-    "OFF",
-    "Current",
-    "Brief",
-    "Full",
+    MOMENTUM_UI_TEXT("OFF", "关"),
+    MOMENTUM_UI_TEXT("Current", "当前"),
+    MOMENTUM_UI_TEXT("Brief", "简略"),
+    MOMENTUM_UI_TEXT("Full", "完整"),
 };
 
 void momentum_app_scene_interface_filebrowser_var_item_list_callback(void* context, uint32_t index) {
@@ -22,7 +22,8 @@ void momentum_app_scene_interface_filebrowser_var_item_list_callback(void* conte
 static void momentum_app_scene_interface_filebrowser_sort_dirs_first_changed(VariableItem* item) {
     MomentumApp* app = variable_item_get_context(item);
     bool value = variable_item_get_current_value_index(item);
-    variable_item_set_current_value_text(item, value ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item, value ? MOMENTUM_UI_TEXT("ON", "开") : MOMENTUM_UI_TEXT("OFF", "关"));
     momentum_settings.sort_dirs_first = value;
     app->save_settings = true;
 }
@@ -31,7 +32,8 @@ static void
     momentum_app_scene_interface_filebrowser_show_hidden_files_changed(VariableItem* item) {
     MomentumApp* app = variable_item_get_context(item);
     bool value = variable_item_get_current_value_index(item);
-    variable_item_set_current_value_text(item, value ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item, value ? MOMENTUM_UI_TEXT("ON", "开") : MOMENTUM_UI_TEXT("OFF", "关"));
     momentum_settings.show_hidden_files = value;
     app->save_settings = true;
 }
@@ -40,7 +42,8 @@ static void
     momentum_app_scene_interface_filebrowser_show_internal_tab_changed(VariableItem* item) {
     MomentumApp* app = variable_item_get_context(item);
     bool value = variable_item_get_current_value_index(item);
-    variable_item_set_current_value_text(item, value ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item, value ? MOMENTUM_UI_TEXT("ON", "开") : MOMENTUM_UI_TEXT("OFF", "关"));
     momentum_settings.show_internal_tab = value;
     app->save_settings = true;
 }
@@ -59,7 +62,7 @@ static void momentum_app_scene_interface_filebrowser_favorite_timeout_changed(Va
     uint32_t value = variable_item_get_current_value_index(item);
     char text[6];
     snprintf(text, sizeof(text), "%lu S", value);
-    variable_item_set_current_value_text(item, value ? text : "OFF");
+    variable_item_set_current_value_text(item, value ? text : MOMENTUM_UI_TEXT("OFF", "关"));
     momentum_settings.favorite_timeout = value;
     app->save_settings = true;
 }
@@ -71,34 +74,43 @@ void momentum_app_scene_interface_filebrowser_on_enter(void* context) {
 
     item = variable_item_list_add(
         var_item_list,
-        "Folders Above Files",
+        MOMENTUM_UI_TEXT("Folders Above Files", "文件夹置顶"),
         2,
         momentum_app_scene_interface_filebrowser_sort_dirs_first_changed,
         app);
     variable_item_set_current_value_index(item, momentum_settings.sort_dirs_first);
-    variable_item_set_current_value_text(item, momentum_settings.sort_dirs_first ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item,
+        momentum_settings.sort_dirs_first ? MOMENTUM_UI_TEXT("ON", "开") :
+                                            MOMENTUM_UI_TEXT("OFF", "关"));
 
     item = variable_item_list_add(
         var_item_list,
-        "Show Hidden Files",
+        MOMENTUM_UI_TEXT("Show Hidden Files", "显示隐藏文件"),
         2,
         momentum_app_scene_interface_filebrowser_show_hidden_files_changed,
         app);
     variable_item_set_current_value_index(item, momentum_settings.show_hidden_files);
-    variable_item_set_current_value_text(item, momentum_settings.show_hidden_files ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item,
+        momentum_settings.show_hidden_files ? MOMENTUM_UI_TEXT("ON", "开") :
+                                              MOMENTUM_UI_TEXT("OFF", "关"));
 
     item = variable_item_list_add(
         var_item_list,
-        "Show Internal Tab",
+        MOMENTUM_UI_TEXT("Show Internal Tab", "显示内部标签"),
         2,
         momentum_app_scene_interface_filebrowser_show_internal_tab_changed,
         app);
     variable_item_set_current_value_index(item, momentum_settings.show_internal_tab);
-    variable_item_set_current_value_text(item, momentum_settings.show_internal_tab ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item,
+        momentum_settings.show_internal_tab ? MOMENTUM_UI_TEXT("ON", "开") :
+                                              MOMENTUM_UI_TEXT("OFF", "关"));
 
     item = variable_item_list_add(
         var_item_list,
-        "Show Path",
+        MOMENTUM_UI_TEXT("Show Path", "显示路径"),
         BrowserPathModeCount,
         momentum_app_scene_interface_filebrowser_browser_path_mode_changed,
         app);
@@ -108,14 +120,15 @@ void momentum_app_scene_interface_filebrowser_on_enter(void* context) {
 
     item = variable_item_list_add(
         var_item_list,
-        "Favorite Timeout",
+        MOMENTUM_UI_TEXT("Favorite Timeout", "收藏超时"),
         61,
         momentum_app_scene_interface_filebrowser_favorite_timeout_changed,
         app);
     variable_item_set_current_value_index(item, momentum_settings.favorite_timeout);
     char text[4];
     snprintf(text, sizeof(text), "%lu S", momentum_settings.favorite_timeout);
-    variable_item_set_current_value_text(item, momentum_settings.favorite_timeout ? text : "OFF");
+    variable_item_set_current_value_text(
+        item, momentum_settings.favorite_timeout ? text : MOMENTUM_UI_TEXT("OFF", "关"));
 
     variable_item_list_set_enter_callback(
         var_item_list, momentum_app_scene_interface_filebrowser_var_item_list_callback, app);

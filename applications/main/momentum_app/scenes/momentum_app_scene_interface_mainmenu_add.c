@@ -61,25 +61,25 @@ void momentum_app_scene_interface_mainmenu_add_on_enter(void* context) {
     MomentumApp* app = context;
     Submenu* submenu = app->submenu;
 
-    submenu_set_header(submenu, "Add Menu Item:");
+    submenu_set_header(submenu, MOMENTUM_UI_TEXT("Add Menu Item:", "添加菜单项目:"));
 
     submenu_add_item(
         submenu,
-        "Main App",
+        MOMENTUM_UI_TEXT("Main App", "主应用"),
         SubmenuIndexMainApp,
         momentum_app_scene_interface_mainmenu_add_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "External App",
+        MOMENTUM_UI_TEXT("External App", "外部应用"),
         SubmenuIndexExternalApp,
         momentum_app_scene_interface_mainmenu_add_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "File / Directory (right btn)",
+        MOMENTUM_UI_TEXT("File / Directory (right btn)", "文件 / 目录 (右键)"),
         SubmenuIndexFileDirectory,
         momentum_app_scene_interface_mainmenu_add_submenu_callback,
         app);

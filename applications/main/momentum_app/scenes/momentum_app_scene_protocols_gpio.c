@@ -8,10 +8,10 @@ enum VarItemListIndex {
     VarItemListIndexUartGeneralChannel,
 };
 
-#define SPI_DEFAULT  "Default 4"
-#define SPI_EXTRA    "Extra 7"
-#define UART_DEFAULT "Default 13,14"
-#define UART_EXTRA   "Extra 15,16"
+#define SPI_DEFAULT  MOMENTUM_UI_TEXT("Default 4", "默认 4")
+#define SPI_EXTRA    MOMENTUM_UI_TEXT("Extra 7", "扩展 7")
+#define UART_DEFAULT MOMENTUM_UI_TEXT("Default 13,14", "默认 13,14")
+#define UART_EXTRA   MOMENTUM_UI_TEXT("Extra 15,16", "扩展 15,16")
 
 void momentum_app_scene_protocols_gpio_var_item_list_callback(void* context, uint32_t index) {
     MomentumApp* app = context;
@@ -65,7 +65,7 @@ void momentum_app_scene_protocols_gpio_on_enter(void* context) {
 
     item = variable_item_list_add(
         var_item_list,
-        "CC1101 SPI",
+        MOMENTUM_UI_TEXT("CC1101 SPI", "CC1101 SPI"),
         2,
         momentum_app_scene_protocols_gpio_cc1101_handle_changed,
         app);
@@ -74,14 +74,18 @@ void momentum_app_scene_protocols_gpio_on_enter(void* context) {
         item, momentum_settings.spi_cc1101_handle == SpiDefault ? SPI_DEFAULT : SPI_EXTRA);
 
     item = variable_item_list_add(
-        var_item_list, "NRF24 SPI", 2, momentum_app_scene_protocols_gpio_nrf24_handle_changed, app);
+        var_item_list,
+        MOMENTUM_UI_TEXT("NRF24 SPI", "NRF24 SPI"),
+        2,
+        momentum_app_scene_protocols_gpio_nrf24_handle_changed,
+        app);
     variable_item_set_current_value_index(item, momentum_settings.spi_nrf24_handle);
     variable_item_set_current_value_text(
         item, momentum_settings.spi_nrf24_handle == SpiDefault ? SPI_DEFAULT : SPI_EXTRA);
 
     item = variable_item_list_add(
         var_item_list,
-        "ESP32/8266 UART",
+        MOMENTUM_UI_TEXT("ESP32/8266 UART", "ESP32/8266 UART"),
         2,
         momentum_app_scene_protocols_gpio_esp32_channel_changed,
         app);
@@ -92,7 +96,7 @@ void momentum_app_scene_protocols_gpio_on_enter(void* context) {
 
     item = variable_item_list_add(
         var_item_list,
-        "NMEA GPS UART",
+        MOMENTUM_UI_TEXT("NMEA GPS UART", "NMEA GPS UART"),
         2,
         momentum_app_scene_protocols_gpio_nmea_channel_changed,
         app);

@@ -21,7 +21,7 @@ void momentum_app_scene_interface_mainmenu_style_on_enter(void* context) {
             app);
     }
 
-    submenu_set_header(submenu, "Choose Menu Style:");
+    submenu_set_header(submenu, MOMENTUM_UI_TEXT("Choose Menu Style:", "选择菜单样式:"));
     submenu_set_selected_item(submenu, momentum_settings.menu_style);
     view_dispatcher_switch_to_view(app->view_dispatcher, MomentumAppViewSubmenu);
 }

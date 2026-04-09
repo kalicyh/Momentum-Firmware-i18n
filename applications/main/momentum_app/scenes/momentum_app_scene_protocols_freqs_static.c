@@ -29,7 +29,7 @@ void momentum_app_scene_protocols_freqs_static_on_enter(void* context) {
 
     item = variable_item_list_add(
         var_item_list,
-        "Static Freq",
+        MOMENTUM_UI_TEXT("Static Freq", "静态频率"),
         FrequencyList_size(app->subghz_static_freqs),
         momentum_app_scene_protocols_freqs_static_frequency_changed,
         app);
@@ -41,12 +41,14 @@ void momentum_app_scene_protocols_freqs_static_on_enter(void* context) {
         snprintf(text, sizeof(text), "%lu.%02lu", value / 1000000, (value % 1000000) / 10000);
         variable_item_set_current_value_text(item, text);
     } else {
-        variable_item_set_current_value_text(item, "None");
+        variable_item_set_current_value_text(item, MOMENTUM_UI_TEXT("None", "无"));
     }
 
-    variable_item_list_add(var_item_list, "Remove Static Freq", 0, NULL, app);
+    variable_item_list_add(
+        var_item_list, MOMENTUM_UI_TEXT("Remove Static Freq", "移除静态频率"), 0, NULL, app);
 
-    variable_item_list_add(var_item_list, "Add Static Freq", 0, NULL, app);
+    variable_item_list_add(
+        var_item_list, MOMENTUM_UI_TEXT("Add Static Freq", "添加静态频率"), 0, NULL, app);
 
     variable_item_list_set_enter_callback(
         var_item_list, momentum_app_scene_protocols_freqs_static_var_item_list_callback, app);
@@ -96,7 +98,7 @@ bool momentum_app_scene_protocols_freqs_static_on_event(void* context, SceneMana
                 variable_item_set_current_value_text(item, text);
             } else {
                 app->subghz_static_index = 0;
-                variable_item_set_current_value_text(item, "None");
+                variable_item_set_current_value_text(item, MOMENTUM_UI_TEXT("None", "无"));
             }
             variable_item_set_current_value_index(item, app->subghz_static_index);
             break;

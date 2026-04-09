@@ -21,7 +21,12 @@ static bool momentum_app_scene_misc_spoof_name_validator(
     for(; *text; ++text) {
         const char c = *text;
         if((c < '0' || c > '9') && (c < 'A' || c > 'Z') && (c < 'a' || c > 'z')) {
-            furi_string_printf(error, "Please only\nenter letters\nand numbers!");
+            furi_string_printf(
+                error,
+                "%s",
+                MOMENTUM_UI_TEXT(
+                    "Please only\nenter letters\nand numbers!",
+                    "请仅输入\n字母和\n数字!"));
             return false;
         }
     }
@@ -33,7 +38,8 @@ void momentum_app_scene_misc_spoof_name_on_enter(void* context) {
     MomentumApp* app = context;
     TextInput* text_input = app->text_input;
 
-    text_input_set_header_text(text_input, "Leave empty for real name");
+    text_input_set_header_text(
+        text_input, MOMENTUM_UI_TEXT("Leave empty for real name", "留空以使用真实名称"));
 
     text_input_set_validator(text_input, momentum_app_scene_misc_spoof_name_validator, NULL);
 

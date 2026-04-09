@@ -18,19 +18,21 @@ void momentum_app_scene_misc_on_enter(void* context) {
     VariableItemList* var_item_list = app->var_item_list;
     VariableItem* item;
 
-    item = variable_item_list_add(var_item_list, "Screen", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("Screen", "屏幕"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "Dolphin", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("Dolphin", "海豚"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "Spoofing Options", 0, NULL, app);
+    item = variable_item_list_add(
+        var_item_list, MOMENTUM_UI_TEXT("Spoofing Options", "伪装选项"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    item = variable_item_list_add(var_item_list, "VGM Options", 0, NULL, app);
+    item = variable_item_list_add(var_item_list, MOMENTUM_UI_TEXT("VGM Options", "VGM 选项"), 0, NULL, app);
     variable_item_set_current_value_text(item, ">");
 
-    variable_item_list_add(var_item_list, "Show Momentum Intro", 0, NULL, app);
+    variable_item_list_add(
+        var_item_list, MOMENTUM_UI_TEXT("Show Momentum Intro", "显示 Momentum 介绍"), 0, NULL, app);
 
     variable_item_list_set_enter_callback(
         var_item_list, momentum_app_scene_misc_var_item_list_callback, app);

@@ -77,7 +77,7 @@ static void momentum_app_scene_misc_dolphin_dolphin_angry_changed(VariableItem* 
 }
 
 const char* const butthurt_timer_names[] = {
-    "OFF",
+    MOMENTUM_UI_TEXT("OFF", "关"),
     "30 M",
     "1 H",
     "2 H",
@@ -122,7 +122,7 @@ void momentum_app_scene_misc_dolphin_on_enter(void* context) {
     snprintf(level_str, sizeof(level_str), "%u", level);
     item = variable_item_list_add(
         var_item_list,
-        "Dolphin Level",
+        MOMENTUM_UI_TEXT("Dolphin Level", "海豚等级"),
         DOLPHIN_LEVEL_COUNT + 1,
         momentum_app_scene_misc_dolphin_dolphin_level_changed,
         app);
@@ -134,7 +134,11 @@ void momentum_app_scene_misc_dolphin_on_enter(void* context) {
     // uin8_t index too small for all levels, use 3 fake items to
     // show buttons and change values in callback
     item = variable_item_list_add(
-        var_item_list, "Dolphin XP", 3, momentum_app_scene_misc_dolphin_dolphin_xp_changed, app);
+        var_item_list,
+        MOMENTUM_UI_TEXT("Dolphin XP", "海豚经验"),
+        3,
+        momentum_app_scene_misc_dolphin_dolphin_xp_changed,
+        app);
     variable_item_set_current_value_index(
         item,
         app->dolphin_xp == 0              ? 0 :
@@ -146,7 +150,7 @@ void momentum_app_scene_misc_dolphin_on_enter(void* context) {
     snprintf(angry_str, sizeof(angry_str), "%lu", app->dolphin_angry);
     item = variable_item_list_add(
         var_item_list,
-        "Dolphin Angry",
+        MOMENTUM_UI_TEXT("Dolphin Angry", "海豚愤怒"),
         BUTTHURT_MAX + 1,
         momentum_app_scene_misc_dolphin_dolphin_angry_changed,
         app);
@@ -155,14 +159,13 @@ void momentum_app_scene_misc_dolphin_on_enter(void* context) {
     variable_item_set_locked(
         item,
         settings.happy_mode,
-        "Settings >\n"
-        "Desktop >\n"
-        "Happy Mode\n"
-        "is enabled!");
+        MOMENTUM_UI_TEXT(
+            "Settings >\nDesktop >\nHappy Mode\nis enabled!",
+            "设置 >\n桌面 >\n快乐模式\n已启用!"));
 
     item = variable_item_list_add(
         var_item_list,
-        "Butthurt Timer",
+        MOMENTUM_UI_TEXT("Butthurt Timer", "生闷气计时"),
         COUNT_OF(butthurt_timer_names),
         momentum_app_scene_misc_dolphin_butthurt_timer_changed,
         app);
@@ -173,10 +176,9 @@ void momentum_app_scene_misc_dolphin_on_enter(void* context) {
     variable_item_set_locked(
         item,
         settings.happy_mode,
-        "Settings >\n"
-        "Desktop >\n"
-        "Happy Mode\n"
-        "is enabled!");
+        MOMENTUM_UI_TEXT(
+            "Settings >\nDesktop >\nHappy Mode\nis enabled!",
+            "设置 >\n桌面 >\n快乐模式\n已启用!"));
 
     variable_item_list_set_enter_callback(
         var_item_list, momentum_app_scene_misc_dolphin_var_item_list_callback, app);
