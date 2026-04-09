@@ -57,7 +57,8 @@ bool archive_app_read_dir(void* context, const char* path) {
 
     if(app == ArchiveAppTypeU2f) {
         archive_file_array_rm_all(browser);
-        archive_add_app_item(browser, "/app:u2f/U2F Token");
+        archive_add_app_item(
+            browser, ARCHIVE_UI_TEXT("/app:u2f/U2F Token", "/app:u2f/U2F 令牌"));
         return true;
     } else if(app == ArchiveAppTypeSetting) {
         archive_file_array_rm_all(browser);
@@ -86,8 +87,9 @@ void archive_app_delete_file(void* context, const char* path) {
         res |= (storage_common_remove(fs_api, EXT_PATH("u2f/cnt.u2f")) == FSE_OK);
         furi_record_close(RECORD_STORAGE);
 
-        if(archive_is_favorite("/app:u2f/U2F Token")) {
-            archive_favorites_delete("/app:u2f/U2F Token");
+        if(archive_is_favorite(ARCHIVE_UI_TEXT("/app:u2f/U2F Token", "/app:u2f/U2F 令牌"))) {
+            archive_favorites_delete(
+                ARCHIVE_UI_TEXT("/app:u2f/U2F Token", "/app:u2f/U2F 令牌"));
         }
     } else if(app == ArchiveAppTypeSetting) {
         // can't delete a setting!

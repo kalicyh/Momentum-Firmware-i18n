@@ -349,21 +349,31 @@ void archive_favorites_handle_setting_pin_unpin(const char* app_name, const char
     bool is_favorite = archive_is_favorite("/app:setting/%s", setting_path_str);
     dialog_message_set_header(
         message,
-        is_favorite ? "Unpin This Setting?" : "Pin This Setting?",
+        is_favorite ? ARCHIVE_UI_TEXT("Unpin This Setting?", "取消固定此设置?") :
+                      ARCHIVE_UI_TEXT("Pin This Setting?", "固定此设置?"),
         64,
         0,
         AlignCenter,
         AlignTop);
     dialog_message_set_text(
         message,
-        is_favorite ? "It will no longer be\naccessible from the\nFavorites menu" :
-                      "It will be accessible from the\nFavorites menu",
+        is_favorite ? ARCHIVE_UI_TEXT(
+                          "It will no longer be\naccessible from the\nFavorites menu",
+                          "它将不再显示在\n收藏菜单中") :
+                      ARCHIVE_UI_TEXT(
+                          "It will be accessible from the\nFavorites menu",
+                          "它将显示在\n收藏菜单中"),
         64,
         32,
         AlignCenter,
         AlignCenter);
     dialog_message_set_buttons(
-        message, is_favorite ? "Unpin" : "Go back", NULL, is_favorite ? "Keep pinned" : "Pin");
+        message,
+        is_favorite ? ARCHIVE_UI_TEXT("Unpin", "取消固定") :
+                      ARCHIVE_UI_TEXT("Go back", "返回"),
+        NULL,
+        is_favorite ? ARCHIVE_UI_TEXT("Keep pinned", "保留固定") :
+                      ARCHIVE_UI_TEXT("Pin", "固定"));
 
     DialogsApp* dialogs = furi_record_open(RECORD_DIALOGS);
     DialogMessageButton button = dialog_message_show(dialogs, message);

@@ -21,7 +21,7 @@ void archive_scene_search_on_enter(void* context) {
 
     TextInput* text_input = archive->text_input;
     strlcpy(archive->text_store, "", MAX_NAME_LEN);
-    text_input_set_header_text(text_input, "Search for files:");
+    text_input_set_header_text(text_input, ARCHIVE_UI_TEXT("Search for files:", "搜索文件:"));
 
     text_input_set_result_callback(
         text_input,
@@ -53,13 +53,13 @@ uint32_t archive_scene_search_dirwalk(void* context) {
         while(scene_manager_get_scene_state(archive->scene_manager, ArchiveAppSceneSearch)) {
             DirWalkResult result = dir_walk_read(dir_walk, path, &fileinfo);
             if(result == DirWalkError) {
-                archive_add_app_item(archive->browser, "/app:search/Error while searching!");
+                archive_add_app_item(archive->browser, ARCHIVE_SEARCH_PATH_ERROR);
                 archive_set_item_count(archive->browser, ++count);
                 break;
             }
             if(result == DirWalkLast) {
                 if(count == 1) {
-                    archive_add_app_item(archive->browser, "/app:search/No results found!");
+                    archive_add_app_item(archive->browser, ARCHIVE_SEARCH_PATH_NO_RESULTS);
                     archive_set_item_count(archive->browser, ++count);
                 }
                 break;
@@ -74,11 +74,10 @@ uint32_t archive_scene_search_dirwalk(void* context) {
             }
         }
     } else {
-        archive_add_app_item(archive->browser, "/app:search/Error while searching!");
+        archive_add_app_item(archive->browser, ARCHIVE_SEARCH_PATH_ERROR);
         archive_set_item_count(archive->browser, ++count);
     }
-    furi_string_set(
-        archive_get_file_at(archive->browser, 0)->path, "/app:search/Search for files");
+    furi_string_set(archive_get_file_at(archive->browser, 0)->path, ARCHIVE_SEARCH_PATH_START);
     scene_manager_set_scene_state(archive->scene_manager, ArchiveAppSceneSearch, false);
 
     furi_string_free(name);
@@ -95,7 +94,7 @@ bool archive_scene_search_on_event(void* context, SceneManagerEvent event) {
     if(event.type == SceneManagerEventTypeCustom) {
         if(event.event == SCENE_SEARCH_CUSTOM_EVENT) {
             archive_file_array_rm_all(archive->browser);
-            archive_add_app_item(archive->browser, "/app:search/Cancel search");
+            archive_add_app_item(archive->browser, ARCHIVE_SEARCH_PATH_CANCEL);
             archive_set_item_count(archive->browser, 1);
 
             scene_manager_set_scene_state(archive->scene_manager, ArchiveAppSceneSearch, true);

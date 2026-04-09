@@ -487,7 +487,7 @@ void archive_show_file_menu(ArchiveBrowserView* browser, bool show, bool manage)
                     selected->fav =
                         archive_is_favorite("%s", furi_string_get_cstr(selected->path));
                     if(selected->type == ArchiveFileTypeSearch) {
-                        if(!furi_string_cmp_str(selected->path, "/app:search/Search for files")) {
+                        if(!furi_string_cmp_str(selected->path, ARCHIVE_SEARCH_PATH_START)) {
                             model->menu_manage = false;
                             model->menu_can_switch = false;
                         } else {
@@ -578,7 +578,7 @@ void archive_switch_tab(ArchiveBrowserView* browser, InputKey key) {
                 tab_empty = false;
                 if(tab == ArchiveTabSearch) {
                     archive_file_array_rm_all(browser);
-                    archive_add_app_item(browser, "/app:search/Search for files");
+                    archive_add_app_item(browser, ARCHIVE_SEARCH_PATH_START);
                     archive_set_item_count(browser, 1);
                 }
             }

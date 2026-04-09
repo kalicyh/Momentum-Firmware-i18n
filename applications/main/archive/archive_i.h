@@ -50,3 +50,18 @@ struct ArchiveApp {
 };
 
 void archive_show_loading_popup(ArchiveApp* context, bool show);
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define ARCHIVE_UI_TEXT(en, zh) (zh)
+#else
+#define ARCHIVE_UI_TEXT(en, zh) (en)
+#endif
+
+#define ARCHIVE_SEARCH_PATH_START \
+    ARCHIVE_UI_TEXT("/app:search/Search for files", "/app:search/搜索文件")
+#define ARCHIVE_SEARCH_PATH_CANCEL \
+    ARCHIVE_UI_TEXT("/app:search/Cancel search", "/app:search/取消搜索")
+#define ARCHIVE_SEARCH_PATH_NO_RESULTS \
+    ARCHIVE_UI_TEXT("/app:search/No results found!", "/app:search/未找到结果!")
+#define ARCHIVE_SEARCH_PATH_ERROR \
+    ARCHIVE_UI_TEXT("/app:search/Error while searching!", "/app:search/搜索出错!")

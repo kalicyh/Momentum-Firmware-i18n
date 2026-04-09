@@ -20,11 +20,11 @@ const char* archive_get_flipper_app_name(ArchiveFileTypeEnum file_type) {
     case ArchiveFileTypeNFC:
         return "NFC";
     case ArchiveFileTypeSubGhz:
-        return "Sub-GHz";
+        return ARCHIVE_UI_TEXT("Sub-GHz", "Sub-GHz");
     case ArchiveFileTypeLFRFID:
-        return "125 kHz RFID";
+        return ARCHIVE_UI_TEXT("125 kHz RFID", "125 kHz RFID");
     case ArchiveFileTypeInfrared:
-        return "Infrared";
+        return ARCHIVE_UI_TEXT("Infrared", "红外");
     case ArchiveFileTypeSubghzPlaylist:
         return EXT_PATH("apps/Sub-Ghz/subghz_playlist.fap");
     case ArchiveFileTypeSubghzRemote:
@@ -53,7 +53,7 @@ const char* archive_get_flipper_app_name(ArchiveFileTypeEnum file_type) {
 #ifdef JS_RUNNER_FAP
         return EXT_PATH("apps/assets/js_app.fap");
 #else
-        return "JS Runner";
+        return ARCHIVE_UI_TEXT("JS Runner", "JS 运行器");
 #endif
     default:
         return NULL;
@@ -352,8 +352,9 @@ bool archive_scene_browser_on_event(void* context, SceneManagerEvent event) {
                         dialog_msg = furi_string_alloc();
                         furi_string_cat_printf(
                             dialog_msg,
-                            "Cannot %s:\n%s",
-                            copy ? "copy" : "move",
+                            ARCHIVE_UI_TEXT("Cannot %s:\n%s", "无法%s:\n%s"),
+                            copy ? ARCHIVE_UI_TEXT("copy", "复制") :
+                                   ARCHIVE_UI_TEXT("move", "移动"),
                             storage_error_get_desc(error));
                         dialog_message_show_storage_error(
                             archive->dialogs, furi_string_get_cstr(dialog_msg));

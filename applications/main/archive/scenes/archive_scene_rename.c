@@ -36,7 +36,10 @@ void archive_scene_rename_on_enter(void* context) {
         path_extract_basename(furi_string_get_cstr(current->path), path_name);
     }
     strlcpy(archive->text_store, furi_string_get_cstr(path_name), MAX_NAME_LEN);
-    text_input_set_header_text(text_input, is_file ? "Rename file:" : "Rename directory:");
+    text_input_set_header_text(
+        text_input,
+        is_file ? ARCHIVE_UI_TEXT("Rename file:", "重命名文件:") :
+                  ARCHIVE_UI_TEXT("Rename directory:", "重命名目录:"));
 
     // Get current folder (for file) or previous folder (for folder) for validator
     path_extract_dirname(furi_string_get_cstr(current->path), path_folder);
@@ -92,7 +95,9 @@ bool archive_scene_rename_on_event(void* context, SceneManagerEvent event) {
                 FuriString* dialog_msg;
                 dialog_msg = furi_string_alloc();
                 furi_string_cat_printf(
-                    dialog_msg, "Cannot rename:\n%s", storage_error_get_desc(error));
+                    dialog_msg,
+                    ARCHIVE_UI_TEXT("Cannot rename:\n%s", "无法重命名:\n%s"),
+                    storage_error_get_desc(error));
                 dialog_message_show_storage_error(
                     archive->dialogs, furi_string_get_cstr(dialog_msg));
                 furi_string_free(dialog_msg);
