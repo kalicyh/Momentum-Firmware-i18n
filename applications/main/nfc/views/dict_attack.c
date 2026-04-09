@@ -1,4 +1,5 @@
 #include "dict_attack.h"
+#include "../nfc_app_i.h"
 
 #include <gui/elements.h>
 

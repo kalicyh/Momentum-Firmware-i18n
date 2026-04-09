@@ -1,4 +1,5 @@
 #include "detect_reader.h"
+#include "../nfc_app_i.h"
 #include <assets_icons.h>
 #include <gui/elements.h>
 

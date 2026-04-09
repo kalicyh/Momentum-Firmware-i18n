@@ -1,5 +1,6 @@
 #include <gui/elements.h>
 #include "gpio_i2c_sfp.h"
+#include "../gpio_app_i.h"
 #include "../gpio_items.h"
 
 #include <string.h>

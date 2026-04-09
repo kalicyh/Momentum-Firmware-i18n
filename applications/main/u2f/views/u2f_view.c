@@ -1,4 +1,5 @@
 #include "u2f_view.h"
+#include "../u2f_app_i.h"
 #include <gui/elements.h>
 #include <assets_icons.h>
 #include <momentum/momentum.h>

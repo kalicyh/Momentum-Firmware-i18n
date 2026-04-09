@@ -1,4 +1,5 @@
 #include "gpio_usb_uart.h"
+#include "../gpio_app_i.h"
 #include "../usb_uart_bridge.h"
 #include <furi_hal.h>
 #include <gui/elements.h>
@@ -23,7 +24,7 @@ typedef struct {
 
 static void gpio_usb_uart_draw_callback(Canvas* canvas, void* _model) {
     GpioUsbUartModel* model = _model;
-    char temp_str[18];
+    char temp_str[24];
     elements_button_left(canvas, GPIO_UI_TEXT("Config", "配置"));
     canvas_draw_line(canvas, 2, 10, 125, 10);
     canvas_draw_line(canvas, 44, 52, 123, 52);
@@ -34,30 +35,30 @@ static void gpio_usb_uart_draw_callback(Canvas* canvas, void* _model) {
     canvas_draw_str(canvas, 3, 42, "RX:");
 
     canvas_set_font(canvas, FontSecondary);
-    snprintf(temp_str, 18, GPIO_UI_TEXT("COM PORT:%u", "串口:%u"), model->vcp_port);
+    snprintf(temp_str, sizeof(temp_str), GPIO_UI_TEXT("COM PORT:%u", "串口:%u"), model->vcp_port);
     canvas_draw_str_aligned(canvas, 126, 8, AlignRight, AlignBottom, temp_str);
-    snprintf(temp_str, 18, GPIO_UI_TEXT("Pin %u", "引脚 %u"), model->tx_pin);
+    snprintf(temp_str, sizeof(temp_str), GPIO_UI_TEXT("Pin %u", "引脚 %u"), model->tx_pin);
     canvas_draw_str(canvas, 22, 25, temp_str);
-    snprintf(temp_str, 18, GPIO_UI_TEXT("Pin %u", "引脚 %u"), model->rx_pin);
+    snprintf(temp_str, sizeof(temp_str), GPIO_UI_TEXT("Pin %u", "引脚 %u"), model->rx_pin);
     canvas_draw_str(canvas, 22, 42, temp_str);
 
     if(model->baudrate == 0)
-        snprintf(temp_str, 18, GPIO_UI_TEXT("Baud: ????", "波特率: ????"));
+        snprintf(temp_str, sizeof(temp_str), GPIO_UI_TEXT("Baud: ????", "波特率: ????"));
     else
-        snprintf(temp_str, 18, GPIO_UI_TEXT("Baud: %lu", "波特率: %lu"), model->baudrate);
+        snprintf(temp_str, sizeof(temp_str), GPIO_UI_TEXT("Baud: %lu", "波特率: %lu"), model->baudrate);
     canvas_draw_str(canvas, 45, 62, temp_str);
 
     if(model->tx_cnt < 100000000) {
         canvas_set_font(canvas, FontSecondary);
         canvas_draw_str_aligned(canvas, 127, 24, AlignRight, AlignBottom, "B.");
         canvas_set_font(canvas, FontKeyboard);
-        snprintf(temp_str, 18, "%lu", model->tx_cnt);
+        snprintf(temp_str, sizeof(temp_str), "%lu", model->tx_cnt);
         canvas_draw_str_aligned(canvas, 116, 24, AlignRight, AlignBottom, temp_str);
     } else {
         canvas_set_font(canvas, FontSecondary);
         canvas_draw_str_aligned(canvas, 127, 24, AlignRight, AlignBottom, "KiB.");
         canvas_set_font(canvas, FontKeyboard);
-        snprintf(temp_str, 18, "%lu", model->tx_cnt / 1024);
+        snprintf(temp_str, sizeof(temp_str), "%lu", model->tx_cnt / 1024);
         canvas_draw_str_aligned(canvas, 111, 24, AlignRight, AlignBottom, temp_str);
     }
 
@@ -65,13 +66,13 @@ static void gpio_usb_uart_draw_callback(Canvas* canvas, void* _model) {
         canvas_set_font(canvas, FontSecondary);
         canvas_draw_str_aligned(canvas, 127, 41, AlignRight, AlignBottom, "B.");
         canvas_set_font(canvas, FontKeyboard);
-        snprintf(temp_str, 18, "%lu", model->rx_cnt);
+        snprintf(temp_str, sizeof(temp_str), "%lu", model->rx_cnt);
         canvas_draw_str_aligned(canvas, 116, 41, AlignRight, AlignBottom, temp_str);
     } else {
         canvas_set_font(canvas, FontSecondary);
         canvas_draw_str_aligned(canvas, 127, 41, AlignRight, AlignBottom, "KiB.");
         canvas_set_font(canvas, FontKeyboard);
-        snprintf(temp_str, 18, "%lu", model->rx_cnt / 1024);
+        snprintf(temp_str, sizeof(temp_str), "%lu", model->rx_cnt / 1024);
         canvas_draw_str_aligned(canvas, 111, 41, AlignRight, AlignBottom, temp_str);
     }
 

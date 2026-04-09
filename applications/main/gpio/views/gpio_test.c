@@ -1,4 +1,5 @@
 #include "gpio_test.h"
+#include "../gpio_app_i.h"
 #include "../gpio_items.h"
 
 #include <gui/elements.h>

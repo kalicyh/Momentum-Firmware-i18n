@@ -1,4 +1,5 @@
 #include "bad_usb_view.h"
+#include "../bad_usb_app_i.h"
 #include "../helpers/ducky_script.h"
 #include <toolbox/path.h>
 #include <gui/elements.h>
