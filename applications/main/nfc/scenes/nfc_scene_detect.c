@@ -22,9 +22,15 @@ void nfc_scene_detect_on_enter(void* context) {
 
     // Setup view
     popup_reset(instance->popup);
-    popup_set_header(instance->popup, "Reading", 97, 15, AlignCenter, AlignTop);
+    popup_set_header(
+        instance->popup, NFC_UI_TEXT("Reading", "读取中"), 97, 15, AlignCenter, AlignTop);
     popup_set_text(
-        instance->popup, "Hold card next\nto Flipper's back", 94, 27, AlignCenter, AlignTop);
+        instance->popup,
+        NFC_UI_TEXT("Hold card next\nto Flipper's back", "将卡片贴近\nFlipper 背面"),
+        94,
+        27,
+        AlignCenter,
+        AlignTop);
     popup_set_icon(instance->popup, 0, 8, &I_NFC_manual_60x50);
     view_dispatcher_switch_to_view(instance->view_dispatcher, NfcViewPopup);
 

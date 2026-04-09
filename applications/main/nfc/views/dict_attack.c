@@ -44,19 +44,19 @@ static void dict_attack_draw_mf_classic(Canvas* canvas, DictAttackViewModel* m) 
 
     switch(m->nested_phase) {
     case MfClassicNestedPhaseAnalyzePRNG:
-        furi_string_set(m->header, "PRNG Analysis");
+        furi_string_set(m->header, NFC_UI_TEXT("PRNG Analysis", "PRNG 分析"));
         break;
     case MfClassicNestedPhaseDictAttack:
     case MfClassicNestedPhaseDictAttackVerify:
     case MfClassicNestedPhaseDictAttackResume:
-        furi_string_set(m->header, "Nested Dictionary");
+        furi_string_set(m->header, NFC_UI_TEXT("Nested Dictionary", "嵌套字典"));
         break;
     case MfClassicNestedPhaseCalibrate:
     case MfClassicNestedPhaseRecalibrate:
-        furi_string_set(m->header, "Calibration");
+        furi_string_set(m->header, NFC_UI_TEXT("Calibration", "校准"));
         break;
     case MfClassicNestedPhaseCollectNtEnc:
-        furi_string_set(m->header, "Nonce Collection");
+        furi_string_set(m->header, NFC_UI_TEXT("Nonce Collection", "随机数采集"));
         break;
     default:
         break;
@@ -70,7 +70,7 @@ static void dict_attack_draw_mf_classic(Canvas* canvas, DictAttackViewModel* m) 
         if(m->nested_phase != MfClassicNestedPhaseNone) {
             furi_string_cat(m->header, " (Backdoor)");
         } else {
-            furi_string_set(m->header, "Backdoor Read");
+            furi_string_set(m->header, NFC_UI_TEXT("Backdoor Read", "后门读取"));
         }
     }
 
@@ -78,16 +78,18 @@ static void dict_attack_draw_mf_classic(Canvas* canvas, DictAttackViewModel* m) 
     if(m->nested_phase == MfClassicNestedPhaseCollectNtEnc) {
         uint8_t nonce_sector =
             m->nested_target_key / (m->prng_type == MfClassicPrngTypeWeak ? 4 : 2);
-        snprintf(draw_str, sizeof(draw_str), "Collecting from sector: %d", nonce_sector);
+        snprintf(
+            draw_str, sizeof(draw_str), NFC_UI_TEXT("Collecting from sector: %d", "正在采集扇区: %d"), nonce_sector);
         canvas_draw_str_aligned(canvas, 0, 10, AlignLeft, AlignTop, draw_str);
     } else if(m->is_key_attack) {
         snprintf(
             draw_str,
             sizeof(draw_str),
-            "Reuse key check for sector: %d",
+            NFC_UI_TEXT("Reuse key check for sector: %d", "复用密钥检查扇区: %d"),
             m->key_attack_current_sector);
     } else {
-        snprintf(draw_str, sizeof(draw_str), "Unlocking sector: %d", m->current_sector);
+        snprintf(
+            draw_str, sizeof(draw_str), NFC_UI_TEXT("Unlocking sector: %d", "正在解锁扇区: %d"), m->current_sector);
     }
     canvas_draw_str_aligned(canvas, 0, 10, AlignLeft, AlignTop, draw_str);
     float dict_progress = 0;
@@ -134,11 +136,16 @@ static void dict_attack_draw_mf_classic(Canvas* canvas, DictAttackViewModel* m) 
     snprintf(
         draw_str,
         sizeof(draw_str),
-        "Keys found: %d/%d",
+        NFC_UI_TEXT("Keys found: %d/%d", "已找到密钥: %d/%d"),
         m->keys_found,
         m->sectors_total * NFC_CLASSIC_KEYS_PER_SECTOR);
     canvas_draw_str_aligned(canvas, 0, 33, AlignLeft, AlignTop, draw_str);
-    snprintf(draw_str, sizeof(draw_str), "Sectors Read: %d/%d", m->sectors_read, m->sectors_total);
+    snprintf(
+        draw_str,
+        sizeof(draw_str),
+        NFC_UI_TEXT("Sectors Read: %d/%d", "已读取扇区: %d/%d"),
+        m->sectors_read,
+        m->sectors_total);
     canvas_draw_str_aligned(canvas, 0, 43, AlignLeft, AlignTop, draw_str);
 }
 
@@ -148,7 +155,7 @@ static void dict_attack_draw_mf_ultralight_c(Canvas* canvas, DictAttackViewModel
 
     canvas_draw_str_aligned(canvas, 0, 0, AlignLeft, AlignTop, furi_string_get_cstr(m->header));
 
-    snprintf(draw_str, sizeof(draw_str), "Trying keys");
+    snprintf(draw_str, sizeof(draw_str), "%s", NFC_UI_TEXT("Trying keys", "正在尝试密钥"));
     canvas_draw_str_aligned(canvas, 0, 10, AlignLeft, AlignTop, draw_str);
 
     float dict_progress =
@@ -164,10 +171,19 @@ static void dict_attack_draw_mf_ultralight_c(Canvas* canvas, DictAttackViewModel
     elements_progress_bar_with_text(canvas, 0, 20, 128, dict_progress, draw_str);
 
     canvas_set_font(canvas, FontSecondary);
-    snprintf(draw_str, sizeof(draw_str), "Key found: %s", m->key_found ? "Yes" : "No");
+    snprintf(
+        draw_str,
+        sizeof(draw_str),
+        NFC_UI_TEXT("Key found: %s", "已找到密钥: %s"),
+        m->key_found ? NFC_UI_TEXT("Yes", "是") : NFC_UI_TEXT("No", "否"));
     canvas_draw_str_aligned(canvas, 0, 33, AlignLeft, AlignTop, draw_str);
 
-    snprintf(draw_str, sizeof(draw_str), "Pages read: %d/%d", m->pages_read, m->pages_total);
+    snprintf(
+        draw_str,
+        sizeof(draw_str),
+        NFC_UI_TEXT("Pages read: %d/%d", "已读取页面: %d/%d"),
+        m->pages_read,
+        m->pages_total);
     canvas_draw_str_aligned(canvas, 0, 43, AlignLeft, AlignTop, draw_str);
 }
 
@@ -175,10 +191,16 @@ static void dict_attack_draw_callback(Canvas* canvas, void* model) {
     DictAttackViewModel* m = model;
     if(!m->card_detected) {
         canvas_set_font(canvas, FontPrimary);
-        canvas_draw_str_aligned(canvas, 64, 4, AlignCenter, AlignTop, "Lost the tag!");
+        canvas_draw_str_aligned(
+            canvas, 64, 4, AlignCenter, AlignTop, NFC_UI_TEXT("Lost the tag!", "标签已丢失!"));
         canvas_set_font(canvas, FontSecondary);
         elements_multiline_text_aligned(
-            canvas, 64, 23, AlignCenter, AlignTop, "Make sure the tag is\npositioned correctly.");
+            canvas,
+            64,
+            23,
+            AlignCenter,
+            AlignTop,
+            NFC_UI_TEXT("Make sure the tag is\npositioned correctly.", "请确认标签已\n正确放置。"));
     } else {
         if(m->attack_type == DictAttackTypeMfClassic) {
             dict_attack_draw_mf_classic(canvas, m);
@@ -186,7 +208,7 @@ static void dict_attack_draw_callback(Canvas* canvas, void* model) {
             dict_attack_draw_mf_ultralight_c(canvas, m);
         }
     }
-    elements_button_center(canvas, "Skip");
+    elements_button_center(canvas, NFC_UI_TEXT("Skip", "跳过"));
 }
 
 static bool dict_attack_input_callback(InputEvent* event, void* context) {

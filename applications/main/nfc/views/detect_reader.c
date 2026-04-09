@@ -24,17 +24,17 @@ static void detect_reader_draw_callback(Canvas* canvas, void* model) {
     // Draw header and icon
     canvas_draw_icon(canvas, 0, 16, &I_Modern_reader_18x34);
     if(m->state == DetectReaderStateStart) {
-        snprintf(text, sizeof(text), "Touch the reader");
+        snprintf(text, sizeof(text), "%s", NFC_UI_TEXT("Touch the reader", "触碰读卡器"));
         canvas_draw_icon(canvas, 21, 13, &I_Move_flipper_26x39);
         if(furi_string_size(m->uid_str)) {
             elements_multiline_text_aligned(
                 canvas, 64, 64, AlignCenter, AlignBottom, furi_string_get_cstr(m->uid_str));
         }
     } else if(m->state == DetectReaderStateReaderDetected) {
-        snprintf(text, sizeof(text), "Move the Flipper away");
+        snprintf(text, sizeof(text), "%s", NFC_UI_TEXT("Move the Flipper away", "移开 Flipper"));
         canvas_draw_icon(canvas, 24, 25, &I_Release_arrow_18x15);
     } else if(m->state == DetectReaderStateReaderLost) {
-        snprintf(text, sizeof(text), "Touch the reader again");
+        snprintf(text, sizeof(text), "%s", NFC_UI_TEXT("Touch the reader again", "再次触碰读卡器"));
         canvas_draw_icon(canvas, 21, 13, &I_Move_flipper_26x39);
     }
 
@@ -43,25 +43,29 @@ static void detect_reader_draw_callback(Canvas* canvas, void* model) {
     // Draw collected nonces
     if(m->state == DetectReaderStateStart) {
         canvas_set_font(canvas, FontPrimary);
-        canvas_draw_str_aligned(canvas, 51, 22, AlignLeft, AlignTop, "Emulating...");
+        canvas_draw_str_aligned(
+            canvas, 51, 22, AlignLeft, AlignTop, NFC_UI_TEXT("Emulating...", "模拟中..."));
         canvas_set_font(canvas, FontSecondary);
         canvas_draw_str_aligned(canvas, 51, 35, AlignLeft, AlignTop, "MIFARE MFkey32");
     } else {
         if(m->state == DetectReaderStateDone) {
             canvas_set_font(canvas, FontPrimary);
-            canvas_draw_str_aligned(canvas, 51, 22, AlignLeft, AlignTop, "Completed!");
+            canvas_draw_str_aligned(
+                canvas, 51, 22, AlignLeft, AlignTop, NFC_UI_TEXT("Completed!", "完成!"));
             canvas_draw_icon(canvas, 24, 23, &I_check_big_20x17);
         } else {
             canvas_set_font(canvas, FontPrimary);
-            canvas_draw_str_aligned(canvas, 51, 22, AlignLeft, AlignTop, "Collecting...");
+            canvas_draw_str_aligned(
+                canvas, 51, 22, AlignLeft, AlignTop, NFC_UI_TEXT("Collecting...", "采集中..."));
         }
         canvas_set_font(canvas, FontSecondary);
-        snprintf(text, sizeof(text), "Nonce pairs: %d/%d", m->nonces, m->nonces_max);
+        snprintf(
+            text, sizeof(text), NFC_UI_TEXT("Nonce pairs: %d/%d", "随机数对: %d/%d"), m->nonces, m->nonces_max);
         canvas_draw_str_aligned(canvas, 51, 35, AlignLeft, AlignTop, text);
     }
     // Draw button
     if(m->nonces > 0) {
-        elements_button_center(canvas, "Done");
+        elements_button_center(canvas, NFC_UI_TEXT("Done", "完成"));
     }
 }
 
