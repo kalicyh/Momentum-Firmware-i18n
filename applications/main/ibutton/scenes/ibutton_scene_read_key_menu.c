@@ -22,10 +22,14 @@ void ibutton_scene_read_key_menu_on_enter(void* context) {
     const uint32_t features = ibutton_protocols_get_features(ibutton->protocols, protocol_id);
 
     submenu_add_item(
-        submenu, "Save", SubmenuIndexSave, ibutton_scene_read_key_menu_submenu_callback, ibutton);
+        submenu,
+        IBUTTON_UI_TEXT("Save", "保存"),
+        SubmenuIndexSave,
+        ibutton_scene_read_key_menu_submenu_callback,
+        ibutton);
     submenu_add_item(
         submenu,
-        "Emulate",
+        IBUTTON_UI_TEXT("Emulate", "仿真"),
         SubmenuIndexEmulate,
         ibutton_scene_read_key_menu_submenu_callback,
         ibutton);
@@ -33,7 +37,7 @@ void ibutton_scene_read_key_menu_on_enter(void* context) {
     if(features & iButtonProtocolFeatureWriteId) {
         submenu_add_item(
             submenu,
-            "Write ID",
+            IBUTTON_UI_TEXT("Write ID", "写入 ID"),
             SubmenuIndexWriteId,
             ibutton_scene_read_key_menu_submenu_callback,
             ibutton);
@@ -42,7 +46,7 @@ void ibutton_scene_read_key_menu_on_enter(void* context) {
     if(features & iButtonProtocolFeatureWriteCopy) {
         submenu_add_item(
             submenu,
-            "Full Write on Same Type",
+            IBUTTON_UI_TEXT("Full Write on Same Type", "同类型完全写入"),
             SubmenuIndexWriteCopy,
             ibutton_scene_read_key_menu_submenu_callback,
             ibutton);
@@ -51,7 +55,7 @@ void ibutton_scene_read_key_menu_on_enter(void* context) {
     if(features & iButtonProtocolFeatureExtData) {
         submenu_add_item(
             submenu,
-            "Data Info",
+            IBUTTON_UI_TEXT("Data Info", "数据信息"),
             SubmenuIndexViewData,
             ibutton_scene_read_key_menu_submenu_callback,
             ibutton);

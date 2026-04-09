@@ -98,3 +98,9 @@ void ibutton_notification_message(iButton* ibutton, uint32_t message);
 
 void ibutton_submenu_callback(void* context, uint32_t index);
 void ibutton_widget_callback(GuiButtonType result, InputType type, void* context);
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define IBUTTON_UI_TEXT(en, zh) (zh)
+#else
+#define IBUTTON_UI_TEXT(en, zh) (en)
+#endif

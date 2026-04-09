@@ -15,13 +15,33 @@ void ibutton_scene_retry_confirm_on_enter(void* context) {
     Widget* widget = ibutton->widget;
 
     widget_add_button_element(
-        widget, GuiButtonTypeLeft, "Retry", ibutton_scene_retry_confirm_widget_callback, ibutton);
+        widget,
+        GuiButtonTypeLeft,
+        IBUTTON_UI_TEXT("Retry", "重试"),
+        ibutton_scene_retry_confirm_widget_callback,
+        ibutton);
     widget_add_button_element(
-        widget, GuiButtonTypeRight, "Stay", ibutton_scene_retry_confirm_widget_callback, ibutton);
+        widget,
+        GuiButtonTypeRight,
+        IBUTTON_UI_TEXT("Stay", "停留"),
+        ibutton_scene_retry_confirm_widget_callback,
+        ibutton);
     widget_add_string_element(
-        widget, 64, 19, AlignCenter, AlignBottom, FontPrimary, "Retry Reading?");
+        widget,
+        64,
+        19,
+        AlignCenter,
+        AlignBottom,
+        FontPrimary,
+        IBUTTON_UI_TEXT("Retry Reading?", "重新读取?"));
     widget_add_string_element(
-        widget, 64, 29, AlignCenter, AlignBottom, FontSecondary, "All unsaved data will be lost!");
+        widget,
+        64,
+        29,
+        AlignCenter,
+        AlignBottom,
+        FontSecondary,
+        IBUTTON_UI_TEXT("All unsaved data will be lost!", "所有未保存数据都会丢失!"));
 
     view_dispatcher_switch_to_view(ibutton->view_dispatcher, iButtonViewWidget);
 }
