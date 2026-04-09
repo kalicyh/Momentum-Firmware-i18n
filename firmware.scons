@@ -89,6 +89,14 @@ env.Replace(MOMENTUM_UI_LANG_ZH="1" if momentum_ui_lang == "zh_CN" else "0")
 if momentum_ui_lang == "zh_CN":
     env.AppendUnique(CPPDEFINES=["MOMENTUM_UI_LANG_ZH_CN"])
 
+momentum_device = os.environ.get("MOMENTUM_DEVICE", "real").lower()
+if momentum_device not in ("real", "clone", "clipper"):
+    raise UserError(
+        "Invalid MOMENTUM_DEVICE. Expected one of: real, clone, clipper"
+    )
+env.Replace(MOMENTUM_DEVICE=momentum_device)
+env.AppendUnique(CPPDEFINES=[f"MOMENTUM_DEVICE_{momentum_device.upper()}"])
+
 env.PreConfigureFwEnvionment()
 
 if env["IS_BASE_FIRMWARE"]:

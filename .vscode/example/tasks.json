@@ -58,6 +58,42 @@
             "command": "./fbt updater_package COMPACT=1 DEBUG=0"
         },
         {
+            "label": "[Release] 编译中文固件 (Real)",
+            "group": "build",
+            "type": "shell",
+            "command": "MOMENTUM_UI_LANG=zh_CN MOMENTUM_DEVICE=real ./fbt COMPACT=1 DEBUG=0"
+        },
+        {
+            "label": "[Release] 编译中文固件 (Clone)",
+            "group": "build",
+            "type": "shell",
+            "command": "MOMENTUM_UI_LANG=zh_CN MOMENTUM_DEVICE=clone ./fbt COMPACT=1 DEBUG=0"
+        },
+        {
+            "label": "[Release] 编译中文固件 (Clipper)",
+            "group": "build",
+            "type": "shell",
+            "command": "MOMENTUM_UI_LANG=zh_CN MOMENTUM_DEVICE=clipper ./fbt COMPACT=1 DEBUG=0"
+        },
+        {
+            "label": "[Release] 编译中文升级包 (Real)",
+            "group": "build",
+            "type": "shell",
+            "command": "MOMENTUM_UI_LANG=zh_CN MOMENTUM_DEVICE=real ./fbt updater_package COMPACT=1 DEBUG=0"
+        },
+        {
+            "label": "[Release] 编译中文升级包 (Clone)",
+            "group": "build",
+            "type": "shell",
+            "command": "MOMENTUM_UI_LANG=zh_CN MOMENTUM_DEVICE=clone ./fbt updater_package COMPACT=1 DEBUG=0"
+        },
+        {
+            "label": "[Release] 编译中文升级包 (Clipper)",
+            "group": "build",
+            "type": "shell",
+            "command": "MOMENTUM_UI_LANG=zh_CN MOMENTUM_DEVICE=clipper ./fbt updater_package COMPACT=1 DEBUG=0"
+        },
+        {
             "label": "[Debug] Build update bundle",
             "group": "build",
             "type": "shell",

@@ -33,15 +33,23 @@ typedef struct {
     uint32_t control;
 } FURI_PACKED U2fCounterData;
 
+#ifdef MOMENTUM_DEVICE_CLIPPER
+#define U2F_ACTIVE_CERT_FILE     U2F_CERT_FILE_CLIPPER
+#define U2F_ACTIVE_CERT_KEY_FILE U2F_CERT_KEY_FILE_CLIPPER
+#else
+#define U2F_ACTIVE_CERT_FILE     U2F_CERT_FILE
+#define U2F_ACTIVE_CERT_KEY_FILE U2F_CERT_KEY_FILE
+#endif
+
 bool u2f_data_check(bool cert_only) {
     bool state = false;
     Storage* fs_api = furi_record_open(RECORD_STORAGE);
     File* file = storage_file_alloc(fs_api);
 
     do {
-        if(!storage_file_open(file, U2F_CERT_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) break;
+        if(!storage_file_open(file, U2F_ACTIVE_CERT_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) break;
         storage_file_close(file);
-        if(!storage_file_open(file, U2F_CERT_KEY_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) break;
+        if(!storage_file_open(file, U2F_ACTIVE_CERT_KEY_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) break;
         if(cert_only) {
             state = true;
             break;
@@ -67,7 +75,7 @@ bool u2f_data_cert_check(void) {
     File* file = storage_file_alloc(fs_api);
     uint8_t file_buf[8];
 
-    if(storage_file_open(file, U2F_CERT_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) {
+    if(storage_file_open(file, U2F_ACTIVE_CERT_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) {
         do {
             // Read header to check certificate size
             size_t file_size = storage_file_size(file);
@@ -104,7 +112,7 @@ uint32_t u2f_data_cert_load(uint8_t* cert) {
     uint32_t file_size = 0;
     uint32_t len_cur = 0;
 
-    if(storage_file_open(file, U2F_CERT_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) {
+    if(storage_file_open(file, U2F_ACTIVE_CERT_FILE, FSAM_READ, FSOM_OPEN_EXISTING)) {
         file_size = storage_file_size(file);
         len_cur = storage_file_read(file, cert, file_size);
         if(len_cur != file_size) len_cur = 0;
@@ -144,7 +152,7 @@ static bool u2f_data_cert_key_encrypt(uint8_t* cert_key) {
     Storage* storage = furi_record_open(RECORD_STORAGE);
     FlipperFormat* flipper_format = flipper_format_file_alloc(storage);
 
-    if(flipper_format_file_open_always(flipper_format, U2F_CERT_KEY_FILE)) {
+    if(flipper_format_file_open_always(flipper_format, U2F_ACTIVE_CERT_KEY_FILE)) {
         do {
             if(!flipper_format_write_header_cstr(
                    flipper_format, U2F_CERT_KEY_FILE_TYPE, U2F_CERT_KEY_VERSION))
@@ -181,7 +189,7 @@ bool u2f_data_cert_key_load(uint8_t* cert_key) {
     Storage* storage = furi_record_open(RECORD_STORAGE);
     FlipperFormat* flipper_format = flipper_format_file_alloc(storage);
 
-    if(flipper_format_file_open_existing(flipper_format, U2F_CERT_KEY_FILE)) {
+    if(flipper_format_file_open_existing(flipper_format, U2F_ACTIVE_CERT_KEY_FILE)) {
         do {
             if(!flipper_format_read_header(flipper_format, filetype, &version)) {
                 FURI_LOG_E(TAG, "Missing or incorrect header");
