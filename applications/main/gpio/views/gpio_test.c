@@ -21,10 +21,16 @@ static bool gpio_test_process_ok(GpioTest* gpio_test, InputEvent* event);
 static void gpio_test_draw_callback(Canvas* canvas, void* _model) {
     GpioTestModel* model = _model;
     canvas_set_font(canvas, FontPrimary);
-    elements_multiline_text_aligned(canvas, 64, 2, AlignCenter, AlignTop, "GPIO Output Mode Test");
+    elements_multiline_text_aligned(
+        canvas, 64, 2, AlignCenter, AlignTop, GPIO_UI_TEXT("GPIO Output Mode Test", "GPIO 输出测试"));
     canvas_set_font(canvas, FontSecondary);
     elements_multiline_text_aligned(
-        canvas, 64, 16, AlignCenter, AlignTop, "Press < or > to change pin");
+        canvas,
+        64,
+        16,
+        AlignCenter,
+        AlignTop,
+        GPIO_UI_TEXT("Press < or > to change pin", "按 < 或 > 切换引脚"));
     elements_multiline_text_aligned(
         canvas,
         64,

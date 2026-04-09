@@ -53,3 +53,9 @@ typedef enum {
     GpioAppViewI2CScanner,
     GpioAppViewI2CSfp
 } GpioAppView;
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define GPIO_UI_TEXT(en, zh) (zh)
+#else
+#define GPIO_UI_TEXT(en, zh) (en)
+#endif

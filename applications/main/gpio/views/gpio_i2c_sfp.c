@@ -34,23 +34,23 @@ static void gpio_i2c_sfp_draw_callback(Canvas* canvas, void* _model) {
     char temp_str[280];
 
     canvas_set_font(canvas, FontSecondary);
-    elements_button_center(canvas, "Read");
-    canvas_draw_str(canvas, 2, 63, "P15 SCL");
-    canvas_draw_str(canvas, 92, 63, "P16 SDA");
+    elements_button_center(canvas, GPIO_UI_TEXT("Read", "读取"));
+    canvas_draw_str(canvas, 2, 63, GPIO_UI_TEXT("P15 SCL", "P15 SCL"));
+    canvas_draw_str(canvas, 92, 63, GPIO_UI_TEXT("P16 SDA", "P16 SDA"));
 
-    snprintf(temp_str, 280, "Vendor: %s", model->vendor);
+    snprintf(temp_str, 280, GPIO_UI_TEXT("Vendor: %s", "厂商: %s"), model->vendor);
     canvas_draw_str(canvas, 2, 9, temp_str);
 
-    snprintf(temp_str, 280, "PN: %s", model->pn);
+    snprintf(temp_str, 280, GPIO_UI_TEXT("PN: %s", "PN: %s"), model->pn);
     canvas_draw_str(canvas, 2, 19, temp_str);
 
-    snprintf(temp_str, 280, "SN: %s", model->sn);
+    snprintf(temp_str, 280, GPIO_UI_TEXT("SN: %s", "SN: %s"), model->sn);
     canvas_draw_str(canvas, 2, 29, temp_str);
 
-    snprintf(temp_str, 280, "REV: %s", model->rev);
+    snprintf(temp_str, 280, GPIO_UI_TEXT("REV: %s", "版本: %s"), model->rev);
     canvas_draw_str(canvas, 2, 39, temp_str);
 
-    snprintf(temp_str, 280, "CON: %s", model->connector);
+    snprintf(temp_str, 280, GPIO_UI_TEXT("CON: %s", "接口: %s"), model->connector);
     canvas_draw_str(canvas, 50, 39, temp_str);
 
     //Print Wavelength of Module

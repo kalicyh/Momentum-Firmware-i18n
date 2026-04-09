@@ -11,8 +11,8 @@ typedef enum {
 
 static const char* vcp_ch[] = {"0 (CLI)", "1"};
 static const char* uart_ch[] = {"13,14", "15,16"};
-static const char* flow_pins[] = {"None", "2,3", "6,7", "16,15"};
-static const char* baudrate_mode[] = {"Host"};
+static const char* flow_pins[] = {GPIO_UI_TEXT("None", "无"), "2,3", "6,7", "16,15"};
+static const char* baudrate_mode[] = {GPIO_UI_TEXT("Host", "跟随主机")};
 static const uint32_t baudrate_list[] = {
     1200,
     2400,
@@ -27,7 +27,7 @@ static const uint32_t baudrate_list[] = {
     460800,
     921600,
 };
-static const char* software_de_re[] = {"None", "4"};
+static const char* software_de_re[] = {GPIO_UI_TEXT("None", "无"), "4"};
 
 bool gpio_scene_usb_uart_cfg_on_event(void* context, SceneManagerEvent event) {
     GpioApp* app = context;
@@ -137,13 +137,13 @@ void gpio_scene_usb_uart_cfg_on_enter(void* context) {
     VariableItem* item;
     char br_text[8];
 
-    item = variable_item_list_add(var_item_list, "USB Channel", 2, line_vcp_cb, app);
+    item = variable_item_list_add(var_item_list, GPIO_UI_TEXT("USB Channel", "USB 通道"), 2, line_vcp_cb, app);
     variable_item_set_current_value_index(item, app->usb_uart_cfg->vcp_ch);
     variable_item_set_current_value_text(item, vcp_ch[app->usb_uart_cfg->vcp_ch]);
 
     item = variable_item_list_add(
         var_item_list,
-        "Baudrate",
+        GPIO_UI_TEXT("Baudrate", "波特率"),
         sizeof(baudrate_list) / sizeof(baudrate_list[0]) + 1,
         line_baudrate_cb,
         app);
@@ -156,19 +156,19 @@ void gpio_scene_usb_uart_cfg_on_enter(void* context) {
             item, baudrate_mode[app->usb_uart_cfg->baudrate_mode]);
     }
 
-    item = variable_item_list_add(var_item_list, "UART Pins", 2, line_port_cb, app);
+    item = variable_item_list_add(var_item_list, GPIO_UI_TEXT("UART Pins", "UART 引脚"), 2, line_port_cb, app);
     variable_item_set_current_value_index(item, app->usb_uart_cfg->uart_ch);
     variable_item_set_current_value_text(item, uart_ch[app->usb_uart_cfg->uart_ch]);
 
     item = variable_item_list_add(
-        var_item_list, "RTS/DTR Pins", COUNT_OF(flow_pins), line_flow_cb, app);
+        var_item_list, GPIO_UI_TEXT("RTS/DTR Pins", "RTS/DTR 引脚"), COUNT_OF(flow_pins), line_flow_cb, app);
     variable_item_set_current_value_index(item, app->usb_uart_cfg->flow_pins);
     variable_item_set_current_value_text(item, flow_pins[app->usb_uart_cfg->flow_pins]);
     app->var_item_flow = item;
     line_ensure_flow_invariant(app);
 
     item = variable_item_list_add(
-        var_item_list, "DE/RE Pin", COUNT_OF(software_de_re), line_software_de_re_cb, app);
+        var_item_list, GPIO_UI_TEXT("DE/RE Pin", "DE/RE 引脚"), COUNT_OF(software_de_re), line_software_de_re_cb, app);
     variable_item_set_current_value_index(item, app->usb_uart_cfg->software_de_re);
     variable_item_set_current_value_text(item, software_de_re[app->usb_uart_cfg->software_de_re]);
 
