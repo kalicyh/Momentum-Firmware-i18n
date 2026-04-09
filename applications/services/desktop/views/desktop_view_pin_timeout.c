@@ -5,6 +5,12 @@
 
 #include "desktop_view_pin_timeout.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define DESKTOP_PIN_TIMEOUT_UI_TEXT(en, zh) (zh)
+#else
+#define DESKTOP_PIN_TIMEOUT_UI_TEXT(en, zh) (en)
+#endif
+
 struct DesktopViewPinTimeout {
     View* view;
     FuriTimer* timer;
@@ -57,11 +63,16 @@ static void desktop_view_pin_timeout_draw(Canvas* canvas, void* _model) {
     DesktopViewPinTimeoutModel* model = _model;
 
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str(canvas, 36, 31, "Wrong PIN!");
+    canvas_draw_str(
+        canvas, 36, 31, DESKTOP_PIN_TIMEOUT_UI_TEXT("Wrong PIN!", "PIN 错误!"));
 
     canvas_set_font(canvas, FontSecondary);
     char str[30] = {0};
-    snprintf(str, sizeof(str), "Timeout: %lus", model->time_left);
+    snprintf(
+        str,
+        sizeof(str),
+        DESKTOP_PIN_TIMEOUT_UI_TEXT("Timeout: %lus", "等待: %lu 秒"),
+        model->time_left);
     canvas_draw_str_aligned(canvas, 64, 38, AlignCenter, AlignCenter, str);
 }
 

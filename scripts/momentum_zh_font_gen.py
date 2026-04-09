@@ -18,6 +18,7 @@ SOURCE_SCAN_ROOTS = (
     Path("applications/services"),
     Path("lib"),
 )
+ANIMATION_TEXT_ROOT = Path("assets/dolphin")
 
 
 def parse_args():
@@ -58,6 +59,24 @@ def collect_chars_from_ui_macros(repo_root: Path):
         for match in UI_TEXT_RE.finditer(contents):
             zh_text = match.group(2)
             for ch in zh_text:
+                if ord(ch) > 127:
+                    chars.add(ch)
+    return chars
+
+
+def collect_chars_from_animation_text(repo_root: Path):
+    chars = set()
+    root = repo_root / ANIMATION_TEXT_ROOT
+    if not root.is_dir():
+        return chars
+
+    for meta_file in root.rglob("meta.txt"):
+        contents = meta_file.read_text(encoding="utf-8", errors="ignore")
+        for line in contents.splitlines():
+            if not line.startswith("Text:"):
+                continue
+            text = line[5:].strip().replace("\\n", "\n")
+            for ch in text:
                 if ord(ch) > 127:
                     chars.add(ch)
     return chars
@@ -119,6 +138,7 @@ def main():
 
     chars = collect_chars_from_strings(strings)
     chars.update(collect_chars_from_ui_macros(repo_root))
+    chars.update(collect_chars_from_animation_text(repo_root))
     if chars:
         map_file = work_dir / "primary_zh.map"
         c_file = work_dir / "primary_zh.c"

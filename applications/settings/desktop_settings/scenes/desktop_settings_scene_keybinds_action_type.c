@@ -85,35 +85,35 @@ void desktop_settings_scene_keybinds_action_type_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
-        "Main App",
+        DESKTOP_SETTINGS_UI_TEXT("Main App", "内置应用"),
         DesktopSettingsAppKeybindActionTypeMainApp,
         desktop_settings_scene_keybinds_action_type_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "External App",
+        DESKTOP_SETTINGS_UI_TEXT("External App", "外部应用"),
         DesktopSettingsAppKeybindActionTypeExternalApp,
         desktop_settings_scene_keybinds_action_type_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "File / Directory (right btn)",
+        DESKTOP_SETTINGS_UI_TEXT("File / Directory (right btn)", "文件 / 目录 (右键)"),
         DesktopSettingsAppKeybindActionTypeOpenFileOrDirectory,
         desktop_settings_scene_keybinds_action_type_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "More Actions",
+        DESKTOP_SETTINGS_UI_TEXT("More Actions", "更多操作"),
         DesktopSettingsAppKeybindActionTypeMoreActions,
         desktop_settings_scene_keybinds_action_type_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "Remove Keybind",
+        DESKTOP_SETTINGS_UI_TEXT("Remove Keybind", "移除按键绑定"),
         DesktopSettingsAppKeybindActionTypeRemoveKeybind,
         desktop_settings_scene_keybinds_action_type_submenu_callback,
         app);
@@ -155,7 +155,7 @@ void desktop_settings_scene_keybinds_action_type_on_enter(void* context) {
         }
     }
 
-    submenu_set_header(submenu, "Keybind action:");
+    submenu_set_header(submenu, DESKTOP_SETTINGS_UI_TEXT("Keybind action:", "按键绑定动作:"));
     submenu_set_selected_item(submenu, selected);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, DesktopSettingsAppViewMenu);

@@ -172,9 +172,17 @@ void desktop_lock_menu_draw_callback(Canvas* canvas, void* model) {
         }
         canvas_set_font(canvas, FontSecondary);
         elements_bold_rounded_frame(canvas, 24, 4, 80, 56);
-        canvas_draw_str_aligned(canvas, 64, 16, AlignCenter, AlignCenter, "Keypad Lock");
-        canvas_draw_str_aligned(canvas, 64, 32, AlignCenter, AlignCenter, "PIN Code Lock");
-        canvas_draw_str_aligned(canvas, 64, 48, AlignCenter, AlignCenter, "PIN Lock + OFF");
+        canvas_draw_str_aligned(
+            canvas, 64, 16, AlignCenter, AlignCenter, DESKTOP_UI_TEXT("Keypad Lock", "按键锁定"));
+        canvas_draw_str_aligned(
+            canvas, 64, 32, AlignCenter, AlignCenter, DESKTOP_UI_TEXT("PIN Code Lock", "PIN 锁定"));
+        canvas_draw_str_aligned(
+            canvas,
+            64,
+            48,
+            AlignCenter,
+            AlignCenter,
+            DESKTOP_UI_TEXT("PIN Lock + OFF", "PIN 锁定 + 关机"));
         elements_frame(canvas, 28, 8 + m->lock_popup_index * 16, 72, 15);
     }
 }

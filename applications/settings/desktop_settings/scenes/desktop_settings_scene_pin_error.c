@@ -34,14 +34,17 @@ void desktop_settings_scene_pin_error_on_enter(void* context) {
     uint32_t state =
         scene_manager_get_scene_state(app->scene_manager, DesktopSettingsAppScenePinError);
     if(state == SCENE_STATE_PIN_ERROR_MISMATCH) {
-        desktop_view_pin_input_set_label_primary(app->pin_input_view, 29, 8, "PIN mismatch!");
+        desktop_view_pin_input_set_label_primary(
+            app->pin_input_view, 29, 8, DESKTOP_SETTINGS_UI_TEXT("PIN mismatch!", "PIN 不匹配!"));
     } else if(state == SCENE_STATE_PIN_ERROR_WRONG) {
-        desktop_view_pin_input_set_label_primary(app->pin_input_view, 35, 8, "Wrong PIN!");
+        desktop_view_pin_input_set_label_primary(
+            app->pin_input_view, 35, 8, DESKTOP_SETTINGS_UI_TEXT("Wrong PIN!", "PIN 错误!"));
     } else {
         furi_crash();
     }
     desktop_view_pin_input_set_label_secondary(app->pin_input_view, 0, 8, NULL);
-    desktop_view_pin_input_set_label_button(app->pin_input_view, "Retry");
+    desktop_view_pin_input_set_label_button(
+        app->pin_input_view, DESKTOP_SETTINGS_UI_TEXT("Retry", "重试"));
     desktop_view_pin_input_lock_input(app->pin_input_view);
     desktop_view_pin_input_set_pin(app->pin_input_view, &app->pincode_buffer);
 

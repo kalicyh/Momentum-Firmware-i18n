@@ -22,6 +22,30 @@ const char* EXTRA_KEYBINDS[] = {
 };
 const size_t EXTRA_KEYBINDS_COUNT = COUNT_OF(EXTRA_KEYBINDS);
 
+const char* desktop_settings_app_get_keybind_label(const char* value) {
+    if(!value) return value;
+    if(strcmp(value, "Apps Menu") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Apps Menu", "应用菜单");
+    } else if(strcmp(value, "Archive") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Archive", "归档");
+    } else if(strcmp(value, "Clock") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Clock", "时钟");
+    } else if(strcmp(value, "Device Info") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Device Info", "设备信息");
+    } else if(strcmp(value, "Lock Menu") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Lock Menu", "锁定菜单");
+    } else if(strcmp(value, "Lock Keypad") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Lock Keypad", "锁定按键");
+    } else if(strcmp(value, "Lock with PIN") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Lock with PIN", "PIN 锁定");
+    } else if(strcmp(value, "Passport") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Passport", "护照");
+    } else if(strcmp(value, "Wipe Device") == 0) {
+        return DESKTOP_SETTINGS_UI_TEXT("Wipe Device", "擦除设备");
+    }
+    return value;
+}
+
 static bool desktop_settings_custom_event_callback(void* context, uint32_t event) {
     furi_assert(context);
     DesktopSettingsApp* app = context;

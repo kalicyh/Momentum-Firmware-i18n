@@ -16,7 +16,7 @@ Bubble slots: 1
 Slot: 0
 X: 55
 Y: 14
-Text: Pwned!
+Text: 拿下了!
 AlignH: Left
 AlignV: Center
 StartFrame: 6

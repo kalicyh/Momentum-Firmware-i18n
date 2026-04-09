@@ -12,10 +12,22 @@ void desktop_settings_scene_keybinds_reset_on_enter(void* context) {
     DesktopSettingsApp* app = context;
     DialogEx* dialog_ex = app->dialog_ex;
 
-    dialog_ex_set_header(dialog_ex, "Reset Desktop Keybinds?", 64, 10, AlignCenter, AlignCenter);
-    dialog_ex_set_text(dialog_ex, "Your edits will be lost!", 64, 32, AlignCenter, AlignCenter);
-    dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-    dialog_ex_set_right_button_text(dialog_ex, "Reset");
+    dialog_ex_set_header(
+        dialog_ex,
+        DESKTOP_SETTINGS_UI_TEXT("Reset Desktop Keybinds?", "重置桌面按键绑定?"),
+        64,
+        10,
+        AlignCenter,
+        AlignCenter);
+    dialog_ex_set_text(
+        dialog_ex,
+        DESKTOP_SETTINGS_UI_TEXT("Your edits will be lost!", "你的修改将会丢失!"),
+        64,
+        32,
+        AlignCenter,
+        AlignCenter);
+    dialog_ex_set_left_button_text(dialog_ex, DESKTOP_SETTINGS_UI_TEXT("Cancel", "取消"));
+    dialog_ex_set_right_button_text(dialog_ex, DESKTOP_SETTINGS_UI_TEXT("Reset", "重置"));
 
     dialog_ex_set_context(dialog_ex, app);
     dialog_ex_set_result_callback(

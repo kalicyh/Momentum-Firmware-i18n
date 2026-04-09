@@ -18,7 +18,7 @@ typedef enum {
 #define AUTO_LOCK_DELAY_COUNT 9
 
 static const char* const auto_lock_delay_text[AUTO_LOCK_DELAY_COUNT] = {
-    "OFF",
+    DESKTOP_SETTINGS_UI_TEXT("OFF", "关"),
     "10s",
     "15s",
     "30s",
@@ -35,16 +35,16 @@ static const uint32_t auto_lock_delay_value[AUTO_LOCK_DELAY_COUNT] =
 #define USB_INHIBIT_AUTO_LOCK_DELAY_COUNT 2
 
 const char* const usb_inhibit_auto_lock_delay_text[USB_INHIBIT_AUTO_LOCK_DELAY_COUNT] = {
-    "OFF",
-    "ON",
+    DESKTOP_SETTINGS_UI_TEXT("OFF", "关"),
+    DESKTOP_SETTINGS_UI_TEXT("ON", "开"),
 };
 
 const uint32_t usb_inhibit_auto_lock_delay_value[USB_INHIBIT_AUTO_LOCK_DELAY_COUNT] = {0, 1};
 
 #define CLOCK_ENABLE_COUNT 2
 const char* const clock_enable_text[CLOCK_ENABLE_COUNT] = {
-    "OFF",
-    "ON",
+    DESKTOP_SETTINGS_UI_TEXT("OFF", "关"),
+    DESKTOP_SETTINGS_UI_TEXT("ON", "开"),
 };
 
 const uint32_t clock_enable_value[CLOCK_ENABLE_COUNT] = {0, 1};
@@ -74,7 +74,10 @@ static void desktop_settings_scene_start_auto_lock_pin_changed(VariableItem* ite
     DesktopSettingsApp* app = variable_item_get_context(item);
     uint8_t value = variable_item_get_current_value_index(item);
 
-    variable_item_set_current_value_text(item, value ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item,
+        value ? DESKTOP_SETTINGS_UI_TEXT("ON", "开") :
+                DESKTOP_SETTINGS_UI_TEXT("OFF", "关"));
     app->settings.auto_lock_with_pin = value;
 }
 
@@ -93,15 +96,26 @@ void desktop_settings_scene_start_on_enter(void* context) {
     VariableItem* item;
     uint8_t value_index;
 
-    variable_item_list_add(variable_item_list, "PIN Setup", 1, NULL, NULL);
+    variable_item_list_add(
+        variable_item_list, DESKTOP_SETTINGS_UI_TEXT("PIN Setup", "PIN 设置"), 1, NULL, NULL);
 
-    variable_item_list_add(variable_item_list, "Keybinds Setup", 1, NULL, NULL);
+    variable_item_list_add(
+        variable_item_list,
+        DESKTOP_SETTINGS_UI_TEXT("Keybinds Setup", "按键绑定设置"),
+        1,
+        NULL,
+        NULL);
 
-    variable_item_list_add(variable_item_list, "Reset Keybinds to Default", 1, NULL, NULL);
+    variable_item_list_add(
+        variable_item_list,
+        DESKTOP_SETTINGS_UI_TEXT("Reset Keybinds to Default", "重置默认按键绑定"),
+        1,
+        NULL,
+        NULL);
 
     item = variable_item_list_add(
         variable_item_list,
-        "Auto Lock Time",
+        DESKTOP_SETTINGS_UI_TEXT("Auto Lock Time", "自动锁定时间"),
         AUTO_LOCK_DELAY_COUNT,
         desktop_settings_scene_start_auto_lock_delay_changed,
         app);
@@ -113,18 +127,22 @@ void desktop_settings_scene_start_on_enter(void* context) {
 
     item = variable_item_list_add(
         variable_item_list,
-        "Auto Lock Pin",
+        DESKTOP_SETTINGS_UI_TEXT("Auto Lock Pin", "自动锁定时使用 PIN"),
         2,
         desktop_settings_scene_start_auto_lock_pin_changed,
         app);
 
     variable_item_set_current_value_index(item, app->settings.auto_lock_with_pin);
-    variable_item_set_current_value_text(item, app->settings.auto_lock_with_pin ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item,
+        app->settings.auto_lock_with_pin ? DESKTOP_SETTINGS_UI_TEXT("ON", "开") :
+                                           DESKTOP_SETTINGS_UI_TEXT("OFF", "关"));
 
     // USB connection Inhibit autolock OFF|ON|with opened RPC session
     item = variable_item_list_add(
         variable_item_list,
-        "Prevent Auto Lock with USB/RPC session",
+        DESKTOP_SETTINGS_UI_TEXT(
+            "Prevent Auto Lock with USB/RPC session", "USB/RPC 会话时阻止自动锁定"),
         USB_INHIBIT_AUTO_LOCK_DELAY_COUNT,
         desktop_settings_scene_start_usb_inhibit_auto_lock_delay_changed,
         app);
@@ -138,7 +156,7 @@ void desktop_settings_scene_start_on_enter(void* context) {
 
     item = variable_item_list_add(
         variable_item_list,
-        "Show Clock",
+        DESKTOP_SETTINGS_UI_TEXT("Show Clock", "显示时钟"),
         CLOCK_ENABLE_COUNT,
         desktop_settings_scene_start_clock_enable_changed,
         app);
@@ -148,7 +166,8 @@ void desktop_settings_scene_start_on_enter(void* context) {
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, clock_enable_text[value_index]);
 
-    variable_item_list_add(variable_item_list, "Happy Mode", 1, NULL, NULL);
+    variable_item_list_add(
+        variable_item_list, DESKTOP_SETTINGS_UI_TEXT("Happy Mode", "快乐模式"), 1, NULL, NULL);
 
     variable_item_list_set_enter_callback(
         variable_item_list, desktop_settings_scene_start_var_list_enter_callback, app);

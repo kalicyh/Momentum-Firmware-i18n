@@ -24,6 +24,12 @@
 
 #define STATUS_BAR_Y_SHIFT 13
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define DESKTOP_UI_TEXT(en, zh) (zh)
+#else
+#define DESKTOP_UI_TEXT(en, zh) (en)
+#endif
+
 typedef enum {
     DesktopViewIdMain,
     DesktopViewIdLockMenu,

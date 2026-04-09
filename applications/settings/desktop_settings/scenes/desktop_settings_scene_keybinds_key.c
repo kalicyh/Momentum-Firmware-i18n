@@ -15,33 +15,33 @@ void desktop_settings_scene_keybinds_key_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
-        "Up",
+        DESKTOP_SETTINGS_UI_TEXT("Up", "上"),
         DesktopKeybindKeyUp,
         desktop_settings_scene_keybinds_key_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "Down",
+        DESKTOP_SETTINGS_UI_TEXT("Down", "下"),
         DesktopKeybindKeyDown,
         desktop_settings_scene_keybinds_key_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "Right",
+        DESKTOP_SETTINGS_UI_TEXT("Right", "右"),
         DesktopKeybindKeyRight,
         desktop_settings_scene_keybinds_key_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
-        "Left",
+        DESKTOP_SETTINGS_UI_TEXT("Left", "左"),
         DesktopKeybindKeyLeft,
         desktop_settings_scene_keybinds_key_submenu_callback,
         app);
 
-    submenu_set_header(submenu, "Keybind key:");
+    submenu_set_header(submenu, DESKTOP_SETTINGS_UI_TEXT("Keybind key:", "按键绑定按键:"));
 
     submenu_set_selected_item(
         submenu,

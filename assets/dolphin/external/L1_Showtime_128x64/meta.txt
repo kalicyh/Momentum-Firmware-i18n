@@ -16,7 +16,7 @@ Bubble slots: 1
 Slot: 0
 X: 69
 Y: 47
-Text: SHOWTIME!
+Text: 演出开始!
 AlignH: Left
 AlignV: Center
 StartFrame: 41

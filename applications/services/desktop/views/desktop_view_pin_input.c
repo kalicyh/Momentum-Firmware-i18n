@@ -7,6 +7,12 @@
 
 #include "desktop_view_pin_input.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define DESKTOP_PIN_INPUT_UI_TEXT(en, zh) (zh)
+#else
+#define DESKTOP_PIN_INPUT_UI_TEXT(en, zh) (en)
+#endif
+
 #define NO_ACTIVITY_TIMEOUT 15000
 
 #define PIN_CELL_WIDTH 13
@@ -154,7 +160,7 @@ static void desktop_view_pin_input_draw(Canvas* canvas, void* context) {
 
     if((model->pin.length > 0) && !model->locked_input) {
         canvas_draw_icon(canvas, 4, 53, &I_Pin_back_arrow_10x8);
-        canvas_draw_str(canvas, 16, 60, "= clear");
+        canvas_draw_str(canvas, 16, 60, DESKTOP_PIN_INPUT_UI_TEXT("= clear", "= 清除"));
     }
 
     if(model->button_label && ((model->pin.length >= MIN_PIN_LENGTH) || model->locked_input)) {

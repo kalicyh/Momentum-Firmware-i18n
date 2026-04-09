@@ -52,7 +52,7 @@ void desktop_settings_scene_keybinds_action_on_enter(void* context) {
         for(size_t i = 0; i < EXTRA_KEYBINDS_COUNT; i++) {
             submenu_add_item(
                 submenu,
-                EXTRA_KEYBINDS[i],
+                desktop_settings_app_get_keybind_label(EXTRA_KEYBINDS[i]),
                 (uint32_t)EXTRA_KEYBINDS[i],
                 desktop_settings_scene_keybinds_action_submenu_callback,
                 app);

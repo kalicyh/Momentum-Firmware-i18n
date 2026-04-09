@@ -11,6 +11,12 @@
 
 #include "desktop_view_locked.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define DESKTOP_LOCKED_UI_TEXT(en, zh) (zh)
+#else
+#define DESKTOP_LOCKED_UI_TEXT(en, zh) (en)
+#endif
+
 #define COVER_MOVING_INTERVAL_MS (50)
 #define LOCKED_HINT_TIMEOUT_MS   (3000)
 #define UNLOCKED_HINT_TIMEOUT_MS (2000)
@@ -120,11 +126,22 @@ void desktop_view_locked_draw_lockscreen(Canvas* canvas, void* m) {
         canvas_set_font(canvas, FontSecondary);
         if(model->pin_locked) {
             elements_bubble_str(
-                canvas, 12, 14 + y, "  Press   \nto unlock!", AlignRight, AlignBottom);
+                canvas,
+                12,
+                14 + y,
+                DESKTOP_LOCKED_UI_TEXT("  Press   \nto unlock!", "  按下   \n以解锁!"),
+                AlignRight,
+                AlignBottom);
             canvas_draw_icon(canvas, 45, 16 + y, &I_Pin_arrow_up_7x9);
         } else {
             elements_bubble_str(
-                canvas, 2, 14 + y, "Press 3x      \n  to unlock!", AlignRight, AlignBottom);
+                canvas,
+                2,
+                14 + y,
+                DESKTOP_LOCKED_UI_TEXT(
+                    "Press 3x      \n  to unlock!", "连按 3 次      \n  以解锁!"),
+                AlignRight,
+                AlignBottom);
             canvas_draw_icon(canvas, 43, 17 + y, &I_Pin_back_arrow_10x8);
         }
     }

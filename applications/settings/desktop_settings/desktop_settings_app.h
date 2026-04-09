@@ -18,6 +18,12 @@
 #include "views/desktop_settings_view_pin_setup_howto.h"
 #include "views/desktop_settings_view_pin_setup_howto2.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define DESKTOP_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define DESKTOP_SETTINGS_UI_TEXT(en, zh) (en)
+#endif
+
 typedef enum {
     DesktopSettingsAppViewMenu,
     DesktopSettingsAppViewVarItemList,
@@ -38,6 +44,7 @@ typedef enum {
 
 extern const char* EXTRA_KEYBINDS[];
 extern const size_t EXTRA_KEYBINDS_COUNT;
+const char* desktop_settings_app_get_keybind_label(const char* value);
 
 typedef struct {
     DesktopSettings settings;
