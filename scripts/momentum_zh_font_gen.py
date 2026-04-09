@@ -7,11 +7,7 @@ import re
 import subprocess
 from pathlib import Path
 
-UI_TEXT_RE = re.compile(
-    r"\b[A-Z0-9_]+_UI_TEXT\s*\(\s*"
-    r'"((?:\\.|[^"\\])*)"\s*,\s*"((?:\\.|[^"\\])*)"\s*\)',
-    re.DOTALL,
-)
+STRING_LITERAL_RE = re.compile(r'"((?:\\.|[^"\\])*)"', re.DOTALL)
 
 SOURCE_SCAN_ROOTS = (
     Path("applications/main"),
@@ -52,13 +48,37 @@ def iter_source_files(repo_root: Path):
             yield from root.rglob(pattern)
 
 
-def collect_chars_from_ui_macros(repo_root: Path):
+def decode_c_string_literal(literal: str):
+    escape_map = {
+        "n": "\n",
+        "r": "\r",
+        "t": "\t",
+        "\\": "\\",
+        '"': '"',
+        "'": "'",
+        "0": "\0",
+    }
+    result = []
+    i = 0
+    while i < len(literal):
+        ch = literal[i]
+        if ch == "\\" and i + 1 < len(literal):
+            nxt = literal[i + 1]
+            result.append(escape_map.get(nxt, nxt))
+            i += 2
+            continue
+        result.append(ch)
+        i += 1
+    return "".join(result)
+
+
+def collect_chars_from_source_literals(repo_root: Path):
     chars = set()
     for source_file in iter_source_files(repo_root):
         contents = source_file.read_text(encoding="utf-8", errors="ignore")
-        for match in UI_TEXT_RE.finditer(contents):
-            zh_text = match.group(2)
-            for ch in zh_text:
+        for match in STRING_LITERAL_RE.finditer(contents):
+            literal = decode_c_string_literal(match.group(1))
+            for ch in literal:
                 if ord(ch) > 127:
                     chars.add(ch)
     return chars
@@ -86,6 +106,18 @@ def write_map(chars, path: Path):
     lines = ["32-128,"]
     for codepoint in sorted(ord(ch) for ch in chars):
         lines.append(f"${codepoint:04X},")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
+
+
+def write_chars_report(chars, path: Path):
+    sorted_chars = sorted(chars, key=ord)
+    lines = [
+        f"count={len(sorted_chars)}",
+        "".join(sorted_chars),
+        "",
+    ]
+    lines.extend(f"U+{ord(ch):04X} {ch}" for ch in sorted_chars)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
@@ -137,12 +169,14 @@ def main():
         bdfconv.chmod(bdfconv.stat().st_mode | 0o111)
 
     chars = collect_chars_from_strings(strings)
-    chars.update(collect_chars_from_ui_macros(repo_root))
+    chars.update(collect_chars_from_source_literals(repo_root))
     chars.update(collect_chars_from_animation_text(repo_root))
     if chars:
         map_file = work_dir / "primary_zh.map"
         c_file = work_dir / "primary_zh.c"
+        chars_file = work_dir / "primary_zh_chars.txt"
         u8f_file = out_dir / "primary_zh.u8f"
+        write_chars_report(chars, chars_file)
         write_map(chars, map_file)
         subprocess.run(
             [
