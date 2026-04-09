@@ -22,9 +22,15 @@ void u2f_scene_error_on_enter(void* context) {
             AlignCenter,
             AlignTop,
             FontSecondary,
-            "No SD card or\napp data found.\nThis app will not\nwork without\nrequired files.");
+            U2F_UI_TEXT(
+                "No SD card or\napp data found.\nThis app will not\nwork without\nrequired files.",
+                "未找到 SD 卡或\n应用数据。\n缺少必需文件时\n此应用无法工作。"));
         widget_add_button_element(
-            app->widget, GuiButtonTypeLeft, "Back", u2f_scene_error_event_callback, app);
+            app->widget,
+            GuiButtonTypeLeft,
+            U2F_UI_TEXT("Back", "返回"),
+            u2f_scene_error_event_callback,
+            app);
     }
 
     view_dispatcher_switch_to_view(app->view_dispatcher, U2fAppViewError);

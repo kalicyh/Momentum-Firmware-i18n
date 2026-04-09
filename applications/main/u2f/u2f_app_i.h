@@ -59,3 +59,9 @@ struct U2fApp {
     bool u2f_ready;
     U2fAppError error;
 };
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define U2F_UI_TEXT(en, zh) (zh)
+#else
+#define U2F_UI_TEXT(en, zh) (en)
+#endif
