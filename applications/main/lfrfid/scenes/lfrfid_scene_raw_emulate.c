@@ -28,7 +28,8 @@ void lfrfid_scene_raw_emulate_on_enter(void* context) {
     lfrfid_worker_start_thread(app->lfworker);
     lfrfid_make_app_folder(app);
 
-    popup_set_header(popup, "Emulating\nRAW RFID", 89, 30, AlignCenter, AlignTop);
+    popup_set_header(
+        popup, LFRFID_UI_TEXT("Emulating\nRAW RFID", "仿真中\nRAW RFID"), 89, 30, AlignCenter, AlignTop);
     lfrfid_worker_emulate_raw_start(
         app->lfworker, furi_string_get_cstr(app->file_path), lfrfid_raw_emulate_callback, app);
 
@@ -51,7 +52,12 @@ bool lfrfid_scene_raw_emulate_on_event(void* context, SceneManagerEvent event) {
             consumed = true;
             state->error = true;
             popup_set_header(
-                popup, "Emulating\nRAW RFID\nFile error", 89, 30, AlignCenter, AlignTop);
+                popup,
+                LFRFID_UI_TEXT("Emulating\nRAW RFID\nFile error", "仿真中\nRAW RFID\n文件错误"),
+                89,
+                30,
+                AlignCenter,
+                AlignTop);
             notification_message(app->notifications, &sequence_blink_start_red);
         }
     }

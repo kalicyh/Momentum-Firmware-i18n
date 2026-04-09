@@ -4,10 +4,18 @@ void lfrfid_scene_clear_t5577_confirm_on_enter(void* context) {
     LfRfid* app = context;
     Widget* widget = app->widget;
 
-    widget_add_button_element(widget, GuiButtonTypeLeft, "Exit", lfrfid_widget_callback, app);
-    widget_add_button_element(widget, GuiButtonTypeRight, "Start", lfrfid_widget_callback, app);
+    widget_add_button_element(
+        widget, GuiButtonTypeLeft, LFRFID_UI_TEXT("Exit", "退出"), lfrfid_widget_callback, app);
+    widget_add_button_element(
+        widget, GuiButtonTypeRight, LFRFID_UI_TEXT("Start", "开始"), lfrfid_widget_callback, app);
     widget_add_string_multiline_element(
-        widget, 64, 22, AlignCenter, AlignBottom, FontPrimary, "Apply tag to\nFlipper's back");
+        widget,
+        64,
+        22,
+        AlignCenter,
+        AlignBottom,
+        FontPrimary,
+        LFRFID_UI_TEXT("Apply tag to\nFlipper's back", "将卡片贴到\nFlipper 背面"));
     widget_add_string_multiline_element(
         widget,
         64,
@@ -15,7 +23,9 @@ void lfrfid_scene_clear_t5577_confirm_on_enter(void* context) {
         AlignCenter,
         AlignBottom,
         FontSecondary,
-        "And don't move it\nwhile process is running");
+        LFRFID_UI_TEXT(
+            "And don't move it\nwhile process is running",
+            "处理中请\n不要移动卡片"));
 
     view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewWidget);
 }

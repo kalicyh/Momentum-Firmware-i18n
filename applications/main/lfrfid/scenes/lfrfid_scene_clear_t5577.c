@@ -10,7 +10,13 @@ static void lfrfid_clear_t5577_password_and_config_to_EM(LfRfid* app) {
     uint8_t default_passwords_len;
     const uint32_t* default_passwords = lfrfid_get_t5577_default_passwords(&default_passwords_len);
 
-    popup_set_header(popup, "Removing\npassword", 90, 36, AlignCenter, AlignCenter);
+    popup_set_header(
+        popup,
+        LFRFID_UI_TEXT("Removing\npassword", "清除中\n密码"),
+        90,
+        36,
+        AlignCenter,
+        AlignCenter);
     popup_set_icon(popup, 0, 3, &I_RFIDDolphinSend_97x61);
     popup_set_text(popup, curr_buf, 90, 56, AlignCenter, AlignCenter);
     notification_message(app->notifications, &sequence_blink_start_magenta);
@@ -23,7 +29,7 @@ static void lfrfid_clear_t5577_password_and_config_to_EM(LfRfid* app) {
 
     // Clear custom password
     uint32_t custom_pass = bit_lib_bytes_to_num_be(app->password, 4);
-    snprintf(curr_buf, sizeof(curr_buf), "Custom password");
+    snprintf(curr_buf, sizeof(curr_buf), "%s", LFRFID_UI_TEXT("Custom password", "自定义密码"));
     view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewPopup);
 
     t5577_write_with_mask(&data, 0, true, custom_pass);
@@ -32,7 +38,12 @@ static void lfrfid_clear_t5577_password_and_config_to_EM(LfRfid* app) {
 
     // Clear default passwords
     for(uint8_t i = 0; i < default_passwords_len; i++) {
-        snprintf(curr_buf, sizeof(curr_buf), "Pass %d of %d", i, default_passwords_len);
+        snprintf(
+            curr_buf,
+            sizeof(curr_buf),
+            LFRFID_UI_TEXT("Pass %d of %d", "密码 %d / %d"),
+            i,
+            default_passwords_len);
         view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewPopup);
 
         t5577_write_with_mask(&data, 0, true, default_passwords[i]);
@@ -50,7 +61,7 @@ void lfrfid_scene_clear_t5577_on_enter(void* context) {
     lfrfid_clear_t5577_password_and_config_to_EM(app);
 
     notification_message(app->notifications, &sequence_success);
-    popup_set_header(popup, "Success!", 75, 10, AlignLeft, AlignTop);
+    popup_set_header(popup, LFRFID_UI_TEXT("Success!", "成功!"), 75, 10, AlignLeft, AlignTop);
     popup_set_icon(popup, 0, 9, &I_DolphinSuccess_91x55);
     popup_set_context(popup, app);
     popup_set_callback(popup, lfrfid_popup_timeout_callback);

@@ -8,12 +8,12 @@ void lfrfid_scene_raw_name_on_enter(void* context) {
 
     bool key_name_is_empty = furi_string_empty(app->file_name);
     if(key_name_is_empty) {
-        lfrfid_text_store_set(app, "RfidRecord");
+        lfrfid_text_store_set(app, LFRFID_UI_TEXT("RfidRecord", "Rfid记录"));
     } else {
         lfrfid_text_store_set(app, "%s", key_name);
     }
 
-    text_input_set_header_text(text_input, "Name the raw file");
+    text_input_set_header_text(text_input, LFRFID_UI_TEXT("Name the raw file", "命名 RAW 文件"));
 
     text_input_set_result_callback(
         text_input,

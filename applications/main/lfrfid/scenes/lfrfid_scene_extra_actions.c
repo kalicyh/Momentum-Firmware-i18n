@@ -21,45 +21,55 @@ void lfrfid_scene_extra_actions_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
-        "Read ASK (FDX,Regular)",
+        LFRFID_UI_TEXT("Read ASK (FDX,Regular)", "读取 ASK (FDX,Regular)"),
         SubmenuIndexASK,
         lfrfid_scene_extra_actions_submenu_callback,
         app);
     submenu_add_item(
         submenu,
-        "Read PSK (Indala)",
+        LFRFID_UI_TEXT("Read PSK (Indala)", "读取 PSK (Indala)"),
         SubmenuIndexPSK,
         lfrfid_scene_extra_actions_submenu_callback,
         app);
     submenu_add_item(
         submenu,
-        "Clear T5577 Password",
+        LFRFID_UI_TEXT("Clear T5577 Password", "清除 T5577 密码"),
         SubmenuIndexClearT5577,
         lfrfid_scene_extra_actions_submenu_callback,
         app);
 
     submenu_add_lockable_item(
         submenu,
-        "Read RAW RFID data",
+        LFRFID_UI_TEXT("Read RAW RFID data", "读取 RAW RFID 数据"),
         SubmenuIndexRAW,
         lfrfid_scene_extra_actions_submenu_callback,
         app,
         !furi_hal_rtc_is_flag_set(FuriHalRtcFlagDebug),
-        "Enable\n"
-        "Settings >\n"
-        "System >\n"
-        "Debug");
+        LFRFID_UI_TEXT(
+            "Enable\n"
+            "Settings >\n"
+            "System >\n"
+            "Debug",
+            "请启用\n"
+            "设置 >\n"
+            "系统 >\n"
+            "调试"));
     submenu_add_lockable_item(
         submenu,
-        "Emulate RAW RFID data",
+        LFRFID_UI_TEXT("Emulate RAW RFID data", "仿真 RAW RFID 数据"),
         SubmenuIndexRAWEmulate,
         lfrfid_scene_extra_actions_submenu_callback,
         app,
         !furi_hal_rtc_is_flag_set(FuriHalRtcFlagDebug),
-        "Enable\n"
-        "Settings >\n"
-        "System >\n"
-        "Debug");
+        LFRFID_UI_TEXT(
+            "Enable\n"
+            "Settings >\n"
+            "System >\n"
+            "Debug",
+            "请启用\n"
+            "设置 >\n"
+            "系统 >\n"
+            "调试"));
 
     submenu_set_selected_item(
         submenu, scene_manager_get_scene_state(app->scene_manager, LfRfidSceneExtraActions));

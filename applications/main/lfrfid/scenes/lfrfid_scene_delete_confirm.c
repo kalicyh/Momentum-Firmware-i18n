@@ -7,9 +7,11 @@ void lfrfid_scene_delete_confirm_on_enter(void* context) {
     Widget* widget = app->widget;
 
     FuriString* display_text = furi_string_alloc_printf(
-        "\e#Delete %s?\e#\n"
-        "Hex: ",
-        furi_string_get_cstr(app->file_name));
+        "\e#%s %s?\e#\n"
+        "%s",
+        LFRFID_UI_TEXT("Delete", "删除"),
+        furi_string_get_cstr(app->file_name),
+        LFRFID_UI_TEXT("Hex: ", "HEX: "));
 
     const size_t data_size = protocol_dict_get_data_size(app->dict, app->protocol_id);
     uint8_t* data = malloc(data_size);
@@ -40,8 +42,10 @@ void lfrfid_scene_delete_confirm_on_enter(void* context) {
 
     widget_add_text_box_element(
         widget, 0, 0, 128, 64, AlignCenter, AlignTop, furi_string_get_cstr(display_text), true);
-    widget_add_button_element(widget, GuiButtonTypeLeft, "Cancel", lfrfid_widget_callback, app);
-    widget_add_button_element(widget, GuiButtonTypeRight, "Delete", lfrfid_widget_callback, app);
+    widget_add_button_element(
+        widget, GuiButtonTypeLeft, LFRFID_UI_TEXT("Cancel", "取消"), lfrfid_widget_callback, app);
+    widget_add_button_element(
+        widget, GuiButtonTypeRight, LFRFID_UI_TEXT("Delete", "删除"), lfrfid_widget_callback, app);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewWidget);
     furi_string_free(display_text);

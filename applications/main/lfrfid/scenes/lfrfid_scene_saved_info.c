@@ -6,7 +6,8 @@ void lfrfid_scene_saved_info_on_enter(void* context) {
 
     FuriString* display_text = furi_string_alloc();
 
-    furi_string_printf(display_text, "Name: %s\n", furi_string_get_cstr(app->file_name));
+    furi_string_printf(
+        display_text, "%s: %s\n", LFRFID_UI_TEXT("Name", "名称"), furi_string_get_cstr(app->file_name));
 
     const char* protocol = protocol_dict_get_name(app->dict, app->protocol_id);
     const char* manufacturer = protocol_dict_get_manufacturer(app->dict, app->protocol_id);
@@ -17,7 +18,7 @@ void lfrfid_scene_saved_info_on_enter(void* context) {
         furi_string_cat_printf(display_text, "\e#%s", protocol);
     }
 
-    furi_string_cat(display_text, "\nHex: ");
+    furi_string_cat_printf(display_text, "\n%s", LFRFID_UI_TEXT("Hex: ", "HEX: "));
 
     const size_t data_size = protocol_dict_get_data_size(app->dict, app->protocol_id);
     uint8_t* data = malloc(data_size);

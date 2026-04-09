@@ -4,12 +4,26 @@ void lfrfid_scene_exit_confirm_on_enter(void* context) {
     LfRfid* app = context;
     Widget* widget = app->widget;
 
-    widget_add_button_element(widget, GuiButtonTypeLeft, "Exit", lfrfid_widget_callback, app);
-    widget_add_button_element(widget, GuiButtonTypeRight, "Stay", lfrfid_widget_callback, app);
+    widget_add_button_element(
+        widget, GuiButtonTypeLeft, LFRFID_UI_TEXT("Exit", "退出"), lfrfid_widget_callback, app);
+    widget_add_button_element(
+        widget, GuiButtonTypeRight, LFRFID_UI_TEXT("Stay", "停留"), lfrfid_widget_callback, app);
     widget_add_string_element(
-        widget, 64, 0, AlignCenter, AlignTop, FontPrimary, "Exit to RFID Menu?");
+        widget,
+        64,
+        0,
+        AlignCenter,
+        AlignTop,
+        FontPrimary,
+        LFRFID_UI_TEXT("Exit to RFID Menu?", "退出到 RFID 菜单?"));
     widget_add_string_element(
-        widget, 64, 13, AlignCenter, AlignTop, FontSecondary, "All unsaved data will be lost");
+        widget,
+        64,
+        13,
+        AlignCenter,
+        AlignTop,
+        FontSecondary,
+        LFRFID_UI_TEXT("All unsaved data will be lost", "所有未保存数据都会丢失"));
 
     view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewWidget);
 }

@@ -30,8 +30,15 @@ void lfrfid_scene_raw_read_on_enter(void* context) {
     Popup* popup = app->popup;
 
     popup_set_icon(popup, 0, 0, &I_NFC_dolphin_emulation_51x64);
-    popup_set_header(popup, "Reading ASK", 91, 16, AlignCenter, AlignTop);
-    popup_set_text(popup, "Don't move\nfor 5 sec.", 91, 29, AlignCenter, AlignTop);
+    popup_set_header(
+        popup, LFRFID_UI_TEXT("Reading ASK", "读取 ASK"), 91, 16, AlignCenter, AlignTop);
+    popup_set_text(
+        popup,
+        LFRFID_UI_TEXT("Don't move\nfor 5 sec.", "5 秒内\n不要移动"),
+        91,
+        29,
+        AlignCenter,
+        AlignTop);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewPopup);
 
@@ -79,9 +86,17 @@ bool lfrfid_scene_raw_read_on_event(void* context, SceneManagerEvent event) {
             furi_timer_stop(state->timer);
 
             popup_set_icon(popup, 83, 22, &I_WarningDolphinFlip_45x42);
-            popup_set_header(popup, "RAW Reading error!", 64, 0, AlignCenter, AlignTop);
+            popup_set_header(
+                popup, LFRFID_UI_TEXT("RAW Reading error!", "RAW 读取错误!"), 64, 0, AlignCenter, AlignTop);
             popup_set_text(
-                popup, "This may be\ncaused by SD\ncard issues", 0, 13, AlignLeft, AlignTop);
+                popup,
+                LFRFID_UI_TEXT(
+                    "This may be\ncaused by SD\ncard issues",
+                    "这可能是\nSD 卡问题\n导致"),
+                0,
+                13,
+                AlignLeft,
+                AlignTop);
 
             notification_message(app->notifications, &sequence_blink_start_red);
             state->error = true;
@@ -115,7 +130,13 @@ bool lfrfid_scene_raw_read_on_event(void* context, SceneManagerEvent event) {
 
                     furi_timer_start(state->timer, RAW_READ_TIME_MS);
 
-                    popup_set_header(popup, "Reading PSK", 91, 16, AlignCenter, AlignTop);
+                    popup_set_header(
+                        popup,
+                        LFRFID_UI_TEXT("Reading PSK", "读取 PSK"),
+                        91,
+                        16,
+                        AlignCenter,
+                        AlignTop);
                     notification_message(app->notifications, &sequence_blink_start_yellow);
                 }
             }

@@ -157,3 +157,9 @@ void lfrfid_widget_callback(GuiButtonType result, InputType type, void* context)
 void lfrfid_text_input_callback(void* context);
 
 const uint32_t* lfrfid_get_t5577_default_passwords(uint8_t* len);
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define LFRFID_UI_TEXT(en, zh) (zh)
+#else
+#define LFRFID_UI_TEXT(en, zh) (en)
+#endif
