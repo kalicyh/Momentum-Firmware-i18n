@@ -24,7 +24,11 @@ void nfc_scene_felica_system_on_enter(void* context) {
     const FelicaData* data = nfc_device_get_data(nfc->nfc_device, NfcProtocolFelica);
 
     submenu_add_item(
-        submenu, "Directory", SubmenuIndexDirectory, nfc_scene_felica_system_submenu_callback, nfc);
+        submenu,
+        NFC_UI_TEXT("Directory", "目录"),
+        SubmenuIndexDirectory,
+        nfc_scene_felica_system_submenu_callback,
+        nfc);
 
     FuriString* label = furi_string_alloc();
 

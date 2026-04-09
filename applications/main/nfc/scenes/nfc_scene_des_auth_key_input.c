@@ -15,7 +15,7 @@ void nfc_scene_des_auth_key_input_on_enter(void* context) {
                                                      nfc->mf_ul_auth->tdes_key.data;
 
     ByteInput* byte_input = nfc->byte_input;
-    byte_input_set_header_text(byte_input, "Enter key in hex");
+    byte_input_set_header_text(byte_input, NFC_UI_TEXT("Enter key in hex", "输入密钥(HEX)"));
     byte_input_set_result_callback(
         byte_input,
         nfc_scene_des_auth_key_input_byte_input_callback,

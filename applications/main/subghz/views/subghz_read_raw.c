@@ -352,7 +352,7 @@ void subghz_read_raw_draw(Canvas* canvas, SubGhzReadRAWModel* model) {
 
     case SubGhzReadRAWStatusStart:
         elements_button_left(canvas, SUBGHZ_UI_TEXT("Config", "配置"));
-        elements_button_center(canvas, "REC");
+        elements_button_center(canvas, SUBGHZ_UI_TEXT("REC", "录制"));
         break;
 
     default:

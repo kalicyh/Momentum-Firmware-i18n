@@ -19,7 +19,7 @@ void nfc_scene_mf_desfire_app_on_enter(void* context) {
     text_box_set_font(nfc->text_box, TextBoxFontHex);
     submenu_add_item(
         nfc->submenu,
-        "App info",
+        NFC_UI_TEXT("App info", "应用信息"),
         SubmenuIndexAppInfo,
         nfc_scene_mf_desfire_app_submenu_callback,
         nfc);

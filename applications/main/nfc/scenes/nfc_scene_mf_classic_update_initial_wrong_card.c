@@ -17,7 +17,8 @@ void nfc_scene_mf_classic_update_initial_wrong_card_on_enter(void* context) {
     notification_message(instance->notifications, &sequence_error);
 
     widget_add_icon_element(widget, 83, 22, &I_WarningDolphinFlip_45x42);
-    widget_add_string_element(widget, 3, 4, AlignLeft, AlignTop, FontPrimary, "Wrong Card!");
+    widget_add_string_element(
+        widget, 3, 4, AlignLeft, AlignTop, FontPrimary, NFC_UI_TEXT("Wrong Card!", "卡片错误!"));
     widget_add_string_multiline_element(
         widget,
         4,
@@ -25,11 +26,11 @@ void nfc_scene_mf_classic_update_initial_wrong_card_on_enter(void* context) {
         AlignLeft,
         AlignTop,
         FontSecondary,
-        "Data management\nis only possible\nwith source card");
+        NFC_UI_TEXT("Data management\nis only possible\nwith source card", "只有源卡\n才能进行\n数据管理"));
     widget_add_button_element(
         widget,
         GuiButtonTypeLeft,
-        "Retry",
+        NFC_UI_TEXT("Retry", "重试"),
         nfc_scene_mf_classic_update_initial_wrong_card_widget_callback,
         instance);
 

@@ -17,11 +17,18 @@ void nfc_scene_mf_classic_mfkey_nonces_info_on_enter(void* context) {
     FuriString* temp_str = furi_string_alloc();
 
     size_t mfkey_params_saved = mfkey32_logger_get_params_num(instance->mfkey32_logger);
-    furi_string_printf(temp_str, "Nonce pairs saved: %zu\n", mfkey_params_saved);
+    furi_string_printf(
+        temp_str, NFC_UI_TEXT("Nonce pairs saved: %zu\n", "已存随机数对: %zu\n"), mfkey_params_saved);
     widget_add_string_element(
         instance->widget, 0, 0, AlignLeft, AlignTop, FontPrimary, furi_string_get_cstr(temp_str));
     widget_add_string_element(
-        instance->widget, 0, 12, AlignLeft, AlignTop, FontSecondary, "Authenticated sectors:");
+        instance->widget,
+        0,
+        12,
+        AlignLeft,
+        AlignTop,
+        FontSecondary,
+        NFC_UI_TEXT("Authenticated sectors:", "已认证扇区:"));
 
     mfkey32_logger_get_params_data(instance->mfkey32_logger, temp_str);
     widget_add_text_scroll_element(
@@ -29,7 +36,7 @@ void nfc_scene_mf_classic_mfkey_nonces_info_on_enter(void* context) {
     widget_add_button_element(
         instance->widget,
         GuiButtonTypeCenter,
-        "OK",
+        NFC_UI_TEXT("OK", "确定"),
         nfc_scene_mf_classic_mfkey_nonces_info_callback,
         instance);
 

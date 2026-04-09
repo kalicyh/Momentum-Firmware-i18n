@@ -25,7 +25,7 @@ void nfc_scene_mf_desfire_more_info_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
-        "Card info",
+        NFC_UI_TEXT("Card info", "卡片信息"),
         SubmenuIndexCardInfo,
         nfc_protocol_support_common_submenu_callback,
         nfc);

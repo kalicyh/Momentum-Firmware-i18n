@@ -157,7 +157,7 @@ bool subghz_scene_save_name_on_event(void* context, SceneManagerEvent event) {
                 }
                 return true;
             } else {
-                furi_string_set(subghz->error_str, "No name file");
+                furi_string_set(subghz->error_str, SUBGHZ_UI_TEXT("No name file", "没有文件名"));
                 scene_manager_next_scene(subghz->scene_manager, SubGhzSceneShowErrorSub);
                 return true;
             }

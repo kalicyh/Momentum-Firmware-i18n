@@ -79,7 +79,7 @@ void subghz_scene_set_button_on_enter(void* context) {
 
     // Setup view
     ByteInput* byte_input = subghz->byte_input;
-    byte_input_set_header_text(byte_input, "Enter BUTTON in hex");
+    byte_input_set_header_text(byte_input, SUBGHZ_UI_TEXT("Enter BUTTON in hex", "输入按键(HEX)"));
     byte_input_set_result_callback(
         byte_input,
         subghz_scene_set_button_byte_input_callback,

@@ -5,8 +5,8 @@
 
 #define RADIO_DEVICE_COUNT 2
 const char* const radio_device_text[RADIO_DEVICE_COUNT] = {
-    "Internal",
-    "External",
+    SUBGHZ_UI_TEXT("Internal", "内部"),
+    SUBGHZ_UI_TEXT("External", "外部"),
 };
 
 const uint32_t radio_device_value[RADIO_DEVICE_COUNT] = {
@@ -16,19 +16,19 @@ const uint32_t radio_device_value[RADIO_DEVICE_COUNT] = {
 
 #define ON_OFF_COUNT 2
 const char* const on_off_text[ON_OFF_COUNT] = {
-    "OFF",
-    "ON",
+    SUBGHZ_UI_TEXT("OFF", "关"),
+    SUBGHZ_UI_TEXT("ON", "开"),
 };
 
 #define DEBUG_P_COUNT 2
 const char* const debug_pin_text[DEBUG_P_COUNT] = {
-    "OFF",
+    SUBGHZ_UI_TEXT("OFF", "关"),
     "17(1W)",
 };
 
 #define GPS_COUNT 6
 const char* const gps_text[GPS_COUNT] = {
-    "OFF",
+    SUBGHZ_UI_TEXT("OFF", "关"),
     "9600",
     "19200",
     "38400",
@@ -47,7 +47,7 @@ const char* const debug_counter_text[DEBUG_COUNTER_COUNT] = {
     "+50",
     "OVFL",
     "OFEX",
-    "No",
+    SUBGHZ_UI_TEXT("No", "无"),
     "-1",
     "-2",
     "-3",
@@ -79,7 +79,7 @@ const int32_t debug_counter_val[DEBUG_COUNTER_COUNT] = {
 //TX Power
 #define TX_POWER_COUNT 9
 const char* const tx_power_text[TX_POWER_COUNT] = {
-    "Preset",
+    SUBGHZ_UI_TEXT("Preset", "预设"),
     "10dBm +",
     "7dBm",
     "5dBm",
@@ -194,7 +194,7 @@ void subghz_scene_radio_settings_on_enter(void* context) {
         value_count_device = 1; // Only 1 item if external disconnected
     item = variable_item_list_add(
         subghz->variable_item_list,
-        "Module",
+        SUBGHZ_UI_TEXT("Module", "模块"),
         value_count_device,
         subghz_scene_radio_settings_set_device,
         subghz);
@@ -206,7 +206,7 @@ void subghz_scene_radio_settings_on_enter(void* context) {
     //Add TX Power
     item = variable_item_list_add(
         subghz->variable_item_list,
-        "TX Power",
+        SUBGHZ_UI_TEXT("TX Power", "功率"),
         TX_POWER_COUNT,
         subghz_scene_radio_settings_set_tx_power,
         subghz);
@@ -217,7 +217,7 @@ void subghz_scene_radio_settings_on_enter(void* context) {
 
     item = variable_item_list_add(
         variable_item_list,
-        "GPS Baudrate",
+        SUBGHZ_UI_TEXT("GPS Baudrate", "GPS 波特"),
         GPS_COUNT,
         subghz_scene_receiver_config_set_gps,
         subghz);
@@ -230,7 +230,7 @@ void subghz_scene_radio_settings_on_enter(void* context) {
 
     item = variable_item_list_add(
         variable_item_list,
-        "Protocol Names",
+        SUBGHZ_UI_TEXT("Protocol Names", "协议名"),
         ON_OFF_COUNT,
         subghz_scene_receiver_config_set_protocol_file_names,
         subghz);
@@ -240,7 +240,7 @@ void subghz_scene_radio_settings_on_enter(void* context) {
 
     item = variable_item_list_add(
         variable_item_list,
-        "Counter Incr.",
+        SUBGHZ_UI_TEXT("Counter Incr.", "计数增量"),
         furi_hal_rtc_is_flag_set(FuriHalRtcFlagDebug) ? DEBUG_COUNTER_COUNT : 3,
         subghz_scene_receiver_config_set_debug_counter,
         subghz);
@@ -255,7 +255,7 @@ void subghz_scene_radio_settings_on_enter(void* context) {
 
     item = variable_item_list_add(
         variable_item_list,
-        "Debug Pin",
+        SUBGHZ_UI_TEXT("Debug Pin", "调试引脚"),
         DEBUG_P_COUNT,
         subghz_scene_receiver_config_set_debug_pin,
         subghz);
@@ -265,10 +265,7 @@ void subghz_scene_radio_settings_on_enter(void* context) {
     variable_item_set_locked(
         item,
         !furi_hal_rtc_is_flag_set(FuriHalRtcFlagDebug),
-        "Enable\n"
-        "Settings >\n"
-        "System >\n"
-        "Debug");
+        SUBGHZ_UI_TEXT("Enable\nSettings >\nSystem >\nDebug", "请先启用\n设置 >\n系统 >\n调试"));
 
     view_dispatcher_switch_to_view(subghz->view_dispatcher, SubGhzViewIdVariableItemList);
 }

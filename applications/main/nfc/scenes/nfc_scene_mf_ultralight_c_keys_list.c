@@ -16,7 +16,7 @@ void nfc_scene_mf_ultralight_c_keys_list_on_enter(void* context) {
         KeysDictModeOpenAlways,
         sizeof(MfUltralightC3DesAuthKey));
 
-    submenu_set_header(instance->submenu, "Select key to delete:");
+    submenu_set_header(instance->submenu, NFC_UI_TEXT("Select key to delete:", "选择要删除的密钥:"));
     FuriString* temp_str = furi_string_alloc();
 
     size_t dict_keys_num = keys_dict_get_total_keys(mf_ultralight_c_user_dict);

@@ -18,17 +18,23 @@ void nfc_scene_mf_ultralight_c_keys_delete_on_enter(void* context) {
     FuriString* key_str = furi_string_alloc();
 
     widget_add_string_element(
-        instance->widget, 64, 0, AlignCenter, AlignTop, FontPrimary, "Delete this key?");
+        instance->widget,
+        64,
+        0,
+        AlignCenter,
+        AlignTop,
+        FontPrimary,
+        NFC_UI_TEXT("Delete this key?", "删除此密钥?"));
     widget_add_button_element(
         instance->widget,
         GuiButtonTypeLeft,
-        "Cancel",
+        NFC_UI_TEXT("Cancel", "取消"),
         nfc_scene_mf_ultralight_c_keys_delete_widget_callback,
         instance);
     widget_add_button_element(
         instance->widget,
         GuiButtonTypeRight,
-        "Delete",
+        NFC_UI_TEXT("Delete", "删除"),
         nfc_scene_mf_ultralight_c_keys_delete_widget_callback,
         instance);
 

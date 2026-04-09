@@ -66,7 +66,7 @@ void nfc_scene_mf_classic_show_keys_on_enter(void* context) {
     widget_add_button_element(
         instance->widget,
         GuiButtonTypeLeft,
-        "Back",
+        NFC_UI_TEXT("Back", "返回"),
         nfc_scene_mf_classic_show_keys_callback,
         instance);
     view_dispatcher_switch_to_view(instance->view_dispatcher, NfcViewWidget);

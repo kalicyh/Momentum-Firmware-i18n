@@ -13,11 +13,11 @@ void nfc_scene_select_protocol_on_enter(void* context) {
     FuriString* temp_str = furi_string_alloc();
     const char* prefix;
     if(scene_manager_has_previous_scene(instance->scene_manager, NfcSceneExtraActions)) {
-        prefix = "Read";
+        prefix = NFC_UI_TEXT("Read", "读取");
         nfc_detected_protocols_fill_all_protocols(instance->detected_protocols);
     } else {
-        prefix = "Read as";
-        submenu_set_header(submenu, "Multi-protocol card");
+        prefix = NFC_UI_TEXT("Read as", "按此读取");
+        submenu_set_header(submenu, NFC_UI_TEXT("Multi-protocol card", "多协议卡片"));
     }
 
     for(uint32_t i = 0; i < nfc_detected_protocols_get_num(instance->detected_protocols); i++) {

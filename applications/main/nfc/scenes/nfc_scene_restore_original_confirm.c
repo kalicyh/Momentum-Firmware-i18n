@@ -10,12 +10,18 @@ void nfc_scene_restore_original_confirm_on_enter(void* context) {
     NfcApp* nfc = context;
     DialogEx* dialog_ex = nfc->dialog_ex;
 
-    dialog_ex_set_header(dialog_ex, "Restore Card Data?", 64, 0, AlignCenter, AlignTop);
+    dialog_ex_set_header(
+        dialog_ex, NFC_UI_TEXT("Restore Card Data?", "恢复卡片数据?"), 64, 0, AlignCenter, AlignTop);
     dialog_ex_set_icon(dialog_ex, 5, 11, &I_ArrowC_1_36x36);
     dialog_ex_set_text(
-        dialog_ex, "It will be returned\nto its original state.", 47, 21, AlignLeft, AlignTop);
-    dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-    dialog_ex_set_right_button_text(dialog_ex, "Restore");
+        dialog_ex,
+        NFC_UI_TEXT("It will be returned\nto its original state.", "将恢复\n原状。"),
+        47,
+        21,
+        AlignLeft,
+        AlignTop);
+    dialog_ex_set_left_button_text(dialog_ex, NFC_UI_TEXT("Cancel", "取消"));
+    dialog_ex_set_right_button_text(dialog_ex, NFC_UI_TEXT("Restore", "恢复"));
     dialog_ex_set_context(dialog_ex, nfc);
     dialog_ex_set_result_callback(dialog_ex, nfc_scene_restore_original_confirm_dialog_callback);
 

@@ -11,7 +11,7 @@ void nfc_scene_mf_classic_keys_add_on_enter(void* context) {
 
     // Setup view
     ByteInput* byte_input = instance->byte_input;
-    byte_input_set_header_text(byte_input, "Enter the key in hex");
+    byte_input_set_header_text(byte_input, NFC_UI_TEXT("Enter the key in hex", "输入密钥(HEX)"));
     byte_input_set_result_callback(
         byte_input,
         nfc_scene_mf_classic_keys_add_byte_input_callback,

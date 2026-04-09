@@ -73,13 +73,13 @@ const uint32_t bin_raw_value[COMBO_BOX_COUNT] = {
 };
 
 const char* const combobox_text[COMBO_BOX_COUNT] = {
-    "OFF",
-    "ON",
+    SUBGHZ_UI_TEXT("OFF", "关"),
+    SUBGHZ_UI_TEXT("ON", "开"),
 };
 
 #define HOPPING_MODE_COUNT 12
 const char* const hopping_mode_text[HOPPING_MODE_COUNT] = {
-    "OFF",
+    SUBGHZ_UI_TEXT("OFF", "关"),
     "-90dBm",
     "-85dBm",
     "-80dBm",
@@ -110,10 +110,10 @@ const float hopping_mode_value[HOPPING_MODE_COUNT] = {
 
 #define REPEATER_COUNT 4
 const char* const repeater_text[REPEATER_COUNT] = {
-    "OFF",
-    "Normal",
-    "Long",
-    "Short",
+    SUBGHZ_UI_TEXT("OFF", "关"),
+    SUBGHZ_UI_TEXT("Normal", "普通"),
+    SUBGHZ_UI_TEXT("Long", "长"),
+    SUBGHZ_UI_TEXT("Short", "短"),
 };
 const uint32_t repeater_value[REPEATER_COUNT] = {
     SubGhzRepeaterStateOff,
@@ -288,13 +288,13 @@ static void subghz_scene_receiver_config_set_hopping(VariableItem* item) {
         variable_item_set_current_value_index(
             frequency_item, subghz_setting_get_frequency_default_index(setting));
 
-        variable_item_set_item_label(item, "Hopping");
+        variable_item_set_item_label(item, SUBGHZ_UI_TEXT("Hopping", "跳频"));
     } else {
         variable_item_set_current_value_text(frequency_item, " -----");
         variable_item_set_current_value_index(
             frequency_item, subghz_setting_get_frequency_default_index(setting));
 
-        variable_item_set_item_label(item, "Hopping RSSI");
+        variable_item_set_item_label(item, SUBGHZ_UI_TEXT("Hopping RSSI", "跳频 RSSI"));
     }
     subghz->last_settings->enable_hopping = index != 0;
     subghz->last_settings->hopping_threshold = hopping_mode_value[index];
@@ -513,7 +513,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
     item = variable_item_list_add(
         subghz->variable_item_list,
-        "Frequency",
+        SUBGHZ_UI_TEXT("Frequency", "频率"),
         subghz_setting_get_frequency_count(setting),
         subghz_scene_receiver_config_set_frequency,
         subghz);
@@ -531,7 +531,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
     item = variable_item_list_add(
         subghz->variable_item_list,
-        "Modulation",
+        SUBGHZ_UI_TEXT("Modulation", "调制"),
         subghz_setting_get_preset_count(setting),
         subghz_scene_receiver_config_set_preset,
         subghz);
@@ -547,7 +547,8 @@ void subghz_scene_receiver_config_on_enter(void* context) {
         value_index = subghz_scene_receiver_config_hopper_value_index(subghz);
         item = variable_item_list_add(
             subghz->variable_item_list,
-            value_index ? "Hopping RSSI" : "Hopping",
+            value_index ? SUBGHZ_UI_TEXT("Hopping RSSI", "跳频 RSSI") :
+                          SUBGHZ_UI_TEXT("Hopping", "跳频"),
             HOPPING_MODE_COUNT,
             subghz_scene_receiver_config_set_hopping,
             subghz);
@@ -569,11 +570,13 @@ void subghz_scene_receiver_config_on_enter(void* context) {
         variable_item_set_current_value_index(item, value_index);
         variable_item_set_current_value_text(item, combobox_text[value_index]);
         variable_item_set_locked(
-            item, subghz->repeater != SubGhzRepeaterStateOff, "Turn off\nRepeater\nto do that!");
+            item,
+            subghz->repeater != SubGhzRepeaterStateOff,
+            SUBGHZ_UI_TEXT("Turn off\nRepeater\nto do that!", "请先关闭\n中继\n再操作!"));
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Repeater",
+            SUBGHZ_UI_TEXT("Repeater", "中继"),
             REPEATER_COUNT,
             subghz_scene_receiver_config_set_repeater,
             subghz);
@@ -584,7 +587,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Remove Duplicates",
+            SUBGHZ_UI_TEXT("Remove Duplicates", "去重"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_duplicates,
             subghz);
@@ -595,7 +598,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Delete Old Signals on Full Memory",
+            SUBGHZ_UI_TEXT("Delete Old Signals on Full Memory", "满内存删旧"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_delete_old_signals,
             subghz);
@@ -606,7 +609,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Autosave",
+            SUBGHZ_UI_TEXT("Autosave", "自动保存"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_autosave,
             subghz);
@@ -617,7 +620,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Ignore ReversRB2",
+            SUBGHZ_UI_TEXT("Ignore ReversRB2", "忽略 ReversRB2"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_reversrb2,
             subghz);
@@ -629,7 +632,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Ignore Alarms",
+            SUBGHZ_UI_TEXT("Ignore Alarms", "忽略警报"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_alarms,
             subghz);
@@ -641,7 +644,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Ignore Sensors",
+            SUBGHZ_UI_TEXT("Ignore Sensors", "忽略传感器"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_sensors,
             subghz);
@@ -653,7 +656,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Ignore Princeton",
+            SUBGHZ_UI_TEXT("Ignore Princeton", "忽略 Princeton"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_princeton,
             subghz);
@@ -665,7 +668,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
 
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Ignore Nice Flor-S / Nice One",
+            SUBGHZ_UI_TEXT("Ignore Nice Flor-S / Nice One", "忽略 Nice 遥控"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_niceflors,
             subghz);
@@ -703,7 +706,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
     // Enable speaker, will send all incoming noises and signals to speaker so you can listen how your remote sounds like :)
     item = variable_item_list_add(
         subghz->variable_item_list,
-        "Sound",
+        SUBGHZ_UI_TEXT("Sound", "声音"),
         COMBO_BOX_COUNT,
         subghz_scene_receiver_config_set_speaker,
         subghz);
@@ -715,7 +718,8 @@ void subghz_scene_receiver_config_on_enter(void* context) {
     if(scene_manager_get_scene_state(subghz->scene_manager, SubGhzSceneReadRAW) !=
        SubGhzCustomEventManagerSet) {
         // Reset to default
-        variable_item_list_add(subghz->variable_item_list, "Reset to Default", 1, NULL, NULL);
+        variable_item_list_add(
+            subghz->variable_item_list, SUBGHZ_UI_TEXT("Reset to Default", "恢复默认"), 1, NULL, NULL);
 
         variable_item_list_set_enter_callback(
             subghz->variable_item_list,
@@ -725,7 +729,8 @@ void subghz_scene_receiver_config_on_enter(void* context) {
     if(scene_manager_get_scene_state(subghz->scene_manager, SubGhzSceneReadRAW) !=
        SubGhzCustomEventManagerSet) {
         // Lock keyboard
-        variable_item_list_add(subghz->variable_item_list, "Lock Keyboard", 1, NULL, NULL);
+        variable_item_list_add(
+            subghz->variable_item_list, SUBGHZ_UI_TEXT("Lock Keyboard", "锁定按键"), 1, NULL, NULL);
         variable_item_list_set_enter_callback(
             subghz->variable_item_list,
             subghz_scene_receiver_config_var_list_enter_callback,
@@ -736,7 +741,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
        SubGhzCustomEventManagerSet) {
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "RSSI Threshold:",
+            SUBGHZ_UI_TEXT("RSSI Threshold:", "RSSI 阈值:"),
             RAW_THRESHOLD_RSSI_COUNT,
             subghz_scene_receiver_config_set_raw_threshold_rssi,
             subghz);

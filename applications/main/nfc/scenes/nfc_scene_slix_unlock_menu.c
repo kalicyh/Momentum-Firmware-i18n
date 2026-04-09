@@ -19,13 +19,13 @@ void nfc_scene_slix_unlock_menu_on_enter(void* context) {
         scene_manager_get_scene_state(instance->scene_manager, NfcSceneSlixUnlockMenu);
     submenu_add_item(
         submenu,
-        "Enter Password Manually",
+        NFC_UI_TEXT("Enter Password Manually", "手动输入密码"),
         SubmenuIndexSlixUnlockMenuManual,
         nfc_scene_slix_unlock_menu_submenu_callback,
         instance);
     submenu_add_item(
         submenu,
-        "Auth As TommyBox",
+        NFC_UI_TEXT("Auth As TommyBox", "以 TommyBox 解锁"),
         SubmenuIndexSlixUnlockMenuTonieBox,
         nfc_scene_slix_unlock_menu_submenu_callback,
         instance);

@@ -28,7 +28,7 @@ static void subghz_scene_rpc_emulation_show(SubGhz* subghz) {
     Popup* popup = subghz->popup;
 
     subghz_format_file_name_tmp(subghz);
-    popup_set_header(popup, "Sub-GHz", 89, 42, AlignCenter, AlignBottom);
+    popup_set_header(popup, SUBGHZ_UI_TEXT("Sub-GHz", "Sub-GHz"), 89, 42, AlignCenter, AlignBottom);
     popup_set_icon(popup, 0, 12, &I_RFIDDolphinSend_97x61);
     popup_set_text(popup, subghz->file_name_tmp, 89, 44, AlignCenter, AlignTop);
 
@@ -65,14 +65,18 @@ bool subghz_scene_rpc_on_event(void* context, SceneManagerEvent event) {
                         subghz->rpc_ctx, RpcAppSystemErrorCodeRegionLock);
                     rpc_system_app_set_error_text(
                         subghz->rpc_ctx,
-                        "Transmission on this frequency is restricted in your settings");
+                        SUBGHZ_UI_TEXT(
+                            "Transmission on this frequency is restricted in your settings",
+                            "当前设置禁止在此频率发射"));
                     break;
                 case SubGhzTxRxStartTxStateErrorParserOthers:
                     subghz_block_generic_global.endless_tx = false;
                     rpc_system_app_set_error_code(
                         subghz->rpc_ctx, RpcAppSystemErrorCodeInternalParse);
                     rpc_system_app_set_error_text(
-                        subghz->rpc_ctx, "Error in protocol parameters description");
+                        subghz->rpc_ctx,
+                        SUBGHZ_UI_TEXT(
+                            "Error in protocol parameters description", "协议参数描述错误"));
                     break;
 
                 default: //if(SubGhzTxRxStartTxStateOk)
@@ -144,7 +148,8 @@ bool subghz_scene_rpc_on_event(void* context, SceneManagerEvent event) {
                     result = true;
                 } else {
                     rpc_system_app_set_error_code(subghz->rpc_ctx, RpcAppSystemErrorCodeParseFile);
-                    rpc_system_app_set_error_text(subghz->rpc_ctx, "Cannot parse file");
+                    rpc_system_app_set_error_text(
+                        subghz->rpc_ctx, SUBGHZ_UI_TEXT("Cannot parse file", "无法解析文件"));
                 }
             }
             rpc_system_app_confirm(subghz->rpc_ctx, result);

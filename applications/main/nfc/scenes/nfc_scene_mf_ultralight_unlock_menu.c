@@ -26,7 +26,7 @@ void nfc_scene_mf_ultralight_unlock_menu_on_enter(void* context) {
         if(mfu_data->type != MfUltralightTypeMfulC) {
             submenu_add_item(
                 submenu,
-                "Unlock With Reader",
+                NFC_UI_TEXT("Unlock With Reader", "读卡器解锁"),
                 SubmenuIndexMfUlUnlockMenuReader,
                 nfc_scene_mf_ultralight_unlock_menu_submenu_callback,
                 nfc);
@@ -34,19 +34,19 @@ void nfc_scene_mf_ultralight_unlock_menu_on_enter(void* context) {
     }
     submenu_add_item(
         submenu,
-        "Auth As Ameebo",
+        NFC_UI_TEXT("Auth As Ameebo", "以 Ameebo 解锁"),
         SubmenuIndexMfUlUnlockMenuAmeebo,
         nfc_scene_mf_ultralight_unlock_menu_submenu_callback,
         nfc);
     submenu_add_item(
         submenu,
-        "Auth As Xiaomi Air Purifier",
+        NFC_UI_TEXT("Auth As Xiaomi Air Purifier", "以小米空调解锁"),
         SubmenuIndexMfUlUnlockMenuXiaomi,
         nfc_scene_mf_ultralight_unlock_menu_submenu_callback,
         nfc);
     submenu_add_item(
         submenu,
-        "Enter Password Manually",
+        NFC_UI_TEXT("Enter Password Manually", "手动输入密码"),
         SubmenuIndexMfUlUnlockMenuManual,
         nfc_scene_mf_ultralight_unlock_menu_submenu_callback,
         nfc);

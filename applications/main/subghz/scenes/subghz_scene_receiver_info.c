@@ -90,7 +90,7 @@ void subghz_scene_receiver_info_draw_widget(SubGhz* subghz) {
             widget_add_button_element(
                 subghz->widget,
                 GuiButtonTypeLeft,
-                "Geo",
+                SUBGHZ_UI_TEXT("Geo", "定位"),
                 subghz_scene_receiver_info_callback,
                 subghz);
         }
@@ -103,7 +103,7 @@ void subghz_scene_receiver_info_draw_widget(SubGhz* subghz) {
             widget_add_button_element(
                 subghz->widget,
                 GuiButtonTypeRight,
-                "Save",
+                SUBGHZ_UI_TEXT("Save", "保存"),
                 subghz_scene_receiver_info_callback,
                 subghz);
         }
@@ -112,14 +112,20 @@ void subghz_scene_receiver_info_draw_widget(SubGhz* subghz) {
             widget_add_button_element(
                 subghz->widget,
                 GuiButtonTypeCenter,
-                "Send",
+                SUBGHZ_UI_TEXT("Send", "发送"),
                 subghz_scene_receiver_info_callback,
                 subghz);
         }
     } else {
         widget_add_icon_element(subghz->widget, 83, 22, &I_WarningDolphinFlip_45x42);
         widget_add_string_element(
-            subghz->widget, 13, 8, AlignLeft, AlignBottom, FontSecondary, "Error history parse.");
+            subghz->widget,
+            13,
+            8,
+            AlignLeft,
+            AlignBottom,
+            FontSecondary,
+            SUBGHZ_UI_TEXT("Error history parse.", "历史解析错误。"));
     }
 
     view_dispatcher_switch_to_view(subghz->view_dispatcher, SubGhzViewIdWidget);

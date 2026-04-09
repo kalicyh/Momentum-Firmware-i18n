@@ -26,8 +26,15 @@ void nfc_scene_mf_classic_keys_on_enter(void* context) {
 
     FuriString* temp_str = furi_string_alloc();
     widget_add_string_element(
-        instance->widget, 0, 0, AlignLeft, AlignTop, FontPrimary, "MIFARE Classic Keys");
-    furi_string_printf(temp_str, "System dict: %lu", flipper_dict_keys_total);
+        instance->widget,
+        0,
+        0,
+        AlignLeft,
+        AlignTop,
+        FontPrimary,
+        NFC_UI_TEXT("MIFARE Classic Keys", "Classic 密钥"));
+    furi_string_printf(
+        temp_str, NFC_UI_TEXT("System dict: %lu", "系统字典: %lu"), flipper_dict_keys_total);
     widget_add_string_element(
         instance->widget,
         0,
@@ -36,7 +43,8 @@ void nfc_scene_mf_classic_keys_on_enter(void* context) {
         AlignTop,
         FontSecondary,
         furi_string_get_cstr(temp_str));
-    furi_string_printf(temp_str, "User dict: %lu", user_dict_keys_total);
+    furi_string_printf(
+        temp_str, NFC_UI_TEXT("User dict: %lu", "用户字典: %lu"), user_dict_keys_total);
     widget_add_string_element(
         instance->widget,
         0,
@@ -49,14 +57,14 @@ void nfc_scene_mf_classic_keys_on_enter(void* context) {
     widget_add_button_element(
         instance->widget,
         GuiButtonTypeCenter,
-        "Add",
+        NFC_UI_TEXT("Add", "添加"),
         nfc_scene_mf_classic_keys_widget_callback,
         instance);
     if(user_dict_keys_total > 0) {
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeRight,
-            "List",
+            NFC_UI_TEXT("List", "列表"),
             nfc_scene_mf_classic_keys_widget_callback,
             instance);
     }

@@ -20,7 +20,7 @@ void nfc_scene_mf_classic_mfkey_complete_on_enter(void* context) {
     NfcApp* instance = context;
 
     widget_add_string_element(
-        instance->widget, 64, 0, AlignCenter, AlignTop, FontPrimary, "Completed!");
+        instance->widget, 64, 0, AlignCenter, AlignTop, FontPrimary, NFC_UI_TEXT("Completed!", "已完成!"));
 
     NfcSceneMfClassicMfKeyCompleteState scene_state =
         storage_common_exists(instance->storage, NFC_MFKEY32_APP_PATH) ?
@@ -37,12 +37,12 @@ void nfc_scene_mf_classic_mfkey_complete_on_enter(void* context) {
             AlignCenter,
             AlignTop,
             FontSecondary,
-            "Now use Mfkey32 to extract \nkeys: r.flipper.net/nfc-tools");
+            NFC_UI_TEXT("Now use Mfkey32 to extract \nkeys: r.flipper.net/nfc-tools", "现在使用 Mfkey32 提取\n密钥: r.flipper.net/nfc-tools"));
         widget_add_icon_element(instance->widget, 50, 39, &I_MFKey_qr_25x25);
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeRight,
-            "Finish",
+            NFC_UI_TEXT("Finish", "完成"),
             nfc_scene_mf_classic_mfkey_complete_callback,
             instance);
     } else {
@@ -53,12 +53,12 @@ void nfc_scene_mf_classic_mfkey_complete_on_enter(void* context) {
             AlignLeft,
             AlignTop,
             FontSecondary,
-            "Now run Mfkey32\n to extract \nkeys");
+            NFC_UI_TEXT("Now run Mfkey32\n to extract \nkeys", "运行 Mfkey32\n提取密钥"));
         widget_add_icon_element(instance->widget, 5, 18, &I_WarningDolphin_45x42);
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeRight,
-            "Run",
+            NFC_UI_TEXT("Run", "运行"),
             nfc_scene_mf_classic_mfkey_complete_callback,
             instance);
     }

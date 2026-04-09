@@ -161,7 +161,7 @@ void subghz_frequency_analyzer_draw(Canvas* canvas, SubGhzFrequencyAnalyzerModel
     canvas_set_font(canvas, FontSecondary);
 
     //canvas_draw_str(canvas, 0, 7, model->is_ext_radio ? "Ext" : "Int");
-    canvas_draw_str(canvas, 20, 7, "Frequency Analyzer");
+    canvas_draw_str(canvas, 20, 7, SUBGHZ_UI_TEXT("Frequency Analyzer", "频率分析"));
 
     // RSSI
     canvas_draw_str(canvas, 33, 62, "RSSI");
@@ -209,8 +209,8 @@ void subghz_frequency_analyzer_draw(Canvas* canvas, SubGhzFrequencyAnalyzerModel
 
     // Buttons hint
     canvas_set_font(canvas, FontSecondary);
-    elements_button_left(canvas, "T-");
-    elements_button_right(canvas, "+T");
+    elements_button_left(canvas, SUBGHZ_UI_TEXT("T-", "阈-"));
+    elements_button_right(canvas, SUBGHZ_UI_TEXT("+T", "阈+"));
 }
 
 bool subghz_frequency_analyzer_input(InputEvent* event, void* context) {
