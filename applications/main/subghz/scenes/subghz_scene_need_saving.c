@@ -30,7 +30,7 @@ void subghz_scene_need_saving_on_enter(void* context) {
         AlignCenter,
         AlignCenter,
         FontSecondary,
-        SUBGHZ_UI_TEXT("All unsaved data\nwill be lost!", "所有未保存的数据\n都会丢失!"));
+        SUBGHZ_UI_TEXT("All unsaved data\nwill be lost!", "未保存数据\n将丢失!"));
 
     widget_add_button_element(
         subghz->widget,

@@ -58,10 +58,10 @@ void archive_show_loading_popup(ArchiveApp* context, bool show);
 #endif
 
 #define ARCHIVE_SEARCH_PATH_START \
-    ARCHIVE_UI_TEXT("/app:search/Search for files", "/app:search/搜索文件")
+    ARCHIVE_UI_TEXT("/app:search/Search for files", "/app:search/搜索")
 #define ARCHIVE_SEARCH_PATH_CANCEL \
-    ARCHIVE_UI_TEXT("/app:search/Cancel search", "/app:search/取消搜索")
+    ARCHIVE_UI_TEXT("/app:search/Cancel search", "/app:search/取消")
 #define ARCHIVE_SEARCH_PATH_NO_RESULTS \
-    ARCHIVE_UI_TEXT("/app:search/No results found!", "/app:search/未找到结果!")
+    ARCHIVE_UI_TEXT("/app:search/No results found!", "/app:search/未找到!")
 #define ARCHIVE_SEARCH_PATH_ERROR \
-    ARCHIVE_UI_TEXT("/app:search/Error while searching!", "/app:search/搜索出错!")
+    ARCHIVE_UI_TEXT("/app:search/Error while searching!", "/app:search/出错!")

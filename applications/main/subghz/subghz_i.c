@@ -53,7 +53,7 @@ void subghz_dialog_message_freq_error(SubGhz* subghz, SubGhzTx can_tx) {
     case SubGhzTxBlockedRegionNotProvisioned:
         message_text = SUBGHZ_UI_TEXT(
             "Missing region file.\nReinstall firmware\nwith Web/App\nor bypass region.",
-            "缺少区域文件。\n请通过网页/应用\n重新安装固件\n或绕过区域限制。");
+            "缺少区域文件。\n请重装固件\n或绕过区域限制。");
         break;
     case SubGhzTxBlockedRegion:
         message_text = SUBGHZ_UI_TEXT(
@@ -67,9 +67,8 @@ void subghz_dialog_message_freq_error(SubGhz* subghz, SubGhzTx can_tx) {
         break;
     case SubGhzTxUnsupported:
         header_text = SUBGHZ_UI_TEXT("Frequency not supported", "频率不受支持");
-        message_text = SUBGHZ_UI_TEXT(
-            "Frequency is\noutside of\nsupported range.",
-            "频率超出\n支持范围。");
+        message_text =
+            SUBGHZ_UI_TEXT("Frequency is\noutside of\nsupported range.", "频率超出\n支持范围");
         break;
     }
 

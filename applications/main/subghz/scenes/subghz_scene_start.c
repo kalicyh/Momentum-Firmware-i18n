@@ -41,19 +41,19 @@ void subghz_scene_start_on_enter(void* context) {
         subghz);
     submenu_add_item(
         subghz->submenu,
-        SUBGHZ_UI_TEXT("Add Manually [Advanced]", "手动添加 [高级]"),
+        SUBGHZ_UI_TEXT("Add Manually [Advanced]", "手动添加"),
         SubmenuIndexAddManuallyAdvanced,
         subghz_scene_start_submenu_callback,
         subghz);
     submenu_add_item(
         subghz->submenu,
-        SUBGHZ_UI_TEXT("Frequency Analyzer", "频率分析仪"),
+        SUBGHZ_UI_TEXT("Frequency Analyzer", "频率分析"),
         SubmenuIndexFrequencyAnalyzer,
         subghz_scene_start_submenu_callback,
         subghz);
     submenu_add_item(
         subghz->submenu,
-        SUBGHZ_UI_TEXT("Radio Settings", "无线电设置"),
+        SUBGHZ_UI_TEXT("Radio Settings", "无线设置"),
         SubmenuIndexExtSettings,
         subghz_scene_start_submenu_callback,
         subghz);
