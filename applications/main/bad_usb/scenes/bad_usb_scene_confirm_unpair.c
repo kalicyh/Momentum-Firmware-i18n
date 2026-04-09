@@ -14,16 +14,28 @@ void bad_usb_scene_confirm_unpair_on_enter(void* context) {
     Widget* widget = bad_usb->widget;
 
     widget_add_button_element(
-        widget, GuiButtonTypeLeft, "Cancel", bad_usb_scene_confirm_unpair_widget_callback, context);
+        widget,
+        GuiButtonTypeLeft,
+        BAD_USB_UI_TEXT("Cancel", "取消"),
+        bad_usb_scene_confirm_unpair_widget_callback,
+        context);
     widget_add_button_element(
         widget,
         GuiButtonTypeRight,
-        "Unpair",
+        BAD_USB_UI_TEXT("Unpair", "取消配对"),
         bad_usb_scene_confirm_unpair_widget_callback,
         context);
 
     widget_add_text_box_element(
-        widget, 0, 0, 128, 64, AlignCenter, AlignTop, "\e#Unpair the Device?\e#\n", false);
+        widget,
+        0,
+        0,
+        128,
+        64,
+        AlignCenter,
+        AlignTop,
+        BAD_USB_UI_TEXT("\e#Unpair the Device?\e#\n", "\e#取消设备配对?\e#\n"),
+        false);
 
     view_dispatcher_switch_to_view(bad_usb->view_dispatcher, BadUsbAppViewWidget);
 }

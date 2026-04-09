@@ -8,14 +8,15 @@ static bool bad_usb_file_select(BadUsbApp* bad_usb) {
     Storage* storage = furi_record_open(RECORD_STORAGE);
     if(storage_dir_exists(storage, EXT_PATH("badkb"))) {
         DialogMessage* message = dialog_message_alloc();
-        dialog_message_set_header(message, "Migrate Scripts?", 64, 0, AlignCenter, AlignTop);
-        dialog_message_set_buttons(message, "No", NULL, "Yes");
+        dialog_message_set_header(
+            message, BAD_USB_UI_TEXT("Migrate Scripts?", "迁移脚本?"), 64, 0, AlignCenter, AlignTop);
+        dialog_message_set_buttons(
+            message, BAD_USB_UI_TEXT("No", "否"), NULL, BAD_USB_UI_TEXT("Yes", "是"));
         dialog_message_set_text(
             message,
-            "Momentum uses the 'badusb'\n"
-            "folder for compatibility.\n"
-            "Want to migrate from\n"
-            "'badkb' folder?",
+            BAD_USB_UI_TEXT(
+                "Momentum uses the 'badusb'\nfolder for compatibility.\nWant to migrate from\n'badkb' folder?",
+                "Momentum 为兼容性使用\n'badusb' 文件夹。\n是否从 'badkb'\n文件夹迁移?"),
             64,
             32,
             AlignCenter,

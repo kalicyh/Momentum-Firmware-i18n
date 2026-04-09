@@ -32,7 +32,7 @@ static void bad_usb_draw_callback(Canvas* canvas, void* _model) {
     canvas_draw_str(canvas, 2, 8, furi_string_get_cstr(disp_str));
 
     if(strlen(model->layout) == 0) {
-        furi_string_set(disp_str, "(default)");
+        furi_string_set(disp_str, BAD_USB_UI_TEXT("(default)", "(默认)"));
     } else {
         furi_string_printf(disp_str, "(%s)", model->layout);
     }
@@ -59,40 +59,47 @@ static void bad_usb_draw_callback(Canvas* canvas, void* _model) {
     if((state == BadUsbStateIdle) || (state == BadUsbStateDone) ||
        (state == BadUsbStateNotConnected)) {
         elements_button_center(canvas, "Run");
-        elements_button_left(canvas, "Config");
+        elements_button_left(canvas, BAD_USB_UI_TEXT("Config", "配置"));
         elements_button_right(canvas, model->interface == BadUsbHidInterfaceBle ? "USB" : "BLE");
     } else if((state == BadUsbStateRunning) || (state == BadUsbStateDelay)) {
-        elements_button_center(canvas, "Stop");
+        elements_button_center(canvas, BAD_USB_UI_TEXT("Stop", "停止"));
         if(!model->pause_wait) {
-            elements_button_right(canvas, "Pause");
+            elements_button_right(canvas, BAD_USB_UI_TEXT("Pause", "暂停"));
         }
     } else if(state == BadUsbStatePaused) {
-        elements_button_center(canvas, "End");
-        elements_button_right(canvas, "Resume");
+        elements_button_center(canvas, BAD_USB_UI_TEXT("End", "结束"));
+        elements_button_right(canvas, BAD_USB_UI_TEXT("Resume", "继续"));
     } else if(state == BadUsbStateWaitForBtn) {
-        elements_button_center(canvas, "Press to continue");
+        elements_button_center(canvas, BAD_USB_UI_TEXT("Press to continue", "按下继续"));
     } else if(state == BadUsbStateWillRun) {
-        elements_button_center(canvas, "Cancel");
+        elements_button_center(canvas, BAD_USB_UI_TEXT("Cancel", "取消"));
     }
 
     if(state == BadUsbStateNotConnected) {
         canvas_draw_icon(canvas, 4, 26, &I_Clock_18x18);
         canvas_set_font(canvas, FontPrimary);
-        canvas_draw_str_aligned(canvas, 127, 31, AlignRight, AlignBottom, "Connect");
-        canvas_draw_str_aligned(canvas, 127, 43, AlignRight, AlignBottom, "to device");
+        canvas_draw_str_aligned(
+            canvas, 127, 31, AlignRight, AlignBottom, BAD_USB_UI_TEXT("Connect", "连接"));
+        canvas_draw_str_aligned(
+            canvas, 127, 43, AlignRight, AlignBottom, BAD_USB_UI_TEXT("to device", "到设备"));
     } else if(state == BadUsbStateWillRun) {
         canvas_draw_icon(canvas, 4, 26, &I_Clock_18x18);
         canvas_set_font(canvas, FontPrimary);
-        canvas_draw_str_aligned(canvas, 127, 31, AlignRight, AlignBottom, "Will run");
-        canvas_draw_str_aligned(canvas, 127, 43, AlignRight, AlignBottom, "on connect");
+        canvas_draw_str_aligned(
+            canvas, 127, 31, AlignRight, AlignBottom, BAD_USB_UI_TEXT("Will run", "将在"));
+        canvas_draw_str_aligned(
+            canvas, 127, 43, AlignRight, AlignBottom, BAD_USB_UI_TEXT("on connect", "连接后运行"));
     } else if(state == BadUsbStateFileError) {
         canvas_draw_icon(canvas, 4, 26, &I_Error_18x18);
         canvas_set_font(canvas, FontPrimary);
-        canvas_draw_str_aligned(canvas, 127, 31, AlignRight, AlignBottom, "File");
-        canvas_draw_str_aligned(canvas, 127, 43, AlignRight, AlignBottom, "ERROR");
+        canvas_draw_str_aligned(
+            canvas, 127, 31, AlignRight, AlignBottom, BAD_USB_UI_TEXT("File", "文件"));
+        canvas_draw_str_aligned(
+            canvas, 127, 43, AlignRight, AlignBottom, BAD_USB_UI_TEXT("ERROR", "错误"));
     } else if(state == BadUsbStateScriptError) {
         canvas_draw_icon(canvas, 4, 26, &I_Error_18x18);
-        furi_string_printf(disp_str, "line %zu", model->state.error_line);
+        furi_string_printf(
+            disp_str, BAD_USB_UI_TEXT("line %zu", "第 %zu 行"), model->state.error_line);
         canvas_draw_str_aligned(
             canvas, 127, 46, AlignRight, AlignBottom, furi_string_get_cstr(disp_str));
         furi_string_set_str(disp_str, model->state.error);
@@ -100,7 +107,8 @@ static void bad_usb_draw_callback(Canvas* canvas, void* _model) {
         canvas_draw_str_aligned(
             canvas, 127, 56, AlignRight, AlignBottom, furi_string_get_cstr(disp_str));
         canvas_set_font(canvas, FontPrimary);
-        canvas_draw_str_aligned(canvas, 127, 33, AlignRight, AlignBottom, "ERROR:");
+        canvas_draw_str_aligned(
+            canvas, 127, 33, AlignRight, AlignBottom, BAD_USB_UI_TEXT("ERROR:", "错误:"));
     } else if(state == BadUsbStateIdle) {
         canvas_draw_icon(canvas, 4, 26, &I_Smile_18x18);
         furi_string_printf(disp_str, "0/%zu", model->state.line_nb);
@@ -140,7 +148,7 @@ static void bad_usb_draw_callback(Canvas* canvas, void* _model) {
         }
         uint32_t delay = model->state.delay_remain / 10;
         if(delay) {
-            furi_string_printf(disp_str, "Delay %lus", delay);
+            furi_string_printf(disp_str, BAD_USB_UI_TEXT("Delay %lus", "延时 %lu 秒"), delay);
             canvas_draw_str_aligned(
                 canvas, 4, 61, AlignLeft, AlignBottom, furi_string_get_cstr(disp_str));
         }
@@ -160,7 +168,8 @@ static void bad_usb_draw_callback(Canvas* canvas, void* _model) {
             canvas_draw_icon(canvas, 4, 23, &I_EviWaiting2_18x21);
         }
         if(state != BadUsbStateWaitForBtn) {
-            canvas_draw_str_aligned(canvas, 4, 61, AlignLeft, AlignBottom, "Paused");
+            canvas_draw_str_aligned(
+                canvas, 4, 61, AlignLeft, AlignBottom, BAD_USB_UI_TEXT("Paused", "已暂停"));
         }
         furi_string_printf(disp_str, "%zu/%zu", model->state.line_cur, model->state.line_nb);
         canvas_draw_str_aligned(

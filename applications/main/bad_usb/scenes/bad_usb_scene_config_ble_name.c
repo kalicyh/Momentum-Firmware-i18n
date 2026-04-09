@@ -16,7 +16,8 @@ void bad_usb_scene_config_ble_name_on_enter(void* context) {
 
     strlcpy(
         bad_usb->ble_name_buf, bad_usb->script_hid_cfg.ble.name, sizeof(bad_usb->ble_name_buf));
-    text_input_set_header_text(text_input, "Set BLE device name");
+    text_input_set_header_text(
+        text_input, BAD_USB_UI_TEXT("Set BLE device name", "设置 BLE 设备名称"));
 
     text_input_set_result_callback(
         text_input,

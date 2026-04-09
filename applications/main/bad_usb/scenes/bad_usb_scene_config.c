@@ -43,13 +43,14 @@ void bad_usb_scene_config_ble_persist_pairing_callback(VariableItem* item) {
     hid->adjust_config(&bad_usb->script_hid_cfg);
     // Set in user config to save in settings file
     bad_usb->user_hid_cfg.ble.bonding = value;
-    variable_item_set_current_value_text(item, value ? "ON" : "OFF");
+    variable_item_set_current_value_text(
+        item, value ? BAD_USB_UI_TEXT("ON", "开") : BAD_USB_UI_TEXT("OFF", "关"));
 }
 
 const char* const ble_pairing_mode_names[GapPairingCount] = {
     "YesNo",
-    "PIN Type",
-    "PIN Y/N",
+    BAD_USB_UI_TEXT("PIN Type", "PIN 类型"),
+    BAD_USB_UI_TEXT("PIN Y/N", "PIN 确认"),
 };
 void bad_usb_scene_config_ble_pairing_mode_callback(VariableItem* item) {
     BadUsbApp* bad_usb = variable_item_get_context(item);
@@ -75,10 +76,11 @@ static void draw_menu(BadUsbApp* bad_usb) {
 
     variable_item_list_reset(var_item_list);
 
-    variable_item_list_add(var_item_list, "Keyboard Layout (global)", 0, NULL, NULL);
+    variable_item_list_add(
+        var_item_list, BAD_USB_UI_TEXT("Keyboard Layout (global)", "键盘布局 (全局)"), 0, NULL, NULL);
 
     item = variable_item_list_add(
-        var_item_list, "Connection", 2, bad_usb_scene_config_connection_callback, bad_usb);
+        var_item_list, BAD_USB_UI_TEXT("Connection", "连接方式"), 2, bad_usb_scene_config_connection_callback, bad_usb);
     variable_item_set_current_value_index(item, bad_usb->interface == BadUsbHidInterfaceBle);
     variable_item_set_current_value_text(
         item, bad_usb->interface == BadUsbHidInterfaceBle ? "BLE" : "USB");
@@ -88,41 +90,54 @@ static void draw_menu(BadUsbApp* bad_usb) {
 
         item = variable_item_list_add(
             var_item_list,
-            "Persist Pairing",
+            BAD_USB_UI_TEXT("Persist Pairing", "保留配对"),
             2,
             bad_usb_scene_config_ble_persist_pairing_callback,
             bad_usb);
         variable_item_set_current_value_index(item, ble_hid_cfg->bonding);
-        variable_item_set_current_value_text(item, ble_hid_cfg->bonding ? "ON" : "OFF");
+        variable_item_set_current_value_text(
+            item,
+            ble_hid_cfg->bonding ? BAD_USB_UI_TEXT("ON", "开") :
+                                   BAD_USB_UI_TEXT("OFF", "关"));
 
         item = variable_item_list_add(
             var_item_list,
-            "Pairing Mode",
+            BAD_USB_UI_TEXT("Pairing Mode", "配对模式"),
             GapPairingCount,
             bad_usb_scene_config_ble_pairing_mode_callback,
             bad_usb);
         variable_item_set_current_value_index(item, ble_hid_cfg->pairing);
         variable_item_set_current_value_text(item, ble_pairing_mode_names[ble_hid_cfg->pairing]);
 
-        variable_item_list_add(var_item_list, "Set Device Name", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Set Device Name", "设置设备名称"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Set MAC Address", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Set MAC Address", "设置 MAC 地址"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Randomize MAC Address", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Randomize MAC Address", "随机 MAC 地址"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Restore BLE Defaults", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Restore BLE Defaults", "恢复 BLE 默认值"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Remove BLE Pairing", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Remove BLE Pairing", "移除 BLE 配对"), 0, NULL, NULL);
     } else {
-        variable_item_list_add(var_item_list, "Set Manufacturer Name", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Set Manufacturer Name", "设置厂商名称"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Set Product Name", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Set Product Name", "设置产品名称"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Set VID and PID", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Set VID and PID", "设置 VID 和 PID"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Randomize VID and PID", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Randomize VID and PID", "随机 VID 和 PID"), 0, NULL, NULL);
 
-        variable_item_list_add(var_item_list, "Restore USB Defaults", 0, NULL, NULL);
+        variable_item_list_add(
+            var_item_list, BAD_USB_UI_TEXT("Restore USB Defaults", "恢复 USB 默认值"), 0, NULL, NULL);
     }
 }
 

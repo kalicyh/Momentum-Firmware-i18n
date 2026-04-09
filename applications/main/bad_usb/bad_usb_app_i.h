@@ -25,6 +25,12 @@
 #define BAD_USB_APP_SCRIPT_EXTENSION   ".txt"
 #define BAD_USB_APP_LAYOUT_EXTENSION   ".kl"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define BAD_USB_UI_TEXT(en, zh) (zh)
+#else
+#define BAD_USB_UI_TEXT(en, zh) (en)
+#endif
+
 typedef enum {
     BadUsbAppErrorNoFiles,
 } BadUsbAppError;
