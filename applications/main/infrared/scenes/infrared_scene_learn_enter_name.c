@@ -37,7 +37,7 @@ void infrared_scene_learn_enter_name_on_enter(void* context) {
             message->command);
     }
 
-    text_input_set_header_text(text_input, "Name the button");
+    text_input_set_header_text(text_input, INFRARED_UI_TEXT("Name the button", "命名按键"));
     text_input_set_result_callback(
         text_input,
         infrared_text_input_callback,
@@ -69,8 +69,10 @@ bool infrared_scene_learn_enter_name_on_event(void* context, SceneManagerEvent e
             } else {
                 infrared_show_error_message(
                     infrared,
-                    "Failed to\n%s",
-                    infrared->app_state.is_learning_new_remote ? "create file" : "add signal");
+                    INFRARED_UI_TEXT("Failed to\n%s", "无法\n%s"),
+                    infrared->app_state.is_learning_new_remote ?
+                        INFRARED_UI_TEXT("create file", "创建文件") :
+                        INFRARED_UI_TEXT("add signal", "添加信号"));
                 const uint32_t possible_scenes[] = {InfraredSceneRemoteList, InfraredSceneStart};
                 scene_manager_search_and_switch_to_previous_scene_one_of(
                     scene_manager, possible_scenes, COUNT_OF(possible_scenes));

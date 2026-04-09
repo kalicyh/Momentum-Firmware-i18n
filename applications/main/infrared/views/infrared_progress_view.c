@@ -1,4 +1,5 @@
 #include "infrared_progress_view.h"
+#include "../infrared_app_i.h"
 
 #include <assets_icons.h>
 #include <gui/canvas.h>
@@ -41,7 +42,8 @@ static void infrared_progress_view_draw_callback(Canvas* canvas, void* _model) {
         y + 9,
         AlignCenter,
         AlignCenter,
-        model->is_paused ? "Paused" : "Sending...");
+        model->is_paused ? INFRARED_UI_TEXT("Paused", "已暂停") :
+                           INFRARED_UI_TEXT("Sending...", "发送中..."));
 
     float progress_value = (float)model->progress / model->progress_total;
     elements_progress_bar(canvas, x + 4, y + 19, width - 7, progress_value);
@@ -65,15 +67,25 @@ static void infrared_progress_view_draw_callback(Canvas* canvas, void* _model) {
     uint8_t buttons_y = y + (model->is_paused ? 46 : 50);
 
     canvas_draw_icon(canvas, buttons_x + 0, buttons_y + 0, &I_Pin_back_arrow_10x8);
-    canvas_draw_str(canvas, buttons_x + 14, buttons_y + 8, model->is_paused ? "resume" : "stop");
+    canvas_draw_str(
+        canvas,
+        buttons_x + 14,
+        buttons_y + 8,
+        model->is_paused ? INFRARED_UI_TEXT("resume", "继续") : INFRARED_UI_TEXT("stop", "停止"));
 
     canvas_draw_icon(canvas, buttons_x + 1, buttons_y + 10, &I_Ok_btn_9x9);
-    canvas_draw_str(canvas, buttons_x + 14, buttons_y + 17, model->is_paused ? "send 1" : "pause");
+    canvas_draw_str(
+        canvas,
+        buttons_x + 14,
+        buttons_y + 17,
+        model->is_paused ? INFRARED_UI_TEXT("send 1", "发送一次") :
+                           INFRARED_UI_TEXT("pause", "暂停"));
 
     if(model->is_paused) {
         canvas_draw_icon(canvas, buttons_x + 2, buttons_y + 21, &I_ButtonLeftSmall_3x5);
         canvas_draw_icon(canvas, buttons_x + 7, buttons_y + 21, &I_ButtonRightSmall_3x5);
-        canvas_draw_str(canvas, buttons_x + 14, buttons_y + 26, "select");
+        canvas_draw_str(
+            canvas, buttons_x + 14, buttons_y + 26, INFRARED_UI_TEXT("select", "选择"));
     }
 }
 

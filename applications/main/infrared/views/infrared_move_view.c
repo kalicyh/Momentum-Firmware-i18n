@@ -1,4 +1,5 @@
 #include "infrared_move_view.h"
+#include "../infrared_app_i.h"
 
 #include <m-array.h>
 
@@ -34,7 +35,12 @@ static void infrared_move_view_draw_callback(Canvas* canvas, void* _model) {
     canvas_set_color(canvas, ColorBlack);
     canvas_set_font(canvas, FontPrimary);
     elements_multiline_text_aligned(
-        canvas, canvas_width(canvas) / 2, 0, AlignCenter, AlignTop, "Select a Button to Move");
+        canvas,
+        canvas_width(canvas) / 2,
+        0,
+        AlignCenter,
+        AlignTop,
+        INFRARED_UI_TEXT("Select a Button to Move", "选择要移动的按键"));
 
     const size_t btn_number = InfraredMoveViewItemArray_size(model->labels);
     const bool show_scrollbar = btn_number > LIST_ITEMS;

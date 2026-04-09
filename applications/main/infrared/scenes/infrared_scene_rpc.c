@@ -26,8 +26,8 @@ void infrared_scene_rpc_on_enter(void* context) {
 static void infrared_scene_rpc_show(InfraredApp* infrared) {
     Popup* popup = infrared->popup;
 
-    popup_set_header(popup, "Infrared", 89, 42, AlignCenter, AlignBottom);
-    popup_set_text(popup, "RPC mode", 89, 44, AlignCenter, AlignTop);
+    popup_set_header(popup, INFRARED_UI_TEXT("Infrared", "红外"), 89, 42, AlignCenter, AlignBottom);
+    popup_set_text(popup, INFRARED_UI_TEXT("RPC mode", "RPC 模式"), 89, 44, AlignCenter, AlignTop);
     popup_set_text(popup, infrared->text_store[0], 89, 44, AlignCenter, AlignTop);
 
     popup_set_icon(popup, 0, 12, &I_RFIDDolphinSend_97x61);
@@ -61,13 +61,17 @@ bool infrared_scene_rpc_on_event(void* context, SceneManagerEvent event) {
 
             if(!INFRARED_ERROR_PRESENT(task_error)) {
                 const char* remote_name = infrared_remote_get_name(infrared->remote);
-                infrared_text_store_set(infrared, 0, "loaded\n%s", remote_name);
+                infrared_text_store_set(
+                    infrared, 0, "%s\n%s", INFRARED_UI_TEXT("loaded", "已载入"), remote_name);
                 scene_manager_set_scene_state(
                     infrared->scene_manager, InfraredSceneRpc, InfraredRpcStateLoaded);
             } else {
                 FuriString* str = furi_string_alloc();
                 furi_string_printf(
-                    str, "Failed to load\n%s", furi_string_get_cstr(infrared->file_path));
+                    str,
+                    "%s\n%s",
+                    INFRARED_UI_TEXT("Failed to load", "无法载入"),
+                    furi_string_get_cstr(infrared->file_path));
 
                 rpc_system_app_set_error_code(infrared->rpc_ctx, RpcAppSystemErrorCodeParseFile);
                 rpc_system_app_set_error_text(infrared->rpc_ctx, furi_string_get_cstr(str));
@@ -97,7 +101,12 @@ bool infrared_scene_rpc_on_event(void* context, SceneManagerEvent event) {
                         infrared_tx_start_button_index(infrared, app_state->current_button_index);
                     if(!INFRARED_ERROR_PRESENT(error)) {
                         const char* remote_name = infrared_remote_get_name(infrared->remote);
-                        infrared_text_store_set(infrared, 0, "emulating\n%s", remote_name);
+                        infrared_text_store_set(
+                            infrared,
+                            0,
+                            "%s\n%s",
+                            INFRARED_UI_TEXT("emulating", "仿真中"),
+                            remote_name);
 
                         infrared_scene_rpc_show(infrared);
                         result = true;
@@ -105,7 +114,8 @@ bool infrared_scene_rpc_on_event(void* context, SceneManagerEvent event) {
                         rpc_system_app_set_error_code(
                             infrared->rpc_ctx, RpcAppSystemErrorCodeInternalParse);
                         rpc_system_app_set_error_text(
-                            infrared->rpc_ctx, "Cannot load button data");
+                            infrared->rpc_ctx,
+                            INFRARED_UI_TEXT("Cannot load button data", "无法加载按键数据"));
                         result = false;
                     }
                 }
@@ -148,7 +158,12 @@ bool infrared_scene_rpc_on_event(void* context, SceneManagerEvent event) {
                         infrared, app_state->current_button_index);
                     if(!INFRARED_ERROR_PRESENT(error)) {
                         const char* remote_name = infrared_remote_get_name(infrared->remote);
-                        infrared_text_store_set(infrared, 0, "emulating\n%s", remote_name);
+                        infrared_text_store_set(
+                            infrared,
+                            0,
+                            "%s\n%s",
+                            INFRARED_UI_TEXT("emulating", "仿真中"),
+                            remote_name);
 
                         infrared_scene_rpc_show(infrared);
                         result = true;
@@ -156,7 +171,8 @@ bool infrared_scene_rpc_on_event(void* context, SceneManagerEvent event) {
                         rpc_system_app_set_error_code(
                             infrared->rpc_ctx, RpcAppSystemErrorCodeInternalParse);
                         rpc_system_app_set_error_text(
-                            infrared->rpc_ctx, "Cannot load button data");
+                            infrared->rpc_ctx,
+                            INFRARED_UI_TEXT("Cannot load button data", "无法加载按键数据"));
                         result = false;
                     }
                 }

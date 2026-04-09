@@ -21,37 +21,37 @@ void infrared_scene_edit_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
-        "Add Button",
+        INFRARED_UI_TEXT("Add Button", "添加按键"),
         SubmenuIndexAddButton,
         infrared_scene_edit_submenu_callback,
         context);
     submenu_add_item(
         submenu,
-        "Rename Button",
+        INFRARED_UI_TEXT("Rename Button", "重命名按键"),
         SubmenuIndexRenameButton,
         infrared_scene_edit_submenu_callback,
         context);
     submenu_add_item(
         submenu,
-        "Move Button",
+        INFRARED_UI_TEXT("Move Button", "移动按键"),
         SubmenuIndexMoveButton,
         infrared_scene_edit_submenu_callback,
         context);
     submenu_add_item(
         submenu,
-        "Delete Button",
+        INFRARED_UI_TEXT("Delete Button", "删除按键"),
         SubmenuIndexDeleteButton,
         infrared_scene_edit_submenu_callback,
         context);
     submenu_add_item(
         submenu,
-        "Rename Remote",
+        INFRARED_UI_TEXT("Rename Remote", "重命名遥控"),
         SubmenuIndexRenameRemote,
         infrared_scene_edit_submenu_callback,
         context);
     submenu_add_item(
         submenu,
-        "Delete Remote",
+        INFRARED_UI_TEXT("Delete Remote", "删除遥控"),
         SubmenuIndexDeleteRemote,
         infrared_scene_edit_submenu_callback,
         context);

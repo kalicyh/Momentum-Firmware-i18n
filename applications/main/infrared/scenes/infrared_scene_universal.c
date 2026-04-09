@@ -24,70 +24,70 @@ void infrared_scene_universal_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
-        "TVs",
+        INFRARED_UI_TEXT("TVs", "电视"),
         SubmenuIndexUniversalTV,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "Projectors",
+        INFRARED_UI_TEXT("Projectors", "投影仪"),
         SubmenuIndexUniversalProjector,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "Audio",
+        INFRARED_UI_TEXT("Audio", "音响"),
         SubmenuIndexUniversalAudio,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "ACs",
+        INFRARED_UI_TEXT("ACs", "空调"),
         SubmenuIndexUniversalAirConditioner,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "LEDs",
+        INFRARED_UI_TEXT("LEDs", "灯带"),
         SubmenuIndexUniversalLEDs,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "Fans",
+        INFRARED_UI_TEXT("Fans", "风扇"),
         SubmenuIndexUniversalFan,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "Blu-ray/DVDs",
+        INFRARED_UI_TEXT("Blu-ray/DVDs", "蓝光/DVD"),
         SubmenuIndexUniversalBluray,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "Monitors",
+        INFRARED_UI_TEXT("Monitors", "显示器"),
         SubmenuIndexUniversalMonitor,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "Digital Signs",
+        INFRARED_UI_TEXT("Digital Signs", "数字标牌"),
         SubmenuIndexUniversalDigitalSign,
         infrared_scene_universal_submenu_callback,
         context);
 
     submenu_add_item(
         submenu,
-        "Load from Library File",
+        INFRARED_UI_TEXT("Load from Library File", "从库文件载入"),
         SubmenuIndexUniversalFromFile,
         infrared_scene_universal_submenu_callback,
         context);

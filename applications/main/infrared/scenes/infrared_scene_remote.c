@@ -50,7 +50,7 @@ void infrared_scene_remote_on_enter(void* context) {
         context);
     button_menu_add_item(
         button_menu,
-        "Edit",
+        INFRARED_UI_TEXT("Edit", "编辑"),
         ButtonIndexEdit,
         infrared_scene_remote_button_menu_callback,
         ButtonMenuItemTypeControl,
@@ -89,7 +89,7 @@ bool infrared_scene_remote_on_event(void* context, SceneManagerEvent event) {
             if(INFRARED_ERROR_PRESENT(error)) {
                 infrared_show_error_message(
                     infrared,
-                    "Failed to load\n\"%s\"",
+                    INFRARED_UI_TEXT("Failed to load\n\"%s\"", "无法载入\n\"%s\""),
                     infrared_remote_get_signal_name(infrared->remote, button_index));
             }
             consumed = true;

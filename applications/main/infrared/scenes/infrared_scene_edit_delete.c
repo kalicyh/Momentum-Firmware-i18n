@@ -34,7 +34,8 @@ void infrared_scene_edit_delete_on_enter(void* context) {
     const InfraredEditTarget edit_target = infrared->app_state.edit_target;
 
     if(edit_target == InfraredEditTargetButton) {
-        dialog_ex_set_header(dialog_ex, "Delete Button?", 64, 0, AlignCenter, AlignTop);
+        dialog_ex_set_header(
+            dialog_ex, INFRARED_UI_TEXT("Delete Button?", "删除按键?"), 64, 0, AlignCenter, AlignTop);
 
         const int32_t current_button_index = infrared->app_state.current_button_index;
         furi_check(current_button_index != InfraredButtonIndexNone);
@@ -44,8 +45,10 @@ void infrared_scene_edit_delete_on_enter(void* context) {
         if(INFRARED_ERROR_PRESENT(error)) {
             const char* format =
                 (INFRARED_ERROR_CHECK(error, InfraredErrorCodeSignalRawUnableToReadTooLongData)) ?
-                    "Failed to delete\n\"%s\" is too long.\nTry to edit file from pc" :
-                    "Failed to load\n\"%s\"";
+                    INFRARED_UI_TEXT(
+                        "Failed to delete\n\"%s\" is too long.\nTry to edit file from pc",
+                        "无法删除\n\"%s\" 过长.\n请尝试在电脑上编辑文件") :
+                    INFRARED_UI_TEXT("Failed to load\n\"%s\"", "无法载入\n\"%s\"");
             infrared_show_error_message(
                 infrared, format, infrared_remote_get_signal_name(remote, current_button_index));
             scene_manager_previous_scene(infrared->scene_manager);
@@ -58,9 +61,10 @@ void infrared_scene_edit_delete_on_enter(void* context) {
             infrared_text_store_set(
                 infrared,
                 0,
-                "%s\nRAW\n%zu samples",
+                "%s\nRAW\n%zu %s",
                 infrared_remote_get_signal_name(remote, current_button_index),
-                raw->timings_size);
+                raw->timings_size,
+                INFRARED_UI_TEXT("samples", "个采样"));
 
         } else {
             const InfraredMessage* message = infrared_signal_get_message(infrared->current_signal);
@@ -77,21 +81,24 @@ void infrared_scene_edit_delete_on_enter(void* context) {
         }
 
     } else if(edit_target == InfraredEditTargetRemote) {
-        dialog_ex_set_header(dialog_ex, "Delete Remote?", 64, 0, AlignCenter, AlignTop);
+        dialog_ex_set_header(
+            dialog_ex, INFRARED_UI_TEXT("Delete Remote?", "删除遥控?"), 64, 0, AlignCenter, AlignTop);
         infrared_text_store_set(
             infrared,
             0,
-            "%s\n with %zu buttons",
+            "%s\n%s %zu %s",
             infrared_remote_get_name(remote),
-            infrared_remote_get_signal_count(remote));
+            INFRARED_UI_TEXT("with", "包含"),
+            infrared_remote_get_signal_count(remote),
+            INFRARED_UI_TEXT("buttons", "个按键"));
     } else {
         furi_crash();
     }
 
     dialog_ex_set_text(dialog_ex, infrared->text_store[0], 64, 31, AlignCenter, AlignCenter);
     dialog_ex_set_icon(dialog_ex, 0, 0, NULL);
-    dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-    dialog_ex_set_right_button_text(dialog_ex, "Delete");
+    dialog_ex_set_left_button_text(dialog_ex, INFRARED_UI_TEXT("Cancel", "取消"));
+    dialog_ex_set_right_button_text(dialog_ex, INFRARED_UI_TEXT("Delete", "删除"));
     dialog_ex_set_result_callback(dialog_ex, infrared_scene_edit_delete_dialog_result_callback);
     dialog_ex_set_context(dialog_ex, context);
 
@@ -122,16 +129,22 @@ bool infrared_scene_edit_delete_on_event(void* context, SceneManagerEvent event)
                        task_error, InfraredErrorCodeSignalRawUnableToReadTooLongData)) {
                     const uint8_t index = INFRARED_ERROR_GET_INDEX(task_error);
                     const char* format =
-                        "Failed to delete\n\"%s\" is too long.\nTry to edit file from pc";
+                        INFRARED_UI_TEXT(
+                            "Failed to delete\n\"%s\" is too long.\nTry to edit file from pc",
+                            "无法删除\n\"%s\" 过长.\n请尝试在电脑上编辑文件");
                     infrared_show_error_message(
                         infrared,
                         format,
                         infrared_remote_get_signal_name(infrared->remote, index));
                 } else {
                     const char* edit_target_text =
-                        app_state->edit_target == InfraredEditTargetButton ? "button" : "file";
+                        app_state->edit_target == InfraredEditTargetButton ?
+                            INFRARED_UI_TEXT("button", "按键") :
+                            INFRARED_UI_TEXT("file", "文件");
                     infrared_show_error_message(
-                        infrared, "Failed to\ndelete %s", edit_target_text);
+                        infrared,
+                        INFRARED_UI_TEXT("Failed to\ndelete %s", "无法删除\n%s"),
+                        edit_target_text);
                 }
 
                 const uint32_t possible_scenes[] = {InfraredSceneRemoteList, InfraredSceneRemote};

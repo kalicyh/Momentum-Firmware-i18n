@@ -9,13 +9,19 @@ void infrared_scene_ask_retry_on_enter(void* context) {
     InfraredApp* infrared = context;
     DialogEx* dialog_ex = infrared->dialog_ex;
 
-    dialog_ex_set_header(dialog_ex, "Retry Reading?", 64, 11, AlignCenter, AlignTop);
+    dialog_ex_set_header(
+        dialog_ex, INFRARED_UI_TEXT("Retry Reading?", "重新读取?"), 64, 11, AlignCenter, AlignTop);
     dialog_ex_set_text(
-        dialog_ex, "All unsaved data\nwill be lost!", 64, 25, AlignCenter, AlignTop);
+        dialog_ex,
+        INFRARED_UI_TEXT("All unsaved data\nwill be lost!", "所有未保存数据\n都会丢失!"),
+        64,
+        25,
+        AlignCenter,
+        AlignTop);
     dialog_ex_set_icon(dialog_ex, 0, 0, NULL);
-    dialog_ex_set_left_button_text(dialog_ex, "Exit");
+    dialog_ex_set_left_button_text(dialog_ex, INFRARED_UI_TEXT("Exit", "退出"));
     dialog_ex_set_center_button_text(dialog_ex, NULL);
-    dialog_ex_set_right_button_text(dialog_ex, "Stay");
+    dialog_ex_set_right_button_text(dialog_ex, INFRARED_UI_TEXT("Stay", "停留"));
     dialog_ex_set_result_callback(dialog_ex, infrared_scene_dialog_result_callback);
     dialog_ex_set_context(dialog_ex, context);
 

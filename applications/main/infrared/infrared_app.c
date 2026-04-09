@@ -28,7 +28,8 @@ static const NotificationSequence*
 
 static void infrared_make_app_folder(InfraredApp* infrared) {
     if(!storage_simply_mkdir(infrared->storage, INFRARED_APP_FOLDER)) {
-        infrared_show_error_message(infrared, "Cannot create\napp folder");
+        infrared_show_error_message(
+            infrared, INFRARED_UI_TEXT("Cannot create\napp folder", "无法创建\n应用目录"));
     }
 }
 

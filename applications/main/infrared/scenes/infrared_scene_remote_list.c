@@ -46,8 +46,12 @@ bool infrared_scene_remote_list_on_event(void* context, SceneManagerEvent event)
                 bool wrong_file_type =
                     INFRARED_ERROR_CHECK(task_error, InfraredErrorCodeWrongFileType);
                 const char* format = wrong_file_type ?
-                                         "Library file\n\"%s\" can't be opened as a remote" :
-                                         "Failed to load\n\"%s\"";
+                                         INFRARED_UI_TEXT(
+                                             "Library file\n\"%s\" can't be opened as a remote",
+                                             "库文件\n\"%s\" 不能作为遥控打开") :
+                                         INFRARED_UI_TEXT(
+                                             "Failed to load\n\"%s\"",
+                                             "无法载入\n\"%s\"");
 
                 infrared_show_error_message(
                     infrared, format, furi_string_get_cstr(infrared->file_path));

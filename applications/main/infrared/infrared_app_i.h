@@ -52,6 +52,12 @@
 #define INFRARED_DEFAULT_REMOTE_NAME "Remote"
 #define INFRARED_LOG_TAG             "InfraredApp"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define INFRARED_UI_TEXT(en, zh) (zh)
+#else
+#define INFRARED_UI_TEXT(en, zh) (en)
+#endif
+
 /* Button names for easy mode */
 extern const char* const easy_mode_button_names[];
 extern const size_t easy_mode_button_count; // Number of buttons in the array
