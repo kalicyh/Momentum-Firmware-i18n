@@ -3,8 +3,21 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
+
+UI_TEXT_RE = re.compile(
+    r"\b[A-Z0-9_]+_UI_TEXT\s*\(\s*"
+    r'"((?:\\.|[^"\\])*)"\s*,\s*"((?:\\.|[^"\\])*)"\s*\)',
+    re.DOTALL,
+)
+
+SOURCE_SCAN_ROOTS = (
+    Path("applications/main"),
+    Path("applications/services"),
+    Path("lib"),
+)
 
 
 def parse_args():
@@ -19,13 +32,34 @@ def parse_args():
     return parser.parse_args()
 
 
-def collect_chars(strings_path: Path):
+def collect_chars_from_strings(strings_path: Path):
     data = json.loads(strings_path.read_text(encoding="utf-8"))
     chars = set()
     for row in data:
         for ch in row["text"]:
             if ord(ch) > 127:
                 chars.add(ch)
+    return chars
+
+
+def iter_source_files(repo_root: Path):
+    for scan_root in SOURCE_SCAN_ROOTS:
+        root = repo_root / scan_root
+        if not root.is_dir():
+            continue
+        for pattern in ("*.c", "*.h"):
+            yield from root.rglob(pattern)
+
+
+def collect_chars_from_ui_macros(repo_root: Path):
+    chars = set()
+    for source_file in iter_source_files(repo_root):
+        contents = source_file.read_text(encoding="utf-8", errors="ignore")
+        for match in UI_TEXT_RE.finditer(contents):
+            zh_text = match.group(2)
+            for ch in zh_text:
+                if ord(ch) > 127:
+                    chars.add(ch)
     return chars
 
 
@@ -57,6 +91,7 @@ def main():
     work_dir = Path(args.work_dir)
     out_dir = Path(args.out_dir)
     stamp = Path(args.stamp)
+    repo_root = Path(__file__).resolve().parent.parent
     work_dir.mkdir(parents=True, exist_ok=True)
     out_dir.mkdir(parents=True, exist_ok=True)
     for stale_name in ("primary_zh.c", "primary_zh.map"):
@@ -82,7 +117,8 @@ def main():
     if not os.access(bdfconv, os.X_OK):
         bdfconv.chmod(bdfconv.stat().st_mode | 0o111)
 
-    chars = collect_chars(strings)
+    chars = collect_chars_from_strings(strings)
+    chars.update(collect_chars_from_ui_macros(repo_root))
     if chars:
         map_file = work_dir / "primary_zh.map"
         c_file = work_dir / "primary_zh.c"
