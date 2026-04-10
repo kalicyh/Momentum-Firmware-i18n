@@ -17,13 +17,21 @@ void storage_settings_scene_wipe_device_on_enter(void* context) {
     dialog_ex_set_context(dialog_ex, app);
     dialog_ex_set_result_callback(dialog_ex, storage_settings_scene_wipe_device_dialog_callback);
 
-    dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-    dialog_ex_set_right_button_text(dialog_ex, "Erase");
+    dialog_ex_set_left_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Cancel", "取消"));
+    dialog_ex_set_right_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Erase", "擦除"));
 
-    dialog_ex_set_header(dialog_ex, "Confirm full Wipe", 64, 10, AlignCenter, AlignCenter);
+    dialog_ex_set_header(
+        dialog_ex,
+        STORAGE_SETTINGS_UI_TEXT("Confirm full Wipe", "确认完全擦除"),
+        64,
+        10,
+        AlignCenter,
+        AlignCenter);
     dialog_ex_set_text(
         dialog_ex,
-        "Everything will be erased\r\nData and settings will be lost!",
+        STORAGE_SETTINGS_UI_TEXT(
+            "Everything will be erased\r\nData and settings will be lost!",
+            "所有内容都会被擦除\r\n数据和设置都会丢失！"),
         64,
         32,
         AlignCenter,
@@ -53,7 +61,7 @@ bool storage_settings_scene_wipe_device_on_event(void* context, SceneManagerEven
             if(counter < STORAGE_SETTINGS_SCENE_WIPE_DEVICE_CONFIRM_COUNT) {
                 furi_string_printf(
                     app->text_string,
-                    "%ld presses left",
+                    STORAGE_SETTINGS_UI_TEXT("%ld presses left", "还需按下 %ld 次"),
                     STORAGE_SETTINGS_SCENE_WIPE_DEVICE_CONFIRM_COUNT - counter);
                 dialog_ex_set_text(
                     app->dialog_ex,

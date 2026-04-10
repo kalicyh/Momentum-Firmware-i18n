@@ -4,6 +4,12 @@
 #include <gui/view_dispatcher.h>
 #include <lib/toolbox/value_index.h>
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define NOTIFICATION_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define NOTIFICATION_SETTINGS_UI_TEXT(en, zh) (en)
+#endif
+
 #define MAX_NOTIFICATION_SETTINGS 4
 
 typedef struct {
@@ -82,7 +88,7 @@ const float volume_value[VOLUME_COUNT] = {
 
 #define DELAY_COUNT 12
 const char* const delay_text[DELAY_COUNT] = {
-    "Always ON",
+    NOTIFICATION_SETTINGS_UI_TEXT("Always ON", "常亮"),
     "1s",
     "5s",
     "10s",
@@ -100,8 +106,8 @@ const uint32_t delay_value[DELAY_COUNT] =
 
 #define VIBRO_COUNT 2
 const char* const vibro_text[VIBRO_COUNT] = {
-    "OFF",
-    "ON",
+    NOTIFICATION_SETTINGS_UI_TEXT("OFF", "关"),
+    NOTIFICATION_SETTINGS_UI_TEXT("ON", "开"),
 };
 const bool vibro_value[VIBRO_COUNT] = {false, true};
 
@@ -187,41 +193,62 @@ static NotificationAppSettings* alloc_settings(void) {
     uint8_t value_index;
 
     item = variable_item_list_add(
-        app->variable_item_list, "LCD Contrast", CONTRAST_COUNT, contrast_changed, app);
+        app->variable_item_list,
+        NOTIFICATION_SETTINGS_UI_TEXT("LCD Contrast", "屏幕对比度"),
+        CONTRAST_COUNT,
+        contrast_changed,
+        app);
     value_index =
         value_index_int32(app->notification->settings.contrast, contrast_value, CONTRAST_COUNT);
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, contrast_text[value_index]);
 
     item = variable_item_list_add(
-        app->variable_item_list, "LCD Backlight", BACKLIGHT_COUNT, backlight_changed, app);
+        app->variable_item_list,
+        NOTIFICATION_SETTINGS_UI_TEXT("LCD Backlight", "屏幕背光"),
+        BACKLIGHT_COUNT,
+        backlight_changed,
+        app);
     value_index = value_index_float(
         app->notification->settings.display_brightness, backlight_value, BACKLIGHT_COUNT);
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, backlight_text[value_index]);
 
     item = variable_item_list_add(
-        app->variable_item_list, "Backlight Time", DELAY_COUNT, screen_changed, app);
+        app->variable_item_list,
+        NOTIFICATION_SETTINGS_UI_TEXT("Backlight Time", "背光时长"),
+        DELAY_COUNT,
+        screen_changed,
+        app);
     value_index = value_index_uint32(
         app->notification->settings.display_off_delay_ms, delay_value, DELAY_COUNT);
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, delay_text[value_index]);
 
     item = variable_item_list_add(
-        app->variable_item_list, "LED Brightness", BACKLIGHT_COUNT, led_changed, app);
+        app->variable_item_list,
+        NOTIFICATION_SETTINGS_UI_TEXT("LED Brightness", "LED 亮度"),
+        BACKLIGHT_COUNT,
+        led_changed,
+        app);
     value_index = value_index_float(
         app->notification->settings.led_brightness, backlight_value, BACKLIGHT_COUNT);
     variable_item_set_current_value_index(item, value_index);
     variable_item_set_current_value_text(item, backlight_text[value_index]);
 
     if(furi_hal_rtc_is_flag_set(FuriHalRtcFlagStealthMode)) {
-        item = variable_item_list_add(app->variable_item_list, "Volume", 1, NULL, app);
+        item = variable_item_list_add(
+            app->variable_item_list, NOTIFICATION_SETTINGS_UI_TEXT("Volume", "音量"), 1, NULL, app);
         value_index = 0;
         variable_item_set_current_value_index(item, value_index);
-        variable_item_set_current_value_text(item, "Stealth");
+        variable_item_set_current_value_text(item, NOTIFICATION_SETTINGS_UI_TEXT("Stealth", "隐身"));
     } else {
         item = variable_item_list_add(
-            app->variable_item_list, "Volume", VOLUME_COUNT, volume_changed, app);
+            app->variable_item_list,
+            NOTIFICATION_SETTINGS_UI_TEXT("Volume", "音量"),
+            VOLUME_COUNT,
+            volume_changed,
+            app);
         value_index = value_index_float(
             app->notification->settings.speaker_volume, volume_value, VOLUME_COUNT);
         variable_item_set_current_value_index(item, value_index);
@@ -229,13 +256,18 @@ static NotificationAppSettings* alloc_settings(void) {
     }
 
     if(furi_hal_rtc_is_flag_set(FuriHalRtcFlagStealthMode)) {
-        item = variable_item_list_add(app->variable_item_list, "Vibro", 1, NULL, app);
+        item = variable_item_list_add(
+            app->variable_item_list, NOTIFICATION_SETTINGS_UI_TEXT("Vibro", "震动"), 1, NULL, app);
         value_index = 0;
         variable_item_set_current_value_index(item, value_index);
-        variable_item_set_current_value_text(item, "Stealth");
+        variable_item_set_current_value_text(item, NOTIFICATION_SETTINGS_UI_TEXT("Stealth", "隐身"));
     } else {
         item = variable_item_list_add(
-            app->variable_item_list, "Vibro", VIBRO_COUNT, vibro_changed, app);
+            app->variable_item_list,
+            NOTIFICATION_SETTINGS_UI_TEXT("Vibro", "震动"),
+            VIBRO_COUNT,
+            vibro_changed,
+            app);
         value_index =
             value_index_bool(app->notification->settings.vibro_on, vibro_value, VIBRO_COUNT);
         variable_item_set_current_value_index(item, value_index);

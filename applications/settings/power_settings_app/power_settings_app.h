@@ -42,3 +42,9 @@ typedef enum {
     RebootTypeDFU,
     RebootTypeNormal
 } RebootType;
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define POWER_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define POWER_SETTINGS_UI_TEXT(en, zh) (en)
+#endif

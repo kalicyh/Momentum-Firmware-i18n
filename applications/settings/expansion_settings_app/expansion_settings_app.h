@@ -21,3 +21,9 @@ typedef struct {
 typedef enum {
     ExpansionSettingsViewVarItemList,
 } ExpansionSettingsView;
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define EXPANSION_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define EXPANSION_SETTINGS_UI_TEXT(en, zh) (en)
+#endif

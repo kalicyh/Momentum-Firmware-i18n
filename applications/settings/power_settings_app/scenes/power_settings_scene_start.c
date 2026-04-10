@@ -11,7 +11,7 @@ enum PowerSettingsSubmenuIndex {
 
 #define AUTO_POWEROFF_DELAY_COUNT 13
 const char* const auto_poweroff_delay_text[AUTO_POWEROFF_DELAY_COUNT] = {
-    "OFF",
+    POWER_SETTINGS_UI_TEXT("OFF", "关"),
     "5min",
     "10min",
     "15min",
@@ -76,15 +76,18 @@ void power_settings_scene_start_on_enter(void* context) {
     VariableItem* item;
     uint8_t value_index;
 
-    variable_item_list_add(variable_item_list, "Battery Info", 1, NULL, NULL);
+    variable_item_list_add(
+        variable_item_list, POWER_SETTINGS_UI_TEXT("Battery Info", "电池信息"), 1, NULL, NULL);
 
-    variable_item_list_add(variable_item_list, "Reboot", 1, NULL, NULL);
+    variable_item_list_add(
+        variable_item_list, POWER_SETTINGS_UI_TEXT("Reboot", "重启"), 1, NULL, NULL);
 
-    variable_item_list_add(variable_item_list, "Power OFF", 1, NULL, NULL);
+    variable_item_list_add(
+        variable_item_list, POWER_SETTINGS_UI_TEXT("Power OFF", "关机"), 1, NULL, NULL);
 
     item = variable_item_list_add(
         variable_item_list,
-        "Auto PowerOff",
+        POWER_SETTINGS_UI_TEXT("Auto PowerOff", "自动关机"),
         AUTO_POWEROFF_DELAY_COUNT,
         power_settings_scene_start_auto_poweroff_delay_changed,
         app);
@@ -98,7 +101,7 @@ void power_settings_scene_start_on_enter(void* context) {
 
     item = variable_item_list_add(
         variable_item_list,
-        "Limit Charge",
+        POWER_SETTINGS_UI_TEXT("Limit Charge", "充电上限"),
         100 / CHARGE_SUPRESS_STEP,
         power_settings_scene_start_charge_supress_percent_changed,
         app);

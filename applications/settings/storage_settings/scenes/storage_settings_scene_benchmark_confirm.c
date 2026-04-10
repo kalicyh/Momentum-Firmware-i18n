@@ -15,22 +15,31 @@ void storage_settings_scene_benchmark_confirm_on_enter(void* context) {
 
     if(sd_status == FSE_NOT_READY) {
         dialog_ex_set_icon(dialog_ex, 83, 22, &I_WarningDolphinFlip_45x42);
-        dialog_ex_set_header(dialog_ex, "SD Card Not Mounted", 64, 3, AlignCenter, AlignTop);
-        dialog_ex_set_text(
-            dialog_ex, "Try to reinsert\nor format SD\ncard.", 3, 19, AlignLeft, AlignTop);
-        dialog_ex_set_center_button_text(dialog_ex, "Ok");
-    } else {
-        dialog_ex_set_header(dialog_ex, "Benchmark SD Card?", 64, 0, AlignCenter, AlignTop);
+        dialog_ex_set_header(
+            dialog_ex, STORAGE_SETTINGS_UI_TEXT("SD Card Not Mounted", "SD 卡未挂载"), 64, 3, AlignCenter, AlignTop);
         dialog_ex_set_text(
             dialog_ex,
-            "SD will be tested in SPI\nmode. Learn more:\nr.flipper.net/sd_test",
+            STORAGE_SETTINGS_UI_TEXT("Try to reinsert\nor format SD\ncard.", "请尝试重新插入\n或格式化 SD 卡。"),
+            3,
+            19,
+            AlignLeft,
+            AlignTop);
+        dialog_ex_set_center_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Ok", "确定"));
+    } else {
+        dialog_ex_set_header(
+            dialog_ex, STORAGE_SETTINGS_UI_TEXT("Benchmark SD Card?", "测速 SD 卡？"), 64, 0, AlignCenter, AlignTop);
+        dialog_ex_set_text(
+            dialog_ex,
+            STORAGE_SETTINGS_UI_TEXT(
+                "SD will be tested in SPI\nmode. Learn more:\nr.flipper.net/sd_test",
+                "将以 SPI 模式测试 SD 卡。\n更多说明：\nr.flipper.net/sd_test"),
             0,
             12,
             AlignLeft,
             AlignTop);
         dialog_ex_set_icon(dialog_ex, 103, 12, &I_qr_benchmark_25x25);
-        dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-        dialog_ex_set_right_button_text(dialog_ex, "Benchmark");
+        dialog_ex_set_left_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Cancel", "取消"));
+        dialog_ex_set_right_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Benchmark", "测速"));
     }
 
     dialog_ex_set_context(dialog_ex, app);

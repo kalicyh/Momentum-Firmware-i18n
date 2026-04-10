@@ -33,6 +33,7 @@ static bool canvas_string_has_non_ascii(const char* str) {
     return false;
 }
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
 static uint8_t* canvas_zh_font = NULL;
 
 static void canvas_release_zh_font(void) {
@@ -69,6 +70,7 @@ static bool canvas_try_load_zh_font_file(File* file, uint8_t** font, const char*
     storage_file_close(file);
     return ok;
 }
+#endif
 
 static const uint8_t* canvas_get_zh_font(void) {
 #ifdef MOMENTUM_UI_LANG_ZH_CN
@@ -150,7 +152,9 @@ void canvas_free(Canvas* canvas) {
     CanvasCallbackPairArray_clear(canvas->canvas_callback_pair);
     furi_mutex_free(canvas->mutex);
     free(canvas);
+#ifdef MOMENTUM_UI_LANG_ZH_CN
     canvas_release_zh_font();
+#endif
 }
 
 static void canvas_lock(Canvas* canvas) {

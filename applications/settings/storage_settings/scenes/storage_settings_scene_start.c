@@ -5,7 +5,8 @@ void storage_settings_scene_start_on_enter(void* context) {
 
     FS_Error sd_status = storage_sd_status(app->fs_api);
     app->helper_descriptor->options[STORAGE_SETTINGS_MOUNT_INDEX].name =
-        (sd_status != FSE_OK) ? "Mount SD Card" : "Unmount SD Card";
+        (sd_status != FSE_OK) ? STORAGE_SETTINGS_UI_TEXT("Mount SD Card", "挂载 SD 卡") :
+                                STORAGE_SETTINGS_UI_TEXT("Unmount SD Card", "卸载 SD 卡");
     submenu_settings_helpers_scene_enter(app->settings_helper);
 }
 

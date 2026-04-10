@@ -85,7 +85,7 @@ static void
     char buffer[64];
 
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str(canvas, 0, ROW_0_Y + 15, "Time");
+    canvas_draw_str(canvas, 0, ROW_0_Y + 15, CLOCK_SETTINGS_UI_TEXT("Time", "时间"));
 
     snprintf(buffer, sizeof(buffer), "%02u", model->current.hour);
     clock_settings_module_draw_block(
@@ -109,7 +109,7 @@ static void
     char buffer[64];
 
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str(canvas, 0, ROW_1_Y + 9, "Date");
+    canvas_draw_str(canvas, 0, ROW_1_Y + 9, CLOCK_SETTINGS_UI_TEXT("Date", "日期"));
     // Day
     snprintf(buffer, sizeof(buffer), "%02u", model->current.day);
     clock_settings_module_draw_block(
@@ -131,7 +131,7 @@ static void
     char buffer[64];
 
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str(canvas, 0, ROW_2_Y + 9, "Alarm");
+    canvas_draw_str(canvas, 0, ROW_2_Y + 9, CLOCK_SETTINGS_UI_TEXT("Alarm", "闹钟"));
 
     snprintf(buffer, sizeof(buffer), "%02u", model->alarm.hour);
     clock_settings_module_draw_block(
@@ -151,7 +151,8 @@ static void
         ROW_2_H,
         FontPrimary,
         get_state(model, 2, 2),
-        model->alarm_enabled ? "On" : "Off");
+        model->alarm_enabled ? CLOCK_SETTINGS_UI_TEXT("On", "开") :
+                               CLOCK_SETTINGS_UI_TEXT("Off", "关"));
 }
 
 static void clock_settings_module_draw_callback(Canvas* canvas, void* _model) {

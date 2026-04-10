@@ -17,18 +17,23 @@ void power_settings_scene_power_off_on_enter(void* context) {
 
     dialog_ex_set_header(
         dialog,
-        "Turn Off Device?",
+        POWER_SETTINGS_UI_TEXT("Turn Off Device?", "关闭设备？"),
         64,
         settings.happy_mode ? 32 : 0,
         AlignCenter,
         settings.happy_mode ? AlignCenter : AlignTop);
     if(!settings.happy_mode) {
         dialog_ex_set_text(
-            dialog, "   I will be\nwaiting for\n you here...", 78, 14, AlignLeft, AlignTop);
+            dialog,
+            POWER_SETTINGS_UI_TEXT("   I will be\nwaiting for\n you here...", "   我会在这里\n等你回来..."),
+            78,
+            14,
+            AlignLeft,
+            AlignTop);
         dialog_ex_set_icon(dialog, 14, 10, &I_dolph_cry_49x54);
     }
-    dialog_ex_set_left_button_text(dialog, "Battery");
-    dialog_ex_set_right_button_text(dialog, "Power Off");
+    dialog_ex_set_left_button_text(dialog, POWER_SETTINGS_UI_TEXT("Battery", "电池"));
+    dialog_ex_set_right_button_text(dialog, POWER_SETTINGS_UI_TEXT("Power Off", "关机"));
     dialog_ex_set_result_callback(dialog, power_settings_scene_power_off_dialog_callback);
     dialog_ex_set_context(dialog, app);
 

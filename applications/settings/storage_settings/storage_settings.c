@@ -1,17 +1,17 @@
 #include "storage_settings.h"
 
 const SubmenuSettingsHelperDescriptor descriptor_template = {
-    .app_name = "Storage",
+    .app_name = STORAGE_SETTINGS_UI_TEXT("Storage", "存储"),
     .options_cnt = 7,
     .options =
         {
-            {.name = "About Internal Storage", .scene_id = StorageSettingsInternalInfo},
-            {.name = "About SD Card", .scene_id = StorageSettingsSDInfo},
-            {.name = "Unmount SD Card", .scene_id = StorageSettingsUnmountConfirm},
-            {.name = "Format SD Card", .scene_id = StorageSettingsFormatConfirm},
-            {.name = "Benchmark SD Card", .scene_id = StorageSettingsBenchmarkConfirm},
-            {.name = "Factory Reset", .scene_id = StorageSettingsFactoryReset},
-            {.name = "Wipe Device", .scene_id = StorageSettingsWipeDevice},
+            {.name = STORAGE_SETTINGS_UI_TEXT("About Internal Storage", "内部存储信息"), .scene_id = StorageSettingsInternalInfo},
+            {.name = STORAGE_SETTINGS_UI_TEXT("About SD Card", "SD 卡信息"), .scene_id = StorageSettingsSDInfo},
+            {.name = STORAGE_SETTINGS_UI_TEXT("Unmount SD Card", "卸载 SD 卡"), .scene_id = StorageSettingsUnmountConfirm},
+            {.name = STORAGE_SETTINGS_UI_TEXT("Format SD Card", "格式化 SD 卡"), .scene_id = StorageSettingsFormatConfirm},
+            {.name = STORAGE_SETTINGS_UI_TEXT("Benchmark SD Card", "测速 SD 卡"), .scene_id = StorageSettingsBenchmarkConfirm},
+            {.name = STORAGE_SETTINGS_UI_TEXT("Factory Reset", "恢复出厂设置"), .scene_id = StorageSettingsFactoryReset},
+            {.name = STORAGE_SETTINGS_UI_TEXT("Wipe Device", "擦除设备"), .scene_id = StorageSettingsWipeDevice},
         },
 };
 

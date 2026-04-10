@@ -29,3 +29,9 @@ typedef enum {
 typedef enum {
     ClockSettingsCustomEventNone,
 } ClockSettingsCustomEvent;
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define CLOCK_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define CLOCK_SETTINGS_UI_TEXT(en, zh) (en)
+#endif

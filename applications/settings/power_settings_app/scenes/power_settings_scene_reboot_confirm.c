@@ -14,24 +14,38 @@ void power_settings_scene_reboot_confirm_on_enter(void* context) {
         scene_manager_get_scene_state(app->scene_manager, PowerSettingsAppSceneRebootConfirm);
 
     if(reboot_type == RebootTypeDFU) {
-        dialog_ex_set_header(dialog, "Reboot to DFU Mode?", 64, 0, AlignCenter, AlignTop);
+        dialog_ex_set_header(
+            dialog,
+            POWER_SETTINGS_UI_TEXT("Reboot to DFU Mode?", "重启到 DFU 模式？"),
+            64,
+            0,
+            AlignCenter,
+            AlignTop);
         dialog_ex_set_text(
             dialog,
-            "Needed for device maintenance\nor firmware upgrades",
+            POWER_SETTINGS_UI_TEXT(
+                "Needed for device maintenance\nor firmware upgrades", "用于设备维护\n或固件升级"),
             64,
             14,
             AlignCenter,
             AlignTop);
     } else if(reboot_type == RebootTypeNormal) {
-        dialog_ex_set_header(dialog, "Reboot Flipper?", 64, 0, AlignCenter, AlignTop);
+        dialog_ex_set_header(
+            dialog, POWER_SETTINGS_UI_TEXT("Reboot Flipper?", "重启设备？"), 64, 0, AlignCenter, AlignTop);
         dialog_ex_set_text(
-            dialog, "May help with some firmware\n issues", 64, 14, AlignCenter, AlignTop);
+            dialog,
+            POWER_SETTINGS_UI_TEXT(
+                "May help with some firmware\n issues", "可尝试解决部分\n固件问题"),
+            64,
+            14,
+            AlignCenter,
+            AlignTop);
     } else {
         furi_crash("Invalid reboot type");
     }
 
-    dialog_ex_set_left_button_text(dialog, "Cancel");
-    dialog_ex_set_right_button_text(dialog, "Reboot");
+    dialog_ex_set_left_button_text(dialog, POWER_SETTINGS_UI_TEXT("Cancel", "取消"));
+    dialog_ex_set_right_button_text(dialog, POWER_SETTINGS_UI_TEXT("Reboot", "重启"));
 
     dialog_ex_set_result_callback(dialog, power_settings_scene_reboot_confirm_dialog_callback);
     dialog_ex_set_context(dialog, app);

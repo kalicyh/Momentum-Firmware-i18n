@@ -53,6 +53,12 @@ typedef enum {
     StorageSettingsViewDialogEx,
 } StorageSettingsView;
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define STORAGE_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define STORAGE_SETTINGS_UI_TEXT(en, zh) (en)
+#endif
+
 #ifdef __cplusplus
 }
 #endif

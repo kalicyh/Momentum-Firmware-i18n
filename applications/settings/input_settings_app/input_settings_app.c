@@ -8,7 +8,7 @@
 
 // vibro touch human readable levels
 const char* const vibro_touch_level_text[VIBRO_TOUCH_LEVEL_COUNT] = {
-    "OFF",
+    INPUT_SETTINGS_UI_TEXT("OFF", "关"),
     "1",
     "2",
     "3",
@@ -24,9 +24,9 @@ const uint32_t vibro_touch_level_value[VIBRO_TOUCH_LEVEL_COUNT] =
     {0, 13, 16, 19, 21, 24, 27, 30, 33, 36};
 // vibro touch trigger mask human readable values
 const char* const vibro_touch_trigger_mask_text[VIBRO_TOUCH_TRIGGER_MASK_COUNT] = {
-    "Press",
-    "Release",
-    "Both",
+    INPUT_SETTINGS_UI_TEXT("Press", "按下"),
+    INPUT_SETTINGS_UI_TEXT("Release", "松开"),
+    INPUT_SETTINGS_UI_TEXT("Both", "两者"),
 };
 // vibro touch trigger mask values
 const uint32_t vibro_touch_trigger_mask_value[VIBRO_TOUCH_TRIGGER_MASK_COUNT] = {
@@ -82,7 +82,7 @@ InputSettingsApp* input_settings_app_alloc(void) {
 
     item = variable_item_list_add(
         app->variable_item_list,
-        "Buttons Vibro",
+        INPUT_SETTINGS_UI_TEXT("Buttons Vibro", "按键震动"),
         VIBRO_TOUCH_LEVEL_COUNT,
         input_settings_vibro_touch_level_changed,
         app);
@@ -94,7 +94,7 @@ InputSettingsApp* input_settings_app_alloc(void) {
 
     item = variable_item_list_add(
         app->variable_item_list,
-        "Vibro Trigger",
+        INPUT_SETTINGS_UI_TEXT("Vibro Trigger", "震动触发"),
         VIBRO_TOUCH_TRIGGER_MASK_COUNT,
         input_settings_vibro_touch_trigger_mask_changed,
         app);

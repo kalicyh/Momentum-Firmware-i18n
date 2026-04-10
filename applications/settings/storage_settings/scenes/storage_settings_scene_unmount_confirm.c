@@ -13,22 +13,35 @@ void storage_settings_scene_unmount_confirm_on_enter(void* context) {
 
     FS_Error sd_status = storage_sd_status(app->fs_api);
     if(sd_status == FSE_NOT_READY) {
-        dialog_ex_set_header(dialog_ex, "Mount SD Card?", 64, 10, AlignCenter, AlignCenter);
+        dialog_ex_set_header(
+            dialog_ex, STORAGE_SETTINGS_UI_TEXT("Mount SD Card?", "挂载 SD 卡？"), 64, 10, AlignCenter, AlignCenter);
         dialog_ex_set_text(
             dialog_ex,
-            "This may turn off power\nfor external modules",
+            STORAGE_SETTINGS_UI_TEXT(
+                "This may turn off power\nfor external modules", "这可能会导致外接模块\n断电"),
             64,
             32,
             AlignCenter,
             AlignCenter);
-        dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-        dialog_ex_set_right_button_text(dialog_ex, "Mount");
+        dialog_ex_set_left_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Cancel", "取消"));
+        dialog_ex_set_right_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Mount", "挂载"));
     } else {
-        dialog_ex_set_header(dialog_ex, "Unmount SD Card?", 64, 10, AlignCenter, AlignCenter);
+        dialog_ex_set_header(
+            dialog_ex,
+            STORAGE_SETTINGS_UI_TEXT("Unmount SD Card?", "卸载 SD 卡？"),
+            64,
+            10,
+            AlignCenter,
+            AlignCenter);
         dialog_ex_set_text(
-            dialog_ex, "SD card will be\nunavailable", 64, 32, AlignCenter, AlignCenter);
-        dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-        dialog_ex_set_right_button_text(dialog_ex, "Unmount");
+            dialog_ex,
+            STORAGE_SETTINGS_UI_TEXT("SD card will be\nunavailable", "卸载后将无法\n访问 SD 卡"),
+            64,
+            32,
+            AlignCenter,
+            AlignCenter);
+        dialog_ex_set_left_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Cancel", "取消"));
+        dialog_ex_set_right_button_text(dialog_ex, STORAGE_SETTINGS_UI_TEXT("Unmount", "卸载"));
     }
 
     dialog_ex_set_context(dialog_ex, app);

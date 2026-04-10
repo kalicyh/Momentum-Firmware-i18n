@@ -22,3 +22,9 @@ void clock_settings_module_set(
     bool enabled);
 
 bool clock_settings_module_get(ClockSettingsModule* instance, DateTime* datetime);
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define CLOCK_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define CLOCK_SETTINGS_UI_TEXT(en, zh) (en)
+#endif

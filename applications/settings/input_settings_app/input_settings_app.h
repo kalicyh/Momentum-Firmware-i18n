@@ -23,3 +23,9 @@ typedef struct {
 typedef enum {
     InputSettingsViewVariableItemList,
 } InputSettingsView;
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define INPUT_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define INPUT_SETTINGS_UI_TEXT(en, zh) (en)
+#endif

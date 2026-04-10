@@ -9,6 +9,12 @@
 
 #include <assets_icons.h>
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define CLOCK_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define CLOCK_SETTINGS_UI_TEXT(en, zh) (en)
+#endif
+
 #define TAG "ClockSettingsAlarm"
 
 #define SNOOZE_MINUTES  9
@@ -76,7 +82,8 @@ static void clock_settings_alarm_draw_callback(Canvas* canvas, void* ctx) {
     // Press Back to snooze
     canvas_set_font(canvas, FontPrimary);
     canvas_draw_icon_ex(canvas, 5, 50, &I_Pin_back_arrow_10x8, 0);
-    canvas_draw_str_aligned(canvas, 20, 50, AlignLeft, AlignTop, "Snooze");
+    canvas_draw_str_aligned(
+        canvas, 20, 50, AlignLeft, AlignTop, CLOCK_SETTINGS_UI_TEXT("Snooze", "小睡"));
 }
 
 static void clock_settings_alarm_input_callback(InputEvent* input_event, void* ctx) {

@@ -43,3 +43,9 @@ typedef enum {
     BtSettingsAppViewDialog,
     BtSettingsAppViewPopup,
 } BtSettingsAppView;
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define BT_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define BT_SETTINGS_UI_TEXT(en, zh) (en)
+#endif

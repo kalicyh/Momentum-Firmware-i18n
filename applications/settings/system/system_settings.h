@@ -16,3 +16,9 @@ typedef struct {
 typedef enum {
     SystemSettingsViewVarItemList,
 } SystemSettingsView;
+
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define SYSTEM_SETTINGS_UI_TEXT(en, zh) (zh)
+#else
+#define SYSTEM_SETTINGS_UI_TEXT(en, zh) (en)
+#endif
