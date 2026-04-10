@@ -1,11 +1,5 @@
 #include "../momentum_app.h"
 
-enum SubmenuIndex {
-    SubmenuIndexMainApp,
-    SubmenuIndexExternalApp,
-    SubmenuIndexFileDirectory,
-};
-
 static bool fap_selector_item_callback(
     FuriString* file_path,
     void* context,
@@ -24,12 +18,14 @@ static void
     scene_manager_set_scene_state(app->scene_manager, MomentumAppSceneInterfaceMainmenuAdd, index);
 
     switch(index) {
-    case SubmenuIndexMainApp:
+    case MomentumAppMainmenuAddSourceMainApp:
         scene_manager_next_scene(app->scene_manager, MomentumAppSceneInterfaceMainmenuAddMain);
         break;
-    case SubmenuIndexExternalApp:
-    case SubmenuIndexFileDirectory: {
-        const bool is_file_dir = index == SubmenuIndexFileDirectory;
+    case MomentumAppMainmenuAddSourceExternalApp:
+        scene_manager_next_scene(app->scene_manager, MomentumAppSceneInterfaceMainmenuAddMain);
+        break;
+    case MomentumAppMainmenuAddSourceFileDirectory: {
+        const bool is_file_dir = true;
         const DialogsFileBrowserOptions browser_options = {
             .extension = is_file_dir ? "*" : ".fap",
             .icon = &I_unknown_10px,
@@ -66,21 +62,21 @@ void momentum_app_scene_interface_mainmenu_add_on_enter(void* context) {
     submenu_add_item(
         submenu,
         MOMENTUM_UI_TEXT("Main App", "主应用"),
-        SubmenuIndexMainApp,
+        MomentumAppMainmenuAddSourceMainApp,
         momentum_app_scene_interface_mainmenu_add_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
         MOMENTUM_UI_TEXT("External App", "外部应用"),
-        SubmenuIndexExternalApp,
+        MomentumAppMainmenuAddSourceExternalApp,
         momentum_app_scene_interface_mainmenu_add_submenu_callback,
         app);
 
     submenu_add_item(
         submenu,
         MOMENTUM_UI_TEXT("File / Directory (right btn)", "文件 / 目录 (右键)"),
-        SubmenuIndexFileDirectory,
+        MomentumAppMainmenuAddSourceFileDirectory,
         momentum_app_scene_interface_mainmenu_add_submenu_callback,
         app);
 

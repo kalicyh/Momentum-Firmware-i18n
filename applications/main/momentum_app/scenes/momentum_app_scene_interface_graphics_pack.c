@@ -9,6 +9,8 @@ void momentum_app_scene_interface_graphics_pack_on_enter(void* context) {
     MomentumApp* app = context;
     Submenu* submenu = app->submenu;
 
+    momentum_app_load_asset_pack_names(app);
+
     submenu_add_item(
         submenu,
         MOMENTUM_UI_TEXT("Default", "默认"),

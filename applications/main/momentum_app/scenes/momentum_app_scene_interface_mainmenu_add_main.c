@@ -17,22 +17,29 @@ static void
 void momentum_app_scene_interface_mainmenu_add_main_on_enter(void* context) {
     MomentumApp* app = context;
     Submenu* submenu = app->submenu;
+    const uint32_t source =
+        scene_manager_get_scene_state(app->scene_manager, MomentumAppSceneInterfaceMainmenuAdd);
 
-    for(size_t i = 0; i < FLIPPER_APPS_COUNT; i++) {
-        submenu_add_item(
-            submenu,
-            FLIPPER_APPS[i].name,
-            (uint32_t)FLIPPER_APPS[i].name,
-            momentum_app_scene_interface_mainmenu_add_main_submenu_callback,
-            app);
-    }
-    for(size_t i = 0; i < FLIPPER_EXTERNAL_APPS_COUNT - 1; i++) {
-        submenu_add_item(
-            submenu,
-            FLIPPER_EXTERNAL_APPS[i].name,
-            (uint32_t)FLIPPER_EXTERNAL_APPS[i].name,
-            momentum_app_scene_interface_mainmenu_add_main_submenu_callback,
-            app);
+    if(source == MomentumAppMainmenuAddSourceMainApp) {
+        submenu_set_header(submenu, MOMENTUM_UI_TEXT("Choose Main App:", "选择主应用:"));
+        for(size_t i = 0; i < FLIPPER_APPS_COUNT; i++) {
+            submenu_add_item(
+                submenu,
+                FLIPPER_APPS[i].name,
+                (uint32_t)FLIPPER_APPS[i].name,
+                momentum_app_scene_interface_mainmenu_add_main_submenu_callback,
+                app);
+        }
+    } else {
+        submenu_set_header(submenu, MOMENTUM_UI_TEXT("Choose External App:", "选择外部应用:"));
+        for(size_t i = 0; i < FLIPPER_EXTERNAL_APPS_COUNT - 1; i++) {
+            submenu_add_item(
+                submenu,
+                FLIPPER_EXTERNAL_APPS[i].name,
+                (uint32_t)FLIPPER_EXTERNAL_APPS[i].name,
+                momentum_app_scene_interface_mainmenu_add_main_submenu_callback,
+                app);
+        }
     }
 
     view_dispatcher_switch_to_view(app->view_dispatcher, MomentumAppViewSubmenu);
