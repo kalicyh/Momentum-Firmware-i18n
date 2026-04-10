@@ -34,13 +34,11 @@ if __name__ == "__main__":
     version_tag = os.environ["RELEASE_TAG"]
     repository = os.environ["GITHUB_REPOSITORY"]
 
-    changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
     template_path = Path(".github/workflow_data/release.md")
     template = template_path.read_text(encoding="utf-8")
     notes = template.format(
         VERSION_TAG=version_tag,
         REPOSITORY=repository,
         DOWNLOAD_TABLE=build_download_table(version_tag, repository),
-        CHANGELOG=changelog,
     )
     template_path.write_text(notes, encoding="utf-8")

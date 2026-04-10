@@ -20,7 +20,3 @@
 - `复刻版`：`MOMENTUM_DEVICE=clone`
 - `Clipper`：`MOMENTUM_DEVICE=clipper`
 - 所有 Release 固件均为中文构建：`MOMENTUM_UI_LANG=zh_CN`
-
-## 更新内容
-
-{CHANGELOG}
