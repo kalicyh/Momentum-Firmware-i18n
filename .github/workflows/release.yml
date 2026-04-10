@@ -8,13 +8,43 @@ on:
 env:
   DEFAULT_TARGET: f7
   FBT_GIT_SUBMODULE_SHALLOW: 1
+  FBT_TOOLCHAIN_CACHE_KEY: flipper-toolchain-v39-linux
 
 jobs:
+  prepare-tools:
+    name: "Prepare release tools"
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: "Build Linux bdfconv"
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+          git clone --depth 1 https://github.com/olikraus/u8g2.git /tmp/u8g2
+          make -C /tmp/u8g2/tools/font/bdfconv
+          mkdir -p release-tools
+          cp /tmp/u8g2/tools/font/bdfconv/bdfconv release-tools/bdfconv
+          chmod +x release-tools/bdfconv
+
+      - name: "Upload release tools"
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-tools
+          path: release-tools/bdfconv
+
   build-firmware:
     name: "Build ${{ matrix.profile }}"
     permissions:
       contents: read
     runs-on: ubuntu-latest
+    needs: prepare-tools
     strategy:
       fail-fast: false
       matrix:
@@ -30,19 +60,24 @@ jobs:
             display: Clipper
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
-      - name: "Build Linux bdfconv"
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-          git clone --depth 1 https://github.com/olikraus/u8g2.git /tmp/u8g2
-          make -C /tmp/u8g2/tools/font/bdfconv
-          cp /tmp/u8g2/tools/font/bdfconv/bdfconv tools/u8g2_cn_tools/bdfconv
-          chmod +x tools/u8g2_cn_tools/bdfconv
+      - name: "Restore toolchain cache"
+        uses: actions/cache@v4
+        with:
+          path: toolchain
+          key: ${{ env.FBT_TOOLCHAIN_CACHE_KEY }}
+
+      - name: "Download release tools"
+        uses: actions/download-artifact@v5
+        with:
+          name: release-tools
+          path: tools/u8g2_cn_tools
+
+      - name: "Prepare bdfconv"
+        run: chmod +x tools/u8g2_cn_tools/bdfconv
 
       - name: "Build updater package"
         run: |
@@ -63,7 +98,7 @@ jobs:
           cp "${FULL_DFU}" "release-assets/momentum-fw-cn-${TAG}-${PROFILE}.dfu"
 
       - name: "Upload packaged assets"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: release-${{ matrix.label }}
           path: release-assets/*
@@ -73,21 +108,27 @@ jobs:
     permissions:
       contents: read
     runs-on: ubuntu-latest
+    needs: prepare-tools
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
-      - name: "Build Linux bdfconv"
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y build-essential
-          git clone --depth 1 https://github.com/olikraus/u8g2.git /tmp/u8g2
-          make -C /tmp/u8g2/tools/font/bdfconv
-          cp /tmp/u8g2/tools/font/bdfconv/bdfconv tools/u8g2_cn_tools/bdfconv
-          chmod +x tools/u8g2_cn_tools/bdfconv
+      - name: "Restore toolchain cache"
+        uses: actions/cache@v4
+        with:
+          path: toolchain
+          key: ${{ env.FBT_TOOLCHAIN_CACHE_KEY }}
+
+      - name: "Download release tools"
+        uses: actions/download-artifact@v5
+        with:
+          name: release-tools
+          path: tools/u8g2_cn_tools
+
+      - name: "Prepare bdfconv"
+        run: chmod +x tools/u8g2_cn_tools/bdfconv
 
       - name: "Build all zh fonts"
         run: ./fbt zh_fonts_all
@@ -101,7 +142,7 @@ jobs:
           zip -qj "release-assets/momentum-fw-cn-${TAG}-zh-fonts.zip" release-assets/*.u8f
 
       - name: "Upload font assets"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: release-fonts
           path: release-assets/*
@@ -116,12 +157,12 @@ jobs:
       - build-fonts
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
       - name: "Download all release artifacts"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: release-assets
           pattern: release-*
