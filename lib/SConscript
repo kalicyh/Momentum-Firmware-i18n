@@ -3,6 +3,9 @@ import os
 Import("env")
 
 momentum_tools_root = Dir("#/tools/u8g2_cn_tools")
+momentum_default_bdf = momentum_tools_root.Dir("bdf").File(
+    "fusion-pixel-10px-proportional-zh_hans.bdf"
+)
 momentum_zh_fonts_out_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts")
 momentum_zh_fonts_work_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_work")
 momentum_zh_font_stamp = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_state").File("stamp")
@@ -17,7 +20,7 @@ momentum_zh_font_gen = env.Command(
         File("#/scripts/momentum_zh_font_gen.py"),
         File("#/localization/zh_CN/strings.json"),
         momentum_tools_root.File("bdfconv"),
-        momentum_tools_root.Dir("bdf").File("wenquanyi_9pt.bdf"),
+        momentum_default_bdf,
     ],
     [
         [
@@ -28,7 +31,7 @@ momentum_zh_font_gen = env.Command(
             "--tools-dir",
             momentum_tools_root,
             "--bdf",
-            momentum_tools_root.Dir("bdf").File("wenquanyi_9pt.bdf"),
+            momentum_default_bdf,
             "--work-dir",
             momentum_zh_fonts_work_dir,
             "--out-dir",
