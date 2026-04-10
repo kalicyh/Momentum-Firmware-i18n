@@ -34,6 +34,16 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: "Build Linux bdfconv"
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+          git clone --depth 1 https://github.com/olikraus/u8g2.git /tmp/u8g2
+          make -C /tmp/u8g2/tools/font/bdfconv
+          cp /tmp/u8g2/tools/font/bdfconv/bdfconv tools/u8g2_cn_tools/bdfconv
+          chmod +x tools/u8g2_cn_tools/bdfconv
+
       - name: "Build updater package"
         run: |
           MOMENTUM_UI_LANG=zh_CN \
@@ -68,6 +78,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
+      - name: "Build Linux bdfconv"
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y build-essential
+          git clone --depth 1 https://github.com/olikraus/u8g2.git /tmp/u8g2
+          make -C /tmp/u8g2/tools/font/bdfconv
+          cp /tmp/u8g2/tools/font/bdfconv/bdfconv tools/u8g2_cn_tools/bdfconv
+          chmod +x tools/u8g2_cn_tools/bdfconv
 
       - name: "Build all zh fonts"
         run: ./fbt zh_fonts_all
