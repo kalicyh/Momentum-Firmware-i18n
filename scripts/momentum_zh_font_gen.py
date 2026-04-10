@@ -22,7 +22,8 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--strings", required=True)
     parser.add_argument("--tools-dir", required=True)
-    parser.add_argument("--bdf", required=True)
+    parser.add_argument("--bdf")
+    parser.add_argument("--bdf-dir")
     parser.add_argument("--work-dir", required=True)
     parser.add_argument("--out-dir", required=True)
     parser.add_argument("--stamp", required=True)
@@ -138,6 +139,38 @@ def c_to_u8f(c_path: Path, u8f_path: Path):
     u8f_path.write_bytes(font)
 
 
+def sanitize_symbol_name(name: str):
+    return re.sub(r"[^A-Za-z0-9_]", "_", name)
+
+
+def generate_font(
+    bdfconv: Path, bdf: Path, map_file: Path, work_dir: Path, out_dir: Path, out_name: str
+):
+    c_file = work_dir / f"{out_name}.c"
+    u8f_file = out_dir / f"{out_name}.u8f"
+    symbol_name = sanitize_symbol_name(out_name)
+    subprocess.run(
+        [
+            str(bdfconv),
+            str(bdf),
+            "-b",
+            "0",
+            "-f",
+            "1",
+            "-M",
+            str(map_file),
+            "-n",
+            symbol_name,
+            "-o",
+            str(c_file),
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    c_to_u8f(c_file, u8f_file)
+
+
 def main():
     args = parse_args()
     work_dir = Path(args.work_dir)
@@ -160,45 +193,35 @@ def main():
     strings = Path(args.strings)
     tools_dir = Path(args.tools_dir)
     bdfconv = tools_dir / "bdfconv"
-    bdf = Path(args.bdf)
+    bdf = Path(args.bdf) if args.bdf else None
+    bdf_dir = Path(args.bdf_dir) if args.bdf_dir else None
+
+    if bool(bdf) == bool(bdf_dir):
+        raise ValueError("Specify exactly one of --bdf or --bdf-dir")
 
     if not bdfconv.is_file():
         raise FileNotFoundError(f"bdfconv not found: {bdfconv}")
-    if not bdf.is_file():
-        raise FileNotFoundError(f"BDF not found: {bdf}")
     if not os.access(bdfconv, os.X_OK):
         bdfconv.chmod(bdfconv.stat().st_mode | 0o111)
+
+    if bdf and not bdf.is_file():
+        raise FileNotFoundError(f"BDF not found: {bdf}")
+    if bdf_dir and not bdf_dir.is_dir():
+        raise FileNotFoundError(f"BDF dir not found: {bdf_dir}")
 
     chars = collect_chars_from_strings(strings)
     chars.update(collect_chars_from_source_literals(repo_root))
     chars.update(collect_chars_from_animation_text(repo_root))
     if chars:
         map_file = work_dir / "primary_zh.map"
-        c_file = work_dir / "primary_zh.c"
         chars_file = work_dir / "primary_zh_chars.txt"
-        u8f_file = out_dir / "primary_zh.u8f"
         write_chars_report(chars, chars_file)
         write_map(chars, map_file)
-        subprocess.run(
-            [
-                str(bdfconv),
-                str(bdf),
-                "-b",
-                "0",
-                "-f",
-                "1",
-                "-M",
-                str(map_file),
-                "-n",
-                "momentum_primary_zh",
-                "-o",
-                str(c_file),
-            ],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-        c_to_u8f(c_file, u8f_file)
+        if bdf:
+            generate_font(bdfconv, bdf, map_file, work_dir, out_dir, "primary_zh")
+        else:
+            for font_bdf in sorted(bdf_dir.glob("*.bdf")):
+                generate_font(bdfconv, font_bdf, map_file, work_dir, out_dir, font_bdf.stem)
 
     stamp.parent.mkdir(parents=True, exist_ok=True)
     stamp.write_text("ok\n", encoding="utf-8", newline="\n")

@@ -1,9 +1,15 @@
+import os
+
 Import("env")
 
 momentum_tools_root = Dir("#/tools/u8g2_cn_tools")
 momentum_zh_fonts_out_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts")
 momentum_zh_fonts_work_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_work")
 momentum_zh_font_stamp = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_state").File("stamp")
+momentum_zh_fonts_all_out_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_all")
+momentum_zh_fonts_all_work_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_all_work")
+momentum_zh_fonts_all_stamp = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_all_state").File("stamp")
+momentum_bdf_files = sorted(momentum_tools_root.Dir("bdf").glob("*.bdf"), key=lambda n: str(n))
 
 momentum_zh_font_gen = env.Command(
     [momentum_zh_font_stamp, momentum_zh_fonts_out_dir.File("primary_zh.u8f")],
@@ -39,6 +45,42 @@ env.Replace(
     MOMENTUM_ZH_FONT_GEN=momentum_zh_font_gen,
     ZH_FONTS_OUT_DIR=momentum_zh_fonts_out_dir,
 )
+
+momentum_zh_fonts_all_targets = [momentum_zh_fonts_all_stamp]
+momentum_zh_fonts_all_targets.extend(
+    momentum_zh_fonts_all_out_dir.File(f"{os.path.splitext(os.path.basename(str(bdf)))[0]}.u8f")
+    for bdf in momentum_bdf_files
+)
+momentum_zh_font_gen_all = env.Command(
+    momentum_zh_fonts_all_targets,
+    [
+        File("#/scripts/momentum_zh_font_gen.py"),
+        File("#/localization/zh_CN/strings.json"),
+        momentum_tools_root.File("bdfconv"),
+        *momentum_bdf_files,
+    ],
+    [
+        [
+            "${PYTHON3}",
+            "${ROOT_DIR}/scripts/momentum_zh_font_gen.py",
+            "--strings",
+            "${ROOT_DIR}/localization/zh_CN/strings.json",
+            "--tools-dir",
+            momentum_tools_root,
+            "--bdf-dir",
+            momentum_tools_root.Dir("bdf"),
+            "--work-dir",
+            momentum_zh_fonts_all_work_dir,
+            "--out-dir",
+            momentum_zh_fonts_all_out_dir,
+            "--stamp",
+            momentum_zh_fonts_all_stamp,
+            "--enabled",
+            "1",
+        ]
+    ],
+)
+env.Alias("zh_fonts_all", momentum_zh_font_gen_all)
 
 
 env.Append(

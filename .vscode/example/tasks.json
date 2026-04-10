@@ -94,6 +94,12 @@
             "command": "MOMENTUM_UI_LANG=zh_CN MOMENTUM_DEVICE=clipper ./fbt updater_package COMPACT=1 DEBUG=0"
         },
         {
+            "label": "[CN] 生成全部中文字库",
+            "group": "build",
+            "type": "shell",
+            "command": "./fbt zh_fonts_all"
+        },
+        {
             "label": "[Debug] Build update bundle",
             "group": "build",
             "type": "shell",
