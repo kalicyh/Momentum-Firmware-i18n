@@ -35,6 +35,41 @@ static bool canvas_string_has_non_ascii(const char* str) {
 
 static uint8_t* canvas_zh_font = NULL;
 
+static void canvas_release_zh_font(void) {
+    free(canvas_zh_font);
+    canvas_zh_font = NULL;
+}
+
+static bool canvas_try_load_zh_font_file(File* file, uint8_t** font, const char* path) {
+    if(!storage_file_open(file, path, FSAM_READ, FSOM_OPEN_EXISTING)) {
+        return false;
+    }
+
+    bool ok = false;
+    do {
+        uint64_t size = storage_file_size(file);
+        if(size <= U8G2_FONT_DATA_STRUCT_SIZE || size > UINT32_MAX) {
+            break;
+        }
+
+        *font = malloc(size);
+        if(!*font) {
+            break;
+        }
+
+        if(storage_file_read(file, *font, size) != size) {
+            free(*font);
+            *font = NULL;
+            break;
+        }
+
+        ok = true;
+    } while(false);
+
+    storage_file_close(file);
+    return ok;
+}
+
 static const uint8_t* canvas_get_zh_font(void) {
 #ifdef MOMENTUM_UI_LANG_ZH_CN
     if(canvas_zh_font) {
@@ -46,30 +81,13 @@ static const uint8_t* canvas_get_zh_font(void) {
     uint8_t* font = NULL;
 
     do {
-        if(!storage_file_open(file, CANVAS_ZH_FONT_PATH, FSAM_READ, FSOM_OPEN_EXISTING)) {
-            break;
-        }
-
-        uint64_t size = storage_file_size(file);
-        if(size <= U8G2_FONT_DATA_STRUCT_SIZE || size > UINT32_MAX) {
-            break;
-        }
-
-        font = malloc(size);
-        if(!font) {
-            break;
-        }
-
-        if(storage_file_read(file, font, size) != size) {
-            free(font);
-            font = NULL;
+        if(!canvas_try_load_zh_font_file(file, &font, CANVAS_ZH_FONT_PATH)) {
             break;
         }
 
         canvas_zh_font = font;
     } while(false);
 
-    storage_file_close(file);
     storage_file_free(file);
     furi_record_close(RECORD_STORAGE);
 
@@ -132,8 +150,7 @@ void canvas_free(Canvas* canvas) {
     CanvasCallbackPairArray_clear(canvas->canvas_callback_pair);
     furi_mutex_free(canvas->mutex);
     free(canvas);
-    free(canvas_zh_font);
-    canvas_zh_font = NULL;
+    canvas_release_zh_font();
 }
 
 static void canvas_lock(Canvas* canvas) {

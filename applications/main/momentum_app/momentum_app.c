@@ -373,6 +373,7 @@ MomentumApp* momentum_app_alloc() {
                 }
             }
         }
+        storage_file_close(folder);
     }
     free(name);
     storage_file_free(folder);

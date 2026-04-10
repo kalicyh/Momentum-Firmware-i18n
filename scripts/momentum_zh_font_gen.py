@@ -12,6 +12,7 @@ STRING_LITERAL_RE = re.compile(r'"((?:\\.|[^"\\])*)"', re.DOTALL)
 SOURCE_SCAN_ROOTS = (
     Path("applications/main"),
     Path("applications/services"),
+    Path("applications/settings"),
     Path("lib"),
 )
 ANIMATION_TEXT_ROOT = Path("assets/dolphin")
