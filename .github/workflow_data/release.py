@@ -1,29 +1,46 @@
-#!/usr/bin/env python
-import requests
-import json
+#!/usr/bin/env python3
+
 import os
+from pathlib import Path
+
+
+PROFILE_ROWS = [
+    ("原版", "real", "original"),
+    ("复刻版", "clone", "clone"),
+    ("Clipper", "clipper", "clipper"),
+]
+
+
+def build_download_table(version_tag: str, repository: str):
+    lines = []
+    for display_name, profile, asset_name in PROFILE_ROWS:
+        base = f"momentum-fw-cn-{version_tag}-{asset_name}"
+        lines.append(
+            "| {display} | `MOMENTUM_DEVICE={profile}` | "
+            "[ZIP](https://github.com/{repo}/releases/download/{tag}/{base}.zip) | "
+            "[TGZ](https://github.com/{repo}/releases/download/{tag}/{base}.tgz) | "
+            "[DFU](https://github.com/{repo}/releases/download/{tag}/{base}.dfu) |".format(
+                display=display_name,
+                profile=profile,
+                repo=repository,
+                tag=version_tag,
+                base=base,
+            )
+        )
+    return "\n".join(lines)
+
 
 if __name__ == "__main__":
-    with open(os.environ["GITHUB_EVENT_PATH"], "r") as f:
-        event = json.load(f)
-    release = requests.get(
-        event["release"]["url"],
-        headers={
-            "Accept": "application/vnd.github.v3+json",
-            "Authorization": f"token {os.environ['GITHUB_TOKEN']}"
-        }
-    ).json()
-    version_tag = release["tag_name"]
+    version_tag = os.environ["RELEASE_TAG"]
+    repository = os.environ["GITHUB_REPOSITORY"]
 
-    with open("CHANGELOG.md", "r") as f:
-        changelog = f.read()
-
-    notes_path = '.github/workflow_data/release.md'
-    with open(notes_path, "r") as f:
-        template = f.read()
+    changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
+    template_path = Path(".github/workflow_data/release.md")
+    template = template_path.read_text(encoding="utf-8")
     notes = template.format(
         VERSION_TAG=version_tag,
-        CHANGELOG=changelog
+        REPOSITORY=repository,
+        DOWNLOAD_TABLE=build_download_table(version_tag, repository),
+        CHANGELOG=changelog,
     )
-    with open(notes_path, "w") as f:
-        f.write(notes)
+    template_path.write_text(notes, encoding="utf-8")

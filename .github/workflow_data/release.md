@@ -1,24 +1,26 @@
-## ⬇️ Download
->### [🖥️ Web Updater (chrome)](https://momentum-fw.dev/update?version={VERSION_TAG}) [recommended]
+## 下载
 
->### [☁️ Flipper Lab/App (chrome/mobile)](https://lab.flipper.net/?url=https://up.momentum-fw.dev/builds/firmware/{VERSION_TAG}/flipper-z-f7-update-{VERSION_TAG}.tgz&channel=release-cfw&version={VERSION_TAG})
+### 固件版本
 
->### [🐬 qFlipper Package (.tgz)](https://github.com/Next-Flip/Momentum-Firmware/releases/download/{VERSION_TAG}/flipper-z-f7-update-{VERSION_TAG}.tgz)
+| 版本 | 说明 | 更新包 ZIP | 更新包 TGZ | 完整 DFU |
+|---|---|---|---|---|
+{DOWNLOAD_TABLE}
 
->### [📦 Zipped Archive (.zip)](https://github.com/Next-Flip/Momentum-Firmware/releases/download/{VERSION_TAG}/flipper-z-f7-update-{VERSION_TAG}.zip)
+### 字体文件
 
-**Check the [install guide](https://github.com/Next-Flip/Momentum-Firmware#install) if you're not sure, or [join our Discord](https://discord.gg/momentum) if you have questions or encounter issues!**
+| 文件 | 说明 | 下载 |
+|---|---|---|
+| `momentum-fw-cn-{VERSION_TAG}-zh-fonts.zip` | 全部 `tools/u8g2_cn_tools/bdf` 对应生成的 `.u8f` 文件 | [下载](https://github.com/{REPOSITORY}/releases/download/{VERSION_TAG}/momentum-fw-cn-{VERSION_TAG}-zh-fonts.zip) |
 
-## ❤️ Support
-If you enjoy the firmware please __**spread the word!**__ And if you really love it, maybe consider donating to the team? :D
+可以手动将想使用的字体文件改名为 `primary_zh.u8f` 后放入 `/ext/zh_fonts/`。
 
-> **[Ko-fi](https://ko-fi.com/willyjl)**: One-off or Recurring, No signup required
+## 说明
 
-> **[PayPal](https://paypal.me/willyjl1)**: One-off, Signup required
+- `原版`：`MOMENTUM_DEVICE=real`
+- `复刻版`：`MOMENTUM_DEVICE=clone`
+- `Clipper`：`MOMENTUM_DEVICE=clipper`
+- 所有 Release 固件均为中文构建：`MOMENTUM_UI_LANG=zh_CN`
 
-> **BTC**: `1EnCi1HF8Jw6m2dWSUwHLbCRbVBCQSyDKm`
+## 更新内容
 
-**Thank you <3**
-
-## 🚀 Changelog
 {CHANGELOG}

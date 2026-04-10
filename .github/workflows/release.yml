@@ -1,59 +1,124 @@
 name: "Release"
 
 on:
-  release:
-    types:
-      - released
+  push:
+    tags:
+      - "*"
+
+env:
+  DEFAULT_TARGET: f7
+  FBT_GIT_SUBMODULE_SHALLOW: 1
 
 jobs:
-  release:
+  build-firmware:
+    name: "Build ${{ matrix.profile }}"
     permissions:
-      contents: write
+      contents: read
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - profile: real
+            label: original
+            display: 原版
+          - profile: clone
+            label: clone
+            display: 复刻版
+          - profile: clipper
+            label: clipper
+            display: Clipper
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: "Build updater package"
+        run: |
+          MOMENTUM_UI_LANG=zh_CN \
+          MOMENTUM_DEVICE=${{ matrix.profile }} \
+          ./fbt COMPACT=1 DEBUG=0 updater_package
+
+      - name: "Package release assets"
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          PROFILE="${{ matrix.label }}"
+          UPDATE_DIR="$(find dist/f7-C -maxdepth 1 -type d -name 'f7-update-*' | head -n1)"
+          FULL_DFU="$(find dist/f7-C -maxdepth 1 -type f -name 'flipper-z-f7-full-*.dfu' | head -n1)"
+          mkdir -p release-assets
+          zip -qr "release-assets/momentum-fw-cn-${TAG}-${PROFILE}.zip" "${UPDATE_DIR}"
+          tar czf "release-assets/momentum-fw-cn-${TAG}-${PROFILE}.tgz" -C "$(dirname "${UPDATE_DIR}")" "$(basename "${UPDATE_DIR}")"
+          cp "${FULL_DFU}" "release-assets/momentum-fw-cn-${TAG}-${PROFILE}.dfu"
+
+      - name: "Upload packaged assets"
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.label }}
+          path: release-assets/*
+
+  build-fonts:
+    name: "Build zh fonts"
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: "Update release notes"
+      - name: "Build all zh fonts"
+        run: ./fbt zh_fonts_all
+
+      - name: "Package font assets"
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          mkdir -p release-assets
+          cp build/f7-firmware-C/generated/zh_fonts_all/*.u8f release-assets/
+          zip -qj "release-assets/momentum-fw-cn-${TAG}-zh-fonts.zip" release-assets/*.u8f
+
+      - name: "Upload font assets"
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-fonts
+          path: release-assets/*
+
+  release:
+    name: "Create GitHub Release"
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    needs:
+      - build-firmware
+      - build-fonts
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: "Download all release artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          pattern: release-*
+          merge-multiple: true
+
+      - name: "Generate release notes"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          RELEASE_TAG: ${{ github.ref_name }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: python .github/workflow_data/release.py
 
-      - name: "Download release assets from tag build"
-        run: |
-          set -e
-          wget "${{ secrets.INDEXER_URL }}"/builds/firmware/${{ github.event.release.tag_name }}/flipper-z-f7-update-${{ github.event.release.tag_name }}.tgz
-          wget "${{ secrets.INDEXER_URL }}"/builds/firmware/${{ github.event.release.tag_name }}/flipper-z-f7-update-${{ github.event.release.tag_name }}.zip
-          wget "${{ secrets.INDEXER_URL }}"/builds/firmware/${{ github.event.release.tag_name }}/flipper-z-f7-sdk-${{ github.event.release.tag_name }}.zip
-
-      - name: "Update release with assets and notes"
-        uses: "softprops/action-gh-release@v1"
+      - name: "Create release with assets"
+        uses: softprops/action-gh-release@v1
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           body_path: .github/workflow_data/release.md
-          files: |
-            flipper-z-f7-update-${{ github.event.release.tag_name }}.tgz
-            flipper-z-f7-update-${{ github.event.release.tag_name }}.zip
-            flipper-z-f7-sdk-${{ github.event.release.tag_name }}.zip
-
-      - name: "Trigger reindex"
-        run: |
-          curl --fail -L -H "Token: ${{ secrets.INDEXER_TOKEN }}" \
-              "${{ secrets.INDEXER_URL }}"/firmware/reindex;
-
-      - name: "Force deploy website to refresh releases"
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
-          repository: Next-Flip/v2.momentum-fw.dev
-          event-type: force-deploy
-
-      - name: "Send release notification"
-        env:
-          RELEASE_WEBHOOK: ${{ secrets.RELEASE_WEBHOOK }}
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        run: python .github/workflow_data/webhook.py
+          files: release-assets/*
