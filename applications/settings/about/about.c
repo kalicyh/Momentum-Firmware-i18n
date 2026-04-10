@@ -24,9 +24,10 @@ static DialogMessageButton about_screen_product(DialogsApp* dialogs, DialogMessa
     DialogMessageButton result;
 
     FuriString* screen_header = furi_string_alloc_printf(
-        ABOUT_UI_TEXT("Product", "产品") ": %s\n"
-        ABOUT_UI_TEXT("Model", "型号") ": %s",
+        "%s: %s\n%s: %s",
+        ABOUT_UI_TEXT("Product", "产品"),
         furi_hal_version_get_model_name(),
+        ABOUT_UI_TEXT("Model", "型号"),
         furi_hal_version_get_model_code());
 
     FuriString* screen_text = furi_string_alloc_printf(

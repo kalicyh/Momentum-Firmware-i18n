@@ -63,7 +63,7 @@ static void draw_battery(Canvas* canvas, BatteryInfoModel* data, int x, int y) {
             "%s",
             current < HIGH_DRAIN_CURRENT_THRESHOLD ?
                 BATTERY_INFO_UI_TEXT("Oh no!", "糟了!") :
-                BATTERY_INFO_UI_TEXT("Om-nom-nom!", "耗电中!");
+                BATTERY_INFO_UI_TEXT("Om-nom-nom!", "耗电中!"));
         snprintf(header, sizeof(header), "%s", BATTERY_INFO_UI_TEXT("Consumption is", "当前耗电"));
         snprintf(
             value,
