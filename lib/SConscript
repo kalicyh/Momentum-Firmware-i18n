@@ -19,6 +19,7 @@ momentum_zh_font_gen = env.Command(
     [
         File("#/scripts/momentum_zh_font_gen.py"),
         File("#/localization/zh_CN/strings.json"),
+        File("#/localization/zh_CN/external_apps.txt"),
         momentum_tools_root.File("bdfconv"),
         momentum_default_bdf,
     ],
@@ -40,6 +41,8 @@ momentum_zh_font_gen = env.Command(
             momentum_zh_font_stamp,
             "--enabled",
             "${MOMENTUM_UI_LANG_ZH}",
+            "--external-apps",
+            "${ROOT_DIR}/localization/zh_CN/external_apps.txt",
         ]
     ],
 )
