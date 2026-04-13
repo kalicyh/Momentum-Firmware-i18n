@@ -18,6 +18,12 @@
 extern "C" {
 #endif
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define UPDATER_UI_TEXT(en, zh) (zh)
+#else
+#define UPDATER_UI_TEXT(en, zh) (en)
+#endif
+
 #define UPDATER_APP_TICK 500
 
 typedef enum {

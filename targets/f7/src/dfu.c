@@ -7,6 +7,12 @@
 #include <gui/canvas.h>
 #include <gui/canvas_i.h>
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define DFU_UI_TEXT(en, zh) (zh)
+#else
+#define DFU_UI_TEXT(en, zh) (en)
+#endif
+
 void flipper_boot_dfu_show_splash(void) {
     // Initialize
     Canvas* canvas = canvas_init();
@@ -15,8 +21,8 @@ void flipper_boot_dfu_show_splash(void) {
     canvas_set_font(canvas, FontPrimary);
 
     canvas_draw_icon(canvas, 0, 64 - 50, &I_DFU_128x50);
-    canvas_draw_str(canvas, 2, 8, "Update & Recovery Mode");
-    canvas_draw_str(canvas, 2, 21, "DFU Started");
+    canvas_draw_str(canvas, 2, 8, DFU_UI_TEXT("Update & Recovery Mode", "更新与恢复模式"));
+    canvas_draw_str(canvas, 2, 21, DFU_UI_TEXT("DFU Started", "DFU 已启动"));
     canvas_commit(canvas);
 
     canvas_free(canvas);

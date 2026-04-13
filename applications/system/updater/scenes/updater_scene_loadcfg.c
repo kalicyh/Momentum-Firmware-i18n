@@ -25,7 +25,13 @@ void updater_scene_loadcfg_on_enter(void* context) {
 
     if(update_manifest_init(loaded_manifest, furi_string_get_cstr(updater->startup_arg))) {
         widget_add_string_element(
-            updater->widget, 64, 12, AlignCenter, AlignCenter, FontPrimary, "Update");
+            updater->widget,
+            64,
+            12,
+            AlignCenter,
+            AlignCenter,
+            FontPrimary,
+            UPDATER_UI_TEXT("Update", "更新"));
 
         widget_add_text_box_element(
             updater->widget,
@@ -41,18 +47,24 @@ void updater_scene_loadcfg_on_enter(void* context) {
         widget_add_button_element(
             updater->widget,
             GuiButtonTypeRight,
-            "Install",
+            UPDATER_UI_TEXT("Install", "安装"),
             updater_scene_loadcfg_apply_callback,
             updater);
     } else {
         widget_add_string_element(
-            updater->widget, 64, 24, AlignCenter, AlignCenter, FontPrimary, "Invalid manifest");
+            updater->widget,
+            64,
+            24,
+            AlignCenter,
+            AlignCenter,
+            FontPrimary,
+            UPDATER_UI_TEXT("Invalid manifest", "更新清单无效"));
     }
 
     widget_add_button_element(
         updater->widget,
         GuiButtonTypeLeft,
-        "Cancel",
+        UPDATER_UI_TEXT("Cancel", "取消"),
         updater_scene_loadcfg_apply_callback,
         updater);
 

@@ -14,18 +14,32 @@
 #define UPDATE_MIN_INT_FREE_SPACE (2 * 4 * 1024)
 
 static const char* update_prepare_result_descr[] = {
-    [UpdatePrepareResultOK] = "OK",
-    [UpdatePrepareResultManifestPathInvalid] = "Invalid manifest name or location",
-    [UpdatePrepareResultManifestFolderNotFound] = "Update folder not found",
-    [UpdatePrepareResultManifestInvalid] = "Invalid manifest data",
-    [UpdatePrepareResultStageMissing] = "Missing Stage2 loader",
-    [UpdatePrepareResultStageIntegrityError] = "Corrupted Stage2 loader",
-    [UpdatePrepareResultManifestPointerCreateError] = "Failed to create update pointer file",
-    [UpdatePrepareResultManifestPointerCheckError] = "Update pointer file error (corrupted FS?)",
-    [UpdatePrepareResultTargetMismatch] = "Hardware target mismatch",
-    [UpdatePrepareResultOutdatedManifestVersion] = "Update package is too old",
-    [UpdatePrepareResultIntFull] = "Need more free space in internal storage",
-    [UpdatePrepareResultUnspecifiedError] = "Unknown error",
+    [UpdatePrepareResultOK] = UPDATE_OPERATION_UI_TEXT("OK", "确定"),
+    [UpdatePrepareResultManifestPathInvalid] =
+        UPDATE_OPERATION_UI_TEXT("Invalid manifest name or location", "清单路径无效"),
+    [UpdatePrepareResultManifestFolderNotFound] =
+        UPDATE_OPERATION_UI_TEXT("Update folder not found", "未找到更新包"),
+    [UpdatePrepareResultManifestInvalid] =
+        UPDATE_OPERATION_UI_TEXT("Invalid manifest data", "清单数据无效"),
+    [UpdatePrepareResultStageMissing] =
+        UPDATE_OPERATION_UI_TEXT("Missing Stage2 loader", "缺少 Stage2 加载器"),
+    [UpdatePrepareResultStageIntegrityError] =
+        UPDATE_OPERATION_UI_TEXT("Corrupted Stage2 loader", "Stage2 加载器已损坏"),
+    [UpdatePrepareResultManifestPointerCreateError] = UPDATE_OPERATION_UI_TEXT(
+        "Failed to create update pointer file",
+        "创建指针失败"),
+    [UpdatePrepareResultManifestPointerCheckError] = UPDATE_OPERATION_UI_TEXT(
+        "Update pointer file error (corrupted FS?)",
+        "指针文件异常"),
+    [UpdatePrepareResultTargetMismatch] =
+        UPDATE_OPERATION_UI_TEXT("Hardware target mismatch", "设备不匹配"),
+    [UpdatePrepareResultOutdatedManifestVersion] =
+        UPDATE_OPERATION_UI_TEXT("Update package is too old", "更新包过旧"),
+    [UpdatePrepareResultIntFull] = UPDATE_OPERATION_UI_TEXT(
+        "Need more free space in internal storage",
+        "内部空间不足"),
+    [UpdatePrepareResultUnspecifiedError] =
+        UPDATE_OPERATION_UI_TEXT("Unknown error", "未知错误"),
 };
 
 const char* update_operation_describe_preparation_result(const UpdatePrepareResult value) {

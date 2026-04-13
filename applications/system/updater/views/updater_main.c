@@ -82,19 +82,31 @@ static void updater_main_draw_callback(Canvas* canvas, void* _model) {
 
     if(model->failed) {
         canvas_draw_icon(canvas, 2, 22, &I_Warning_30x23);
-        canvas_draw_str_aligned(canvas, 40, 9, AlignLeft, AlignTop, "Update Failed!");
+        canvas_draw_str_aligned(
+            canvas,
+            40,
+            9,
+            AlignLeft,
+            AlignTop,
+            UPDATER_UI_TEXT("Update Failed!", "更新失败！"));
         canvas_set_font(canvas, FontSecondary);
 
         elements_multiline_text_aligned(
             canvas, 75, 26, AlignCenter, AlignTop, furi_string_get_cstr(model->status));
 
         canvas_draw_str_aligned(
-            canvas, 18, 55, AlignLeft, AlignTop, "to retry, hold       to abort");
+            canvas,
+            18,
+            55,
+            AlignLeft,
+            AlignTop,
+            UPDATER_UI_TEXT("to retry, hold       to abort", "按 OK 重试，长按返回中止"));
         canvas_draw_icon(canvas, 7, 54, &I_Ok_btn_9x9);
         canvas_draw_icon(canvas, 75, 55, &I_Pin_back_arrow_10x8);
     } else {
         canvas_set_font(canvas, FontSecondary);
-        canvas_draw_str_aligned(canvas, 82, 5, AlignCenter, AlignTop, "Installing");
+        canvas_draw_str_aligned(
+            canvas, 82, 5, AlignCenter, AlignTop, UPDATER_UI_TEXT("Installing", "正在安装"));
         canvas_draw_str_aligned(
             canvas, 64, 51, AlignCenter, AlignTop, furi_string_get_cstr(model->status));
         canvas_draw_icon(canvas, 4, 5, &I_Updating_32x40);
@@ -112,7 +124,7 @@ UpdaterMainView* updater_main_alloc(void) {
     with_view_model(
         main_view->view,
         UpdaterProgressModel * model,
-        { model->status = furi_string_alloc_set("Waiting for SD card"); },
+        { model->status = furi_string_alloc_set(UPDATER_UI_TEXT("Waiting for SD card", "正在等待 SD 卡")); },
         true);
 
     view_set_context(main_view->view, main_view);

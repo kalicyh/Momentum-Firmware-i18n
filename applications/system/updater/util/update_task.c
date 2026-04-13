@@ -1,5 +1,6 @@
 #include "update_task.h"
 #include "update_task_i.h"
+#include "../updater_i.h"
 
 #include <furi.h>
 #include <furi_hal.h>
@@ -12,25 +13,32 @@
 
 static const char* update_task_stage_descr[] = {
     [UpdateTaskStageProgress] = "...",
-    [UpdateTaskStageReadManifest] = "Loading update manifest",
-    [UpdateTaskStageValidateDFUImage] = "Checking DFU file",
-    [UpdateTaskStageFlashWrite] = "Writing flash",
-    [UpdateTaskStageFlashValidate] = "Validating flash",
-    [UpdateTaskStageRadioImageValidate] = "Checking radio FW",
-    [UpdateTaskStageRadioErase] = "Uninstalling radio FW",
-    [UpdateTaskStageRadioWrite] = "Writing radio FW",
-    [UpdateTaskStageRadioInstall] = "Installing radio FW",
-    [UpdateTaskStageRadioBusy] = "Core 2 busy",
-    [UpdateTaskStageOBValidation] = "Validating opt. bytes",
-    [UpdateTaskStageIntBackup] = "Backing up configuration",
-    [UpdateTaskStageIntRestore] = "Restoring configuration",
-    [UpdateTaskStageResourcesFileCleanup] = "Cleaning up files",
-    [UpdateTaskStageResourcesDirCleanup] = "Cleaning up directories",
-    [UpdateTaskStageResourcesFileUnpack] = "Extracting resources",
-    [UpdateTaskStageSplashscreenInstall] = "Installing splashscreen",
-    [UpdateTaskStageCompleted] = "Restarting...",
-    [UpdateTaskStageError] = "Error",
-    [UpdateTaskStageOBError] = "OB, report",
+    [UpdateTaskStageReadManifest] = UPDATER_UI_TEXT("Loading update manifest", "加载清单"),
+    [UpdateTaskStageValidateDFUImage] = UPDATER_UI_TEXT("Checking DFU file", "检查 DFU"),
+    [UpdateTaskStageFlashWrite] = UPDATER_UI_TEXT("Writing flash", "写入固件"),
+    [UpdateTaskStageFlashValidate] = UPDATER_UI_TEXT("Validating flash", "校验固件"),
+    [UpdateTaskStageRadioImageValidate] =
+        UPDATER_UI_TEXT("Checking radio FW", "检查无线固件"),
+    [UpdateTaskStageRadioErase] = UPDATER_UI_TEXT("Uninstalling radio FW", "卸载无线固件"),
+    [UpdateTaskStageRadioWrite] = UPDATER_UI_TEXT("Writing radio FW", "写入无线固件"),
+    [UpdateTaskStageRadioInstall] =
+        UPDATER_UI_TEXT("Installing radio FW", "安装无线固件"),
+    [UpdateTaskStageRadioBusy] = UPDATER_UI_TEXT("Core 2 busy", "核心 2 忙"),
+    [UpdateTaskStageOBValidation] =
+        UPDATER_UI_TEXT("Validating opt. bytes", "校验选项字节"),
+    [UpdateTaskStageIntBackup] = UPDATER_UI_TEXT("Backing up configuration", "备份配置"),
+    [UpdateTaskStageIntRestore] = UPDATER_UI_TEXT("Restoring configuration", "恢复配置"),
+    [UpdateTaskStageResourcesFileCleanup] =
+        UPDATER_UI_TEXT("Cleaning up files", "清理文件"),
+    [UpdateTaskStageResourcesDirCleanup] =
+        UPDATER_UI_TEXT("Cleaning up directories", "清理目录"),
+    [UpdateTaskStageResourcesFileUnpack] =
+        UPDATER_UI_TEXT("Extracting resources", "解压资源"),
+    [UpdateTaskStageSplashscreenInstall] =
+        UPDATER_UI_TEXT("Installing splashscreen", "安装启动画面"),
+    [UpdateTaskStageCompleted] = UPDATER_UI_TEXT("Restarting...", "重启中..."),
+    [UpdateTaskStageError] = UPDATER_UI_TEXT("Error", "错误"),
+    [UpdateTaskStageOBError] = UPDATER_UI_TEXT("OB, report", "选项字节异常"),
 };
 
 static const struct {
@@ -42,153 +50,153 @@ static const struct {
         .stage = UpdateTaskStageReadManifest,
         .percent_min = 0,
         .percent_max = 13,
-        .descr = "Wrong Updater HW",
+        .descr = UPDATER_UI_TEXT("Wrong Updater HW", "设备不匹配"),
     },
     {
         .stage = UpdateTaskStageReadManifest,
         .percent_min = 14,
         .percent_max = 20,
-        .descr = "Manifest pointer error",
+        .descr = UPDATER_UI_TEXT("Manifest pointer error", "清单指针错"),
     },
     {
         .stage = UpdateTaskStageReadManifest,
         .percent_min = 21,
         .percent_max = 30,
-        .descr = "Manifest load error",
+        .descr = UPDATER_UI_TEXT("Manifest load error", "清单加载失败"),
     },
     {
         .stage = UpdateTaskStageReadManifest,
         .percent_min = 31,
         .percent_max = 40,
-        .descr = "Wrong package version",
+        .descr = UPDATER_UI_TEXT("Wrong package version", "更新包版本错"),
     },
     {
         .stage = UpdateTaskStageReadManifest,
         .percent_min = 41,
         .percent_max = 50,
-        .descr = "HW Target mismatch",
+        .descr = UPDATER_UI_TEXT("HW Target mismatch", "设备不匹配"),
     },
     {
         .stage = UpdateTaskStageReadManifest,
         .percent_min = 51,
         .percent_max = 60,
-        .descr = "No DFU file",
+        .descr = UPDATER_UI_TEXT("No DFU file", "缺少 DFU 文件"),
     },
     {
         .stage = UpdateTaskStageReadManifest,
         .percent_min = 61,
         .percent_max = 80,
-        .descr = "No Radio file",
+        .descr = UPDATER_UI_TEXT("No Radio file", "缺少无线文件"),
     },
 #ifndef FURI_RAM_EXEC
     {
         .stage = UpdateTaskStageIntBackup,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "FS R/W error",
+        .descr = UPDATER_UI_TEXT("FS R/W error", "文件系统读写错"),
     },
 #else
     {
         .stage = UpdateTaskStageRadioImageValidate,
         .percent_min = 0,
         .percent_max = 98,
-        .descr = "FS Read error",
+        .descr = UPDATER_UI_TEXT("FS Read error", "文件系统读取错"),
     },
     {
         .stage = UpdateTaskStageRadioImageValidate,
         .percent_min = 99,
         .percent_max = 100,
-        .descr = "CRC mismatch",
+        .descr = UPDATER_UI_TEXT("CRC mismatch", "CRC 不匹配"),
     },
     {
         .stage = UpdateTaskStageRadioErase,
         .percent_min = 0,
         .percent_max = 30,
-        .descr = "Stack remove: cmd error",
+        .descr = UPDATER_UI_TEXT("Stack remove: cmd error", "移除协议栈：命令错"),
     },
     {
         .stage = UpdateTaskStageRadioErase,
         .percent_min = 31,
         .percent_max = 100,
-        .descr = "Stack remove: wait failed",
+        .descr = UPDATER_UI_TEXT("Stack remove: wait failed", "移除协议栈：等待失败"),
     },
     {
         .stage = UpdateTaskStageRadioWrite,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "Stack write: error",
+        .descr = UPDATER_UI_TEXT("Stack write: error", "写入协议栈：错误"),
     },
     {
         .stage = UpdateTaskStageRadioInstall,
         .percent_min = 0,
         .percent_max = 10,
-        .descr = "Stack install: cmd error",
+        .descr = UPDATER_UI_TEXT("Stack install: cmd error", "安装协议栈：命令错"),
     },
     {
         .stage = UpdateTaskStageRadioInstall,
         .percent_min = 11,
         .percent_max = 100,
-        .descr = "Stack install: wait failed",
+        .descr = UPDATER_UI_TEXT("Stack install: wait failed", "安装协议栈：等待失败"),
     },
     {
         .stage = UpdateTaskStageRadioBusy,
         .percent_min = 0,
         .percent_max = 10,
-        .descr = "Failed to start C2",
+        .descr = UPDATER_UI_TEXT("Failed to start C2", "启动 C2 失败"),
     },
     {
         .stage = UpdateTaskStageRadioBusy,
         .percent_min = 11,
         .percent_max = 20,
-        .descr = "C2 FUS switch failed",
+        .descr = UPDATER_UI_TEXT("C2 FUS switch failed", "切到 C2 FUS 失败"),
     },
     {
         .stage = UpdateTaskStageRadioBusy,
         .percent_min = 21,
         .percent_max = 30,
-        .descr = "FUS operation failed",
+        .descr = UPDATER_UI_TEXT("FUS operation failed", "FUS 操作失败"),
     },
     {
         .stage = UpdateTaskStageRadioBusy,
         .percent_min = 31,
         .percent_max = 100,
-        .descr = "C2 Stach switch failed",
+        .descr = UPDATER_UI_TEXT("C2 Stach switch failed", "切回 C2 协议栈失败"),
     },
     {
         .stage = UpdateTaskStageOBValidation,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "Uncorr. value mismatch",
+        .descr = UPDATER_UI_TEXT("Uncorr. value mismatch", "值不匹配"),
     },
     {
         .stage = UpdateTaskStageValidateDFUImage,
         .percent_min = 0,
         .percent_max = 1,
-        .descr = "Failed to open DFU file",
+        .descr = UPDATER_UI_TEXT("Failed to open DFU file", "打开 DFU 失败"),
     },
     {
         .stage = UpdateTaskStageValidateDFUImage,
         .percent_min = 1,
         .percent_max = 97,
-        .descr = "DFU file read error",
+        .descr = UPDATER_UI_TEXT("DFU file read error", "DFU 读取错误"),
     },
     {
         .stage = UpdateTaskStageValidateDFUImage,
         .percent_min = 98,
         .percent_max = 100,
-        .descr = "DFU file CRC mismatch",
+        .descr = UPDATER_UI_TEXT("DFU file CRC mismatch", "DFU CRC 不匹配"),
     },
     {
         .stage = UpdateTaskStageFlashWrite,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "Flash write error",
+        .descr = UPDATER_UI_TEXT("Flash write error", "固件写入错误"),
     },
     {
         .stage = UpdateTaskStageFlashValidate,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "Flash compare error",
+        .descr = UPDATER_UI_TEXT("Flash compare error", "固件校验错误"),
     },
 #endif
 #ifndef FURI_RAM_EXEC
@@ -196,25 +204,25 @@ static const struct {
         .stage = UpdateTaskStageIntRestore,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "SD card I/O error",
+        .descr = UPDATER_UI_TEXT("SD card I/O error", "SD 卡读写错误"),
     },
     {
         .stage = UpdateTaskStageResourcesFileCleanup,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "SD card I/O error",
+        .descr = UPDATER_UI_TEXT("SD card I/O error", "SD 卡读写错误"),
     },
     {
         .stage = UpdateTaskStageResourcesDirCleanup,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "SD card I/O error",
+        .descr = UPDATER_UI_TEXT("SD card I/O error", "SD 卡读写错误"),
     },
     {
         .stage = UpdateTaskStageResourcesFileUnpack,
         .percent_min = 0,
         .percent_max = 100,
-        .descr = "SD card I/O error",
+        .descr = UPDATER_UI_TEXT("SD card I/O error", "SD 卡读写错误"),
     },
 #endif
 };
@@ -227,7 +235,7 @@ static const char* update_task_get_error_message(UpdateTaskStage stage, uint8_t 
             return update_task_error_detail[i].descr;
         }
     }
-    return "Unknown error";
+    return UPDATER_UI_TEXT("Unknown error", "未知错误");
 }
 
 typedef struct {
