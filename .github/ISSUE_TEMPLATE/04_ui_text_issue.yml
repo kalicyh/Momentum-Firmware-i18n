@@ -1,0 +1,47 @@
+name: 页面文案问题
+description: 提交页面文案、路径提示、文字位置或显示问题。
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请按页面实际显示填写，尽量保留原有换行、菜单路径和排版信息。
+
+        示例：
+        标题：[LFRFID] 页面文案问题
+        页面：LFRFID -> 扫描后退出确认页
+        当前显示：附图
+        建议：顶部文字被遮挡，建议整体下调一点
+  - type: input
+    id: page
+    attributes:
+      label: 页面
+      description: 请填写 app 和页面路径，例如：LFRFID -> 扫描后退出确认页
+      placeholder: 例如：LFRFID -> 扫描后退出确认页
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: 当前显示
+      description: 请填写当前显示内容；如果更方便，也可以直接写“附图”并上传截图
+      placeholder: |
+        例如：
+        附图
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: 建议
+      description: 请填写你期望的修改，例如文案改法、路径改法、换行方式或位置调整
+      placeholder: |
+        例如：
+        顶部文字被遮挡，建议整体下调一点
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: 补充说明
+      description: 可选。可补充截图说明、机型、固件版本或其他上下文
