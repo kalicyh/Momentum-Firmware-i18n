@@ -1,17 +1,12 @@
 name: 页面文案问题
 description: 提交页面文案、路径提示、文字位置或显示问题。
-labels: ["enhancement"]
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        请按页面实际显示填写，尽量保留原有换行、菜单路径和排版信息。
-
         示例：
         标题：[LFRFID] 页面文案问题
-        页面：LFRFID -> 扫描后退出确认页
-        当前显示：附图
-        建议：顶部文字被遮挡，建议整体下调一点
   - type: input
     id: page
     attributes:
@@ -24,9 +19,8 @@ body:
     id: current
     attributes:
       label: 当前显示
-      description: 请填写当前显示内容；如果更方便，也可以直接写“附图”并上传截图
+      description: 请填写当前显示内容；如果方便，也可以直接上传截图
       placeholder: |
-        例如：
         附图
     validations:
       required: true
