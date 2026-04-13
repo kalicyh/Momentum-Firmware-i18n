@@ -1,5 +1,11 @@
 #include "../nfc_app_i.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define NFC_WIDGET_HEADER_Y 3
+#else
+#define NFC_WIDGET_HEADER_Y 0
+#endif
+
 void nfc_scene_mf_ultralight_c_keys_delete_widget_callback(
     GuiButtonType result,
     InputType type,
@@ -20,7 +26,7 @@ void nfc_scene_mf_ultralight_c_keys_delete_on_enter(void* context) {
     widget_add_string_element(
         instance->widget,
         64,
-        0,
+        NFC_WIDGET_HEADER_Y,
         AlignCenter,
         AlignTop,
         FontPrimary,

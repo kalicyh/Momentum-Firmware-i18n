@@ -1,5 +1,17 @@
 #include "../lfrfid_i.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define LFRFID_INFO_HEADER_Y 3
+#define LFRFID_INFO_TEXT_Y   16
+#define LFRFID_INFO_BOX_Y    3
+#define LFRFID_INFO_BOX_H    61
+#else
+#define LFRFID_INFO_HEADER_Y 0
+#define LFRFID_INFO_TEXT_Y   13
+#define LFRFID_INFO_BOX_Y    0
+#define LFRFID_INFO_BOX_H    64
+#endif
+
 void lfrfid_scene_raw_info_on_enter(void* context) {
     LfRfid* app = context;
     Widget* widget = app->widget;
@@ -9,7 +21,7 @@ void lfrfid_scene_raw_info_on_enter(void* context) {
         widget_add_string_element(
             widget,
             64,
-            0,
+            LFRFID_INFO_HEADER_Y,
             AlignCenter,
             AlignTop,
             FontPrimary,
@@ -17,7 +29,7 @@ void lfrfid_scene_raw_info_on_enter(void* context) {
         widget_add_string_multiline_element(
             widget,
             0,
-            13,
+            LFRFID_INFO_TEXT_Y,
             AlignLeft,
             AlignTop,
             FontSecondary,
@@ -27,9 +39,9 @@ void lfrfid_scene_raw_info_on_enter(void* context) {
         widget_add_text_box_element(
             widget,
             0,
-            0,
+            LFRFID_INFO_BOX_Y,
             128,
-            64,
+            LFRFID_INFO_BOX_H,
             AlignLeft,
             AlignTop,
             LFRFID_UI_TEXT(

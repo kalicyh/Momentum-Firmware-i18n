@@ -14,8 +14,10 @@
 
 #ifdef MOMENTUM_UI_LANG_ZH_CN
 #define ABOUT_UI_TEXT(en, zh) (zh)
+#define ABOUT_TOP_PADDING 3
 #else
 #define ABOUT_UI_TEXT(en, zh) (en)
+#define ABOUT_TOP_PADDING 0
 #endif
 
 typedef DialogMessageButton (*AboutDialogScreen)(DialogsApp* dialogs, DialogMessage* message);
@@ -56,7 +58,7 @@ static DialogMessageButton about_screen_address(DialogsApp* dialogs, DialogMessa
                               "Philadelphia Pike, Claymont\n"
                               "DE, USA 19703\n";
 
-    dialog_message_set_text(message, screen_text, 0, 0, AlignLeft, AlignTop);
+    dialog_message_set_text(message, screen_text, 0, ABOUT_TOP_PADDING, AlignLeft, AlignTop);
     result = dialog_message_show(dialogs, message);
 
     return result;
@@ -69,7 +71,7 @@ static DialogMessageButton about_screen_compliance(DialogsApp* dialogs, DialogMe
         "For all compliance\ncertificates, please visit:\nwww.flipp.dev/compliance",
         "查看全部合规认证，\n请访问：\nwww.flipp.dev/compliance");
 
-    dialog_message_set_text(message, screen_text, 0, 0, AlignLeft, AlignTop);
+    dialog_message_set_text(message, screen_text, 0, ABOUT_TOP_PADDING, AlignLeft, AlignTop);
     result = dialog_message_show(dialogs, message);
 
     return result;

@@ -1,5 +1,13 @@
 #include "../lfrfid_i.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define LFRFID_CONFIRM_HEADER_Y 3
+#define LFRFID_CONFIRM_TEXT_Y   16
+#else
+#define LFRFID_CONFIRM_HEADER_Y 0
+#define LFRFID_CONFIRM_TEXT_Y   13
+#endif
+
 void lfrfid_scene_exit_confirm_on_enter(void* context) {
     LfRfid* app = context;
     Widget* widget = app->widget;
@@ -11,7 +19,7 @@ void lfrfid_scene_exit_confirm_on_enter(void* context) {
     widget_add_string_element(
         widget,
         64,
-        0,
+        LFRFID_CONFIRM_HEADER_Y,
         AlignCenter,
         AlignTop,
         FontPrimary,
@@ -19,7 +27,7 @@ void lfrfid_scene_exit_confirm_on_enter(void* context) {
     widget_add_string_element(
         widget,
         64,
-        13,
+        LFRFID_CONFIRM_TEXT_Y,
         AlignCenter,
         AlignTop,
         FontSecondary,

@@ -1,6 +1,14 @@
 #include "../nfc_app_i.h"
 #include "loader/loader.h"
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define NFC_MFKEY_HEADER_Y 3
+#define NFC_MFKEY_TEXT_Y   16
+#else
+#define NFC_MFKEY_HEADER_Y 0
+#define NFC_MFKEY_TEXT_Y   13
+#endif
+
 typedef enum {
     NfcSceneMfClassicMfKeyCompleteStateAppMissing,
     NfcSceneMfClassicMfKeyCompleteStateAppPresent,
@@ -20,7 +28,13 @@ void nfc_scene_mf_classic_mfkey_complete_on_enter(void* context) {
     NfcApp* instance = context;
 
     widget_add_string_element(
-        instance->widget, 64, 0, AlignCenter, AlignTop, FontPrimary, NFC_UI_TEXT("Completed!", "已完成!"));
+        instance->widget,
+        64,
+        NFC_MFKEY_HEADER_Y,
+        AlignCenter,
+        AlignTop,
+        FontPrimary,
+        NFC_UI_TEXT("Completed!", "已完成!"));
 
     NfcSceneMfClassicMfKeyCompleteState scene_state =
         storage_common_exists(instance->storage, NFC_MFKEY32_APP_PATH) ?
@@ -33,7 +47,7 @@ void nfc_scene_mf_classic_mfkey_complete_on_enter(void* context) {
         widget_add_string_multiline_element(
             instance->widget,
             64,
-            13,
+            NFC_MFKEY_TEXT_Y,
             AlignCenter,
             AlignTop,
             FontSecondary,
