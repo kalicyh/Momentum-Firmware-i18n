@@ -19,7 +19,7 @@ void power_settings_scene_power_off_on_enter(void* context) {
         dialog,
         POWER_SETTINGS_UI_TEXT("Turn Off Device?", "关闭设备？"),
         64,
-        settings.happy_mode ? 32 : 0,
+        settings.happy_mode ? 32 : POWER_SETTINGS_UI_TEXT(0, 1),
         AlignCenter,
         settings.happy_mode ? AlignCenter : AlignTop);
     if(!settings.happy_mode) {

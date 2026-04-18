@@ -138,11 +138,14 @@ void desktop_view_locked_draw_lockscreen(Canvas* canvas, void* m) {
                 canvas,
                 2,
                 14 + y,
-                DESKTOP_LOCKED_UI_TEXT(
-                    "Press 3x      \n  to unlock!", "连按 3 次        \n以解锁!"),
+                DESKTOP_LOCKED_UI_TEXT("Press 3x      \n  to unlock!", "连按 3 次    \n以解锁!"),
                 AlignRight,
                 AlignBottom);
-            canvas_draw_icon(canvas, 43, 17 + y, &I_Pin_back_arrow_10x8);
+            canvas_draw_icon(
+                canvas,
+                DESKTOP_LOCKED_UI_TEXT(43, 51),
+                17 + y,
+                &I_Pin_back_arrow_10x8);
         }
     }
 }
