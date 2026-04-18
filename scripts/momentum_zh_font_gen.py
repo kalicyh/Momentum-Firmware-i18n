@@ -11,12 +11,12 @@ STRING_LITERAL_RE = re.compile(r'"((?:\\.|[^"\\])*)"', re.DOTALL)
 
 SOURCE_SCAN_ROOTS = (
     Path("applications/main"),
+    Path("applications/external"),
     Path("applications/services"),
     Path("applications/settings"),
     Path("lib"),
 )
 ANIMATION_TEXT_ROOT = Path("assets/dolphin")
-EXTERNAL_APPS_DEFAULT = Path("localization/zh_CN/external_apps.txt")
 
 
 def parse_args():
@@ -29,7 +29,6 @@ def parse_args():
     parser.add_argument("--out-dir", required=True)
     parser.add_argument("--stamp", required=True)
     parser.add_argument("--enabled", required=True, choices=("0", "1"))
-    parser.add_argument("--external-apps")
     return parser.parse_args()
 
 
@@ -104,37 +103,6 @@ def collect_chars_from_animation_text(repo_root: Path):
                 if ord(ch) > 127:
                     chars.add(ch)
     return chars
-
-
-def collect_chars_from_external_apps(repo_root: Path, external_apps_path: Path | None):
-    chars = set()
-    if not external_apps_path:
-        return chars
-    if not external_apps_path.is_file():
-        return chars
-
-    external_root = repo_root / "applications" / "external"
-    if not external_root.is_dir():
-        return chars
-
-    for line in external_apps_path.read_text(encoding="utf-8", errors="ignore").splitlines():
-        app_name = line.strip()
-        if not app_name or app_name.startswith("#"):
-            continue
-        app_root = external_root / app_name
-        if not app_root.is_dir():
-            continue
-        for pattern in ("*.c", "*.h"):
-            for source_file in app_root.rglob(pattern):
-                contents = source_file.read_text(encoding="utf-8", errors="ignore")
-                for match in STRING_LITERAL_RE.finditer(contents):
-                    literal = decode_c_string_literal(match.group(1))
-                    for ch in literal:
-                        if ord(ch) > 127:
-                            chars.add(ch)
-    return chars
-
-
 def write_map(chars, path: Path):
     lines = ["32-128,"]
     for codepoint in sorted(ord(ch) for ch in chars):
@@ -226,12 +194,6 @@ def main():
     bdfconv = tools_dir / "bdfconv"
     bdf = Path(args.bdf) if args.bdf else None
     bdf_dir = Path(args.bdf_dir) if args.bdf_dir else None
-    external_apps = (
-        Path(args.external_apps)
-        if args.external_apps
-        else repo_root / EXTERNAL_APPS_DEFAULT
-    )
-
     if bool(bdf) == bool(bdf_dir):
         raise ValueError("Specify exactly one of --bdf or --bdf-dir")
 
@@ -248,7 +210,6 @@ def main():
     chars = collect_chars_from_strings(strings)
     chars.update(collect_chars_from_source_literals(repo_root))
     chars.update(collect_chars_from_animation_text(repo_root))
-    chars.update(collect_chars_from_external_apps(repo_root, external_apps))
     if chars:
         map_file = work_dir / "primary_zh.map"
         chars_file = work_dir / "primary_zh_chars.txt"
