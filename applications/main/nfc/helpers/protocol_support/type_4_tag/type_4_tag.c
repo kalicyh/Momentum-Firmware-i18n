@@ -41,7 +41,8 @@ static void nfc_scene_more_info_on_enter_type_4_tag(NfcApp* instance) {
 
     if(scene_state == NfcSceneMoreInfoStateASCII) {
         if(simple_array_get_count(data->ndef_data) == 0) {
-            furi_string_cat_str(instance->text_box_store, "No NDEF data to show");
+            furi_string_cat_str(
+                instance->text_box_store, NFC_UI_TEXT("No NDEF data to show", "没有可显示的 NDEF 数据"));
         } else {
             pretty_format_bytes_hex_canonical(
                 instance->text_box_store,
@@ -56,14 +57,14 @@ static void nfc_scene_more_info_on_enter_type_4_tag(NfcApp* instance) {
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeRight,
-            "Raw Data",
+            NFC_UI_TEXT("Raw Data", "原始数据"),
             nfc_protocol_support_common_widget_callback,
             instance);
 
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeLeft,
-            "Info",
+            NFC_UI_TEXT("Info", "信息"),
             nfc_protocol_support_common_widget_callback,
             instance);
     } else if(scene_state == NfcSceneMoreInfoStateRawData) {
@@ -186,8 +187,10 @@ static NfcCommand
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventCardDetected);
     } else if(type_4_tag_event->type == Type4TagPollerEventTypeWriteFailed) {
         const char* error_str = type_4_tag_event->data->error == Type4TagErrorCardLocked ?
-                                    "Card does not\nallow writing\nnew data" :
-                                    "Failed to\nwrite new data";
+                                    NFC_UI_TEXT(
+                                        "Card does not\nallow writing\nnew data",
+                                        "卡片不允许\n写入新数据") :
+                                    NFC_UI_TEXT("Failed to\nwrite new data", "写入新数据\n失败");
         furi_string_set(instance->text_box_store, error_str);
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventPollerFailure);
         command = NfcCommandStop;
@@ -203,7 +206,8 @@ static NfcCommand
 static void nfc_scene_write_on_enter_type_4_tag(NfcApp* instance) {
     instance->poller = nfc_poller_alloc(instance->nfc, NfcProtocolType4Tag);
     nfc_poller_start(instance->poller, nfc_scene_write_poller_callback_type_4_tag, instance);
-    furi_string_set(instance->text_box_store, "Apply card\nto the back");
+    furi_string_set(
+        instance->text_box_store, NFC_UI_TEXT("Apply card\nto the back", "将卡片贴到\n背面"));
 }
 
 const NfcProtocolSupportBase nfc_protocol_support_type_4_tag = {

@@ -1,5 +1,7 @@
 #include "ntag4xx_render.h"
 
+#include "nfc/nfc_app_i.h"
+
 #include "../iso14443_4a/iso14443_4a_render.h"
 
 void nfc_render_ntag4xx_info(
@@ -10,7 +12,11 @@ void nfc_render_ntag4xx_info(
 
     const Ntag4xxType type = ntag4xx_get_type_from_version(&data->version);
     if(type >= Ntag4xxTypeUnknown) {
-        furi_string_cat(str, "Memory Size: unknown");
+        furi_string_cat_printf(
+            str,
+            "%s: %s",
+            NFC_UI_TEXT("Memory Size", "内存大小"),
+            NFC_UI_TEXT("unknown", "未知"));
     } else {
         size_t size_cc = 32;
         size_t size_ndef = 0;
@@ -39,13 +45,37 @@ void nfc_render_ntag4xx_info(
             break;
         }
         furi_string_cat_printf(
-            str, "\nMemory Size: %zu bytes\n", size_cc + size_ndef + size_proprietary);
-        furi_string_cat_printf(str, "Usable NDEF Size: %zu bytes\n", size_ndef - sizeof(uint16_t));
-        furi_string_cat_printf(str, "Capability Cont.: %zu bytes\n", size_cc);
+            str,
+            "\n%s: %zu %s\n",
+            NFC_UI_TEXT("Memory Size", "内存大小"),
+            size_cc + size_ndef + size_proprietary,
+            NFC_UI_TEXT("bytes", "字节"));
+        furi_string_cat_printf(
+            str,
+            "%s: %zu %s\n",
+            NFC_UI_TEXT("Usable NDEF Size", "可用 NDEF 大小"),
+            size_ndef - sizeof(uint16_t),
+            NFC_UI_TEXT("bytes", "字节"));
+        furi_string_cat_printf(
+            str,
+            "%s: %zu %s\n",
+            NFC_UI_TEXT("Capability Cont.", "能力容器"),
+            size_cc,
+            NFC_UI_TEXT("bytes", "字节"));
         if(size_proprietary) {
-            furi_string_cat_printf(str, "Proprietary File: %zu bytes\n", size_proprietary);
+            furi_string_cat_printf(
+                str,
+                "%s: %zu %s\n",
+                NFC_UI_TEXT("Proprietary File", "专有文件"),
+                size_proprietary,
+                NFC_UI_TEXT("bytes", "字节"));
         }
-        furi_string_cat_printf(str, "TagTamper: %ssupported", has_tagtamper ? "" : "not ");
+        furi_string_cat_printf(
+            str,
+            "%s: %s",
+            NFC_UI_TEXT("TagTamper", "防拆检测"),
+            has_tagtamper ? NFC_UI_TEXT("supported", "支持") :
+                            NFC_UI_TEXT("not supported", "不支持"));
     }
 
     if(format_type != NfcProtocolFormatTypeFull) return;
