@@ -1,6 +1,8 @@
 ## Main changes
-- Current API: 87.6
+- Current API: 87.7
+* SubGHz: Add support for **42+ Keeloq based systems** (with partial Add Manually support) (see [Full list](/documentation/SubGHzSupportedSystems.md)) (by @zero-mega, @xMasterX, ARF Team)
 * SubGHz: Add **Nord ICE** protocol (33 bits, Static)
+* SubGHz: **Better support for CAME Atomo** type remotes (TOPD4REN) (decode + button codes) (thx to Roman for raw recordings)
 * SubGHz: Add **CAME TOP44FGN** support in CAME TWEE protocol
 * SubGHz: Add all 0x0s and all 0xFs KeeLoq MF codes for normal and simple learning
 * SubGHz: **Fix CAME TWEE repeats count for button click**
@@ -9,7 +11,8 @@
 * NFC: Add **Mifare Ultralight C Write Support** (by @haw8411)
 * NFC: Add **new parsers SZPPK, SKPPK and SevPPK**, upgrade Plantain parser, fix TwoCities parser (PR #981 | by @mxcdoam)
 * OFW PR 4362: NFC: **Fix BusFault** in Write to Initial Card (by @akrylysov)
-* Apps: Build tag (**1apr2026**) - **Check out more Apps updates and fixes by following** [this link](https://github.com/xMasterX/all-the-plugins/commits/dev)
+* OFW PR 4369: NFC: Fix stack buffer overflows in MFUL FAST_READ and DESFire file settings parsers (by @qp-x-qp)
+* Apps: Build tag (**21apr2026**) - **Check out more Apps updates and fixes by following** [this link](https://github.com/xMasterX/all-the-plugins/commits/dev)
 ## Other changes
 * OFW PR 4364: JS: Address utf8 support when uploading JavaScript application (by @bekindpleaserewind)
 * Display: Extend lcd contrast range to full ST756x 6-bit range (by @ShaTie) (reduced to -10 to +18 to avoid fully unreadable state)
