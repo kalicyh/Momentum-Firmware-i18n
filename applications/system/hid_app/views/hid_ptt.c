@@ -787,6 +787,35 @@ static void hid_ptt_draw_text_centered(Canvas* canvas, uint8_t y, FuriString* st
     furi_string_free(disp_str);
 }
 
+static void hid_ptt_draw_app_label(Canvas* canvas, uint8_t first_line_y, FuriString* app) {
+    FuriString* first_line = furi_string_alloc_set(app);
+    if(canvas_string_width(canvas, furi_string_get_cstr(first_line)) <= canvas_width(canvas)) {
+        hid_ptt_draw_text_centered(canvas, first_line_y, first_line);
+        furi_string_free(first_line);
+        return;
+    }
+
+    const char* app_cstr = furi_string_get_cstr(app);
+    const char* split = strrchr(app_cstr, ' ');
+    if(!split) {
+        hid_ptt_draw_text_centered(canvas, first_line_y, first_line);
+        furi_string_free(first_line);
+        return;
+    }
+
+    FuriString* second_line = furi_string_alloc();
+    furi_string_set_strn(first_line, app_cstr, split - app_cstr);
+    furi_string_set_str(second_line, split + 1);
+
+    elements_string_fit_width(canvas, first_line, canvas_width(canvas));
+    elements_string_fit_width(canvas, second_line, canvas_width(canvas));
+    hid_ptt_draw_text_centered(canvas, first_line_y, first_line);
+    hid_ptt_draw_text_centered(canvas, first_line_y + 10, second_line);
+
+    furi_string_free(second_line);
+    furi_string_free(first_line);
+}
+
 static void hid_ptt_draw_status_bar(Canvas* canvas, bool show_bt, bool connected) {
     char time_str[16];
     DateTime dt;
@@ -838,14 +867,18 @@ static void hid_ptt_draw_callback(Canvas* canvas, void* context) {
     furi_assert(context);
     HidPushToTalkModel* model = context;
 
+    const bool app_label_needs_two_lines =
+        canvas_string_width(canvas, furi_string_get_cstr(model->app)) > canvas_width(canvas);
+
     const uint8_t top_offset = 13;
     const uint8_t status_bar_bottom_y = top_offset;
-    
+
     // For Zoom/Zoom Global, keep helper banner higher to show Enter key hint space
     // For other apps, move it down to close the gap
     uint8_t helper_top_y = 102;
-    if(model->appIndex == HidPushToTalkAppIndexZoom || 
-       model->appIndex == HidPushToTalkAppIndexZoomGlobal) {
+    if((model->appIndex == HidPushToTalkAppIndexZoom ||
+        model->appIndex == HidPushToTalkAppIndexZoomGlobal) &&
+       !app_label_needs_two_lines) {
         helper_top_y = 92;
     }
 
@@ -859,8 +892,8 @@ static void hid_ptt_draw_callback(Canvas* canvas, void* context) {
 
     const uint8_t controls_bottom_y = y_3 + 18;
     const uint8_t labels_center_y = (controls_bottom_y + helper_top_y) / 2;
-    const uint8_t app_label_y = labels_center_y - 1;
-    const uint8_t os_label_y = app_label_y + 11;
+    const uint8_t app_label_y = app_label_needs_two_lines ? (controls_bottom_y + 10) : (labels_center_y - 1);
+    const uint8_t os_label_y = app_label_needs_two_lines ? (app_label_y + 20) : (app_label_y + 11);
 
     // Header
     canvas_set_font(canvas, FontPrimary);
@@ -872,7 +905,11 @@ static void hid_ptt_draw_callback(Canvas* canvas, void* context) {
 
     // OS and App labels
     canvas_set_font(canvas, FontSecondary);
-    hid_ptt_draw_text_centered(canvas, app_label_y, model->app);
+    if(app_label_needs_two_lines) {
+        hid_ptt_draw_app_label(canvas, app_label_y, model->app);
+    } else {
+        hid_ptt_draw_text_centered(canvas, app_label_y, model->app);
+    }
     hid_ptt_draw_text_centered(canvas, os_label_y, model->os);
 
     // Help label
