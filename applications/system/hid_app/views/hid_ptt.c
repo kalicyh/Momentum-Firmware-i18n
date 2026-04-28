@@ -13,6 +13,18 @@
 
 #define TAG "HidPushToTalk"
 
+// Exact home status-bar Bluetooth icon pixels (from assets/icons/StatusBar).
+// Bitmap format for canvas_draw_bitmap(): row-major, 1-bit.
+// Full compressed frame data including leading 0x00 heatshrink marker,
+// copied verbatim from build/f7-firmware-D/assets/compiled/assets_icons.c
+static const uint8_t hid_ptt_bluetooth_connected_16x8_bits[] = {
+    0x00, 0x04, 0x00, 0x0d, 0x00, 0x16, 0x60, 0x4c,
+    0x97, 0x4c, 0x97, 0x16, 0x60, 0x0d, 0x00, 0x04, 0x00,
+};
+static const uint8_t hid_ptt_bluetooth_idle_5x8_bits[] = {
+    0x00, 0x04, 0x0d, 0x16, 0x0c, 0x0c, 0x16, 0x0d, 0x04,
+};
+
 struct HidPushToTalk {
     View* view;
     Hid* hid;
@@ -676,30 +688,6 @@ static void hid_ptt_draw_text_centered(Canvas* canvas, uint8_t y, FuriString* st
     furi_string_free(disp_str);
 }
 
-static void hid_ptt_draw_bt_glyph(Canvas* canvas, uint8_t x, uint8_t y) {
-    // Compact 5x8 Bluetooth rune.
-    canvas_draw_line(canvas, x + 1, y + 0, x + 1, y + 7);
-    canvas_draw_line(canvas, x + 1, y + 0, x + 4, y + 2);
-    canvas_draw_line(canvas, x + 1, y + 7, x + 4, y + 5);
-    canvas_draw_line(canvas, x + 1, y + 4, x + 4, y + 1);
-    canvas_draw_line(canvas, x + 1, y + 4, x + 4, y + 7);
-}
-
-static void hid_ptt_draw_bt_connected(Canvas* canvas, uint8_t x, uint8_t y) {
-    // Connected icon: rune + activity pixels/line + end circle.
-    hid_ptt_draw_bt_glyph(canvas, x, y);
-
-    canvas_draw_dot(canvas, x + 6, y + 4);
-    canvas_draw_dot(canvas, x + 8, y + 4);
-    canvas_draw_line(canvas, x + 10, y + 4, x + 12, y + 4);
-    canvas_draw_circle(canvas, x + 14, y + 4, 1);
-}
-
-static void hid_ptt_draw_bt_idle(Canvas* canvas, uint8_t x, uint8_t y) {
-    // Disconnected icon: only Bluetooth rune.
-    hid_ptt_draw_bt_glyph(canvas, x, y);
-}
-
 static void hid_ptt_draw_status_bar(Canvas* canvas, bool show_bt, bool connected) {
     char time_str[16];
     DateTime dt;
@@ -729,9 +717,9 @@ static void hid_ptt_draw_status_bar(Canvas* canvas, bool show_bt, bool connected
 
     if(show_bt) {
         if(connected) {
-            hid_ptt_draw_bt_connected(canvas, 3, 2);
+            canvas_draw_bitmap(canvas, 3, 2, 16, 8, hid_ptt_bluetooth_connected_16x8_bits);
         } else {
-            hid_ptt_draw_bt_idle(canvas, 3, 2);
+            canvas_draw_bitmap(canvas, 3, 2, 5, 8, hid_ptt_bluetooth_idle_5x8_bits);
         }
     }
 
