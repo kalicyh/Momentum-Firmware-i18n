@@ -812,8 +812,19 @@ static void hid_ptt_draw_callback(Canvas* canvas, void* context) {
 
     // Help label
     canvas_draw_icon(canvas, 0, helper_top_y, &I_Help_top_64x17);
+    canvas_draw_line(canvas, 4, 109, 4, 118);
+    canvas_draw_line(canvas, 63, 109, 63, 118);
     canvas_draw_icon(canvas, 0, 119, &I_Help_exit_64x9);
     canvas_draw_icon(canvas, 24, 119, &I_BtnBackV_9x9);
+
+    // For Zoom/Zoom Global: show "Hold < for Enter" hint
+    if(model->appIndex == HidPushToTalkAppIndexZoom ||
+       model->appIndex == HidPushToTalkAppIndexZoomGlobal) {
+        canvas_draw_icon(canvas, 7, 111, &I_Hold_15x5);
+        canvas_draw_icon(canvas, 24, 109, &I_BtnLeft_9x9);
+        canvas_draw_icon(canvas, 35, 112, &I_for_11x5);
+        canvas_draw_icon(canvas, 48, 112, &I_Return_10x7);
+    }
 
     // Up
     canvas_draw_icon(canvas, x_2, y_1, &I_Button_18x18);
