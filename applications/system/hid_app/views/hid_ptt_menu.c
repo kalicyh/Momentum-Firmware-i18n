@@ -2,14 +2,13 @@
 #include "hid_ptt.h"
 #include <gui/elements.h>
 #include <m-array.h>
-#include <furi.h>
 #include "../hid.h"
 #include "../views.h"
 
 #include "hid_icons.h"
 
-#define TAG "HidPushToTalkMenu"
-#define PTT_MENU_HELP_HINT_DELAY_MS 5000U
+#define TAG                           "HidPushToTalkMenu"
+#define PTT_MENU_HELP_HINT_DELAY_MS   5000U
 #define PTT_MENU_HINT_TIMER_PERIOD_MS 150U
 
 struct HidPushToTalkMenu {
@@ -97,9 +96,8 @@ static void hid_ptt_menu_hint_timer_callback(void* context) {
         HidPushToTalkMenuModel * model,
         {
             const uint32_t now = furi_get_tick();
-            const bool selection_changed =
-                (model->list_position != model->hint_list_position) ||
-                (model->position != model->hint_item_position);
+            const bool selection_changed = (model->list_position != model->hint_list_position) ||
+                                           (model->position != model->hint_item_position);
 
             if(selection_changed) {
                 model->hint_list_position = model->list_position;
@@ -123,8 +121,7 @@ static void hid_ptt_menu_enter_callback(void* context) {
     furi_assert(context);
     HidPushToTalkMenu* hid_ptt_menu = context;
     hid_ptt_menu_mark_interaction(hid_ptt_menu);
-    furi_timer_start(
-        hid_ptt_menu->hint_timer, furi_ms_to_ticks(PTT_MENU_HINT_TIMER_PERIOD_MS));
+    furi_timer_start(hid_ptt_menu->hint_timer, furi_ms_to_ticks(PTT_MENU_HINT_TIMER_PERIOD_MS));
 }
 
 static void hid_ptt_menu_exit_callback(void* context) {

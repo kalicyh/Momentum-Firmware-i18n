@@ -12,12 +12,12 @@ typedef void (*PushToTalkMenuItemCallback)(
     uint32_t itemIndex,
     FuriString* itemLabel);
 
-    typedef void (*PushToTalkMenuLongOkCallback)(
-        void* context,
-        uint32_t listIndex,
-        FuriString* listLabel,
-        uint32_t itemIndex,
-        FuriString* itemLabel);
+typedef void (*PushToTalkMenuLongOkCallback)(
+    void* context,
+    uint32_t listIndex,
+    FuriString* listLabel,
+    uint32_t itemIndex,
+    FuriString* itemLabel);
 
 HidPushToTalkMenu* hid_ptt_menu_alloc(Hid* bt_hid);
 

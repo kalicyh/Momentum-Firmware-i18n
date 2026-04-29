@@ -6,26 +6,48 @@
 #include <gui/modules/widget.h>
 #include <furi_hal_power.h>
 #include <furi_hal_rtc.h>
-#include <furi.h>
 #include "../hid.h"
 #include "../views.h"
 
 #include "hid_icons.h"
 
-#define TAG "HidPushToTalk"
+#define TAG                            "HidPushToTalk"
 #define HID_PTT_LEFT_HOLD_ANIM_STEP_MS 100U
-#define HID_PTT_LEFT_HOLD_ANIM_STEPS 5U
+#define HID_PTT_LEFT_HOLD_ANIM_STEPS   5U
 
 // Exact home status-bar Bluetooth icon pixels (from assets/icons/StatusBar).
 // Bitmap format for canvas_draw_bitmap(): row-major, 1-bit.
 // Full compressed frame data including leading 0x00 heatshrink marker,
 // copied verbatim from build/f7-firmware-D/assets/compiled/assets_icons.c
 static const uint8_t hid_ptt_bluetooth_connected_16x8_bits[] = {
-    0x00, 0x04, 0x00, 0x0d, 0x00, 0x16, 0x60, 0x4c,
-    0x97, 0x4c, 0x97, 0x16, 0x60, 0x0d, 0x00, 0x04, 0x00,
+    0x00,
+    0x04,
+    0x00,
+    0x0d,
+    0x00,
+    0x16,
+    0x60,
+    0x4c,
+    0x97,
+    0x4c,
+    0x97,
+    0x16,
+    0x60,
+    0x0d,
+    0x00,
+    0x04,
+    0x00,
 };
 static const uint8_t hid_ptt_bluetooth_idle_5x8_bits[] = {
-    0x00, 0x04, 0x0d, 0x16, 0x0c, 0x0c, 0x16, 0x0d, 0x04,
+    0x00,
+    0x04,
+    0x0d,
+    0x16,
+    0x0c,
+    0x0c,
+    0x16,
+    0x0d,
+    0x04,
 };
 
 struct HidPushToTalk {
@@ -467,97 +489,96 @@ static void hid_ptt_trigger_mute_linux_gather(HidPushToTalk* hid_ptt) {
         hid_ptt->hid, KEY_MOD_LEFT_CTRL | KEY_MOD_LEFT_SHIFT | HID_KEYBOARD_A);
 }
 
-    static void hid_ptt_populate_help(HidPushToTalk* hid_ptt, uint32_t appIndex) {
-        widget_reset(hid_ptt->help);
-        char* app_specific_help = "";
-        switch(appIndex) {
-        case HidPushToTalkAppIndexGoogleMeet:
-            app_specific_help =
-                "Google Meet:\n"
-                "This feature is off by default in your audio settings "
-                "and may not work for Windows users who use their screen "
-                "reader. In this situation, the spacebar performs a different action.\n\n";
-            break;
-        case HidPushToTalkAppIndexGoogleMeetGlobal:
-            app_specific_help = "Google Meet (Global):\n"
-                                "1. Install \"Google Meet - Global Shortcuts\" extension.\n"
-                                "2. Open chrome://extensions/shortcuts.\n"
-                                "3. Set 'Toggle microphone' to Cmd+Ctrl+7 and enable Global.\n"
-                                "4. Set 'Toggle camera' to Cmd+Ctrl+8 and enable Global.\n"
-                                "5. Set 'Raise hand' to Cmd+Ctrl+9 and enable Global.\n\n";
-            break;
-        case HidPushToTalkAppIndexDiscord:
-            app_specific_help =
-                "Discord:\n"
-                "1. Under App Settings, click Voice & Video. Under Input Mode, "
-                "check the box next to Push to Talk.\n"
-                "2. Scroll down to SHORTCUT, click Record Keybinder.\n"
-                "3. Press PTT in the app to bind it."
-                "4. Go to Keybinds and assign mute button.\n\n";
-            break;
-        case HidPushToTalkAppIndexTeamSpeak:
-            app_specific_help = "TeamSpeak:\n"
-                                "To make keys working bind them in TeamSpeak settings.\n\n";
-            break;
-        case HidPushToTalkAppIndexTeams:
-            app_specific_help =
-                "Teams:\n"
-                "Go to Settings > Privacy. Make sure Keyboard shortcut to unmute is toggled on.\n\n";
-            break;
-        case HidPushToTalkAppIndexZoomGlobal:
-            app_specific_help = "Zoom (Global):\n"
-                                "1. Go to Settings > Keyboard Shortcuts.\n"
-                                "2. Find the 'Mute/Unmute' shortcut and click 'Edit'.\n"
-                                "3. Press the Mute button in the app to bind it.\n"
-                                "4. Check global checkbox.\n"
-                                "5. Repeat for video and hand shortcuts.\n"
-                                "6. Long-press < to send Enter key.\n\n";
-            break;
-        case HidPushToTalkAppIndexZoom:
-            app_specific_help = "Zoom:\n"
-                                "1. Go to Settings > Keyboard Shortcuts.\n"
-                                "2. Find the 'Mute/Unmute' shortcut and click 'Edit'.\n"
-                                "3. Press the Mute button in the app to bind it.\n"
-                                "4. Repeat for video and hand shortcuts.\n"
-                                "5. Long-press < to send Enter key.\n\n";
-            break;
-        }
-        char* left_button_help = "";
-        if(appIndex == HidPushToTalkAppIndexZoom || appIndex == HidPushToTalkAppIndexZoomGlobal) {
-            left_button_help = "Long-press < sends Enter.\n";
-        }
-        FuriString* msg = furi_string_alloc();
-        furi_string_cat_printf(
-            msg,
-            "%sGeneral:\n"
-            "To operate properly flipper microphone "
-            "status must be in sync with your computer.\n"
-            "Hold > to change mic status.\n"
-            "%s"
-            "Long-press OK in menu to open this help.\n"
-            "Press BACK to switch mic on/off.\n"
-            "Hold 'o' for PTT mode (mic will be off once you release 'o')\n"
-            "Hold BACK to exit.",
-            app_specific_help,
-            left_button_help);
-        widget_add_text_scroll_element(hid_ptt->help, 0, 0, 128, 64, furi_string_get_cstr(msg));
-        furi_string_free(msg);
+static void hid_ptt_populate_help(HidPushToTalk* hid_ptt, uint32_t appIndex) {
+    widget_reset(hid_ptt->help);
+    char* app_specific_help = "";
+    switch(appIndex) {
+    case HidPushToTalkAppIndexGoogleMeet:
+        app_specific_help =
+            "Google Meet:\n"
+            "This feature is off by default in your audio settings "
+            "and may not work for Windows users who use their screen "
+            "reader. In this situation, the spacebar performs a different action.\n\n";
+        break;
+    case HidPushToTalkAppIndexGoogleMeetGlobal:
+        app_specific_help = "Google Meet (Global):\n"
+                            "1. Install \"Google Meet - Global Shortcuts\" extension.\n"
+                            "2. Open chrome://extensions/shortcuts.\n"
+                            "3. Set 'Toggle microphone' to Cmd+Ctrl+7 and enable Global.\n"
+                            "4. Set 'Toggle camera' to Cmd+Ctrl+8 and enable Global.\n"
+                            "5. Set 'Raise hand' to Cmd+Ctrl+9 and enable Global.\n\n";
+        break;
+    case HidPushToTalkAppIndexDiscord:
+        app_specific_help = "Discord:\n"
+                            "1. Under App Settings, click Voice & Video. Under Input Mode, "
+                            "check the box next to Push to Talk.\n"
+                            "2. Scroll down to SHORTCUT, click Record Keybinder.\n"
+                            "3. Press PTT in the app to bind it."
+                            "4. Go to Keybinds and assign mute button.\n\n";
+        break;
+    case HidPushToTalkAppIndexTeamSpeak:
+        app_specific_help = "TeamSpeak:\n"
+                            "To make keys working bind them in TeamSpeak settings.\n\n";
+        break;
+    case HidPushToTalkAppIndexTeams:
+        app_specific_help =
+            "Teams:\n"
+            "Go to Settings > Privacy. Make sure Keyboard shortcut to unmute is toggled on.\n\n";
+        break;
+    case HidPushToTalkAppIndexZoomGlobal:
+        app_specific_help = "Zoom (Global):\n"
+                            "1. Go to Settings > Keyboard Shortcuts.\n"
+                            "2. Find the 'Mute/Unmute' shortcut and click 'Edit'.\n"
+                            "3. Press the Mute button in the app to bind it.\n"
+                            "4. Check global checkbox.\n"
+                            "5. Repeat for video and hand shortcuts.\n"
+                            "6. Long-press < to send Enter key.\n\n";
+        break;
+    case HidPushToTalkAppIndexZoom:
+        app_specific_help = "Zoom:\n"
+                            "1. Go to Settings > Keyboard Shortcuts.\n"
+                            "2. Find the 'Mute/Unmute' shortcut and click 'Edit'.\n"
+                            "3. Press the Mute button in the app to bind it.\n"
+                            "4. Repeat for video and hand shortcuts.\n"
+                            "5. Long-press < to send Enter key.\n\n";
+        break;
     }
+    char* left_button_help = "";
+    if(appIndex == HidPushToTalkAppIndexZoom || appIndex == HidPushToTalkAppIndexZoomGlobal) {
+        left_button_help = "Long-press < sends Enter.\n";
+    }
+    FuriString* msg = furi_string_alloc();
+    furi_string_cat_printf(
+        msg,
+        "%sGeneral:\n"
+        "To operate properly flipper microphone "
+        "status must be in sync with your computer.\n"
+        "Hold > to change mic status.\n"
+        "%s"
+        "Long-press OK in menu to open this help.\n"
+        "Press BACK to switch mic on/off.\n"
+        "Hold 'o' for PTT mode (mic will be off once you release 'o')\n"
+        "Hold BACK to exit.",
+        app_specific_help,
+        left_button_help);
+    widget_add_text_scroll_element(hid_ptt->help, 0, 0, 128, 64, furi_string_get_cstr(msg));
+    furi_string_free(msg);
+}
 
-    static void hid_ptt_menu_help_callback(
-        void* context,
-        uint32_t osIndex,
-        FuriString* osLabel,
-        uint32_t appIndex,
-        FuriString* appLabel) {
-        UNUSED(osIndex);
-        UNUSED(osLabel);
-        UNUSED(appLabel);
-        furi_assert(context);
-        HidPushToTalk* hid_ptt = context;
-        hid_ptt_populate_help(hid_ptt, appIndex);
-        view_dispatcher_switch_to_view(hid_ptt->hid->view_dispatcher, HidViewPushToTalkHelp);
-    }
+static void hid_ptt_menu_help_callback(
+    void* context,
+    uint32_t osIndex,
+    FuriString* osLabel,
+    uint32_t appIndex,
+    FuriString* appLabel) {
+    UNUSED(osIndex);
+    UNUSED(osLabel);
+    UNUSED(appLabel);
+    furi_assert(context);
+    HidPushToTalk* hid_ptt = context;
+    hid_ptt_populate_help(hid_ptt, appIndex);
+    view_dispatcher_switch_to_view(hid_ptt->hid->view_dispatcher, HidViewPushToTalkHelp);
+}
 
 static void hid_ptt_menu_callback(
     void* context,
@@ -765,10 +786,9 @@ static void hid_ptt_menu_callback(
                     break;
                 }
             }
-
         },
         true);
-        hid_ptt_populate_help(hid_ptt, appIndex);
+    hid_ptt_populate_help(hid_ptt, appIndex);
     view_dispatcher_switch_to_view(hid_ptt->hid->view_dispatcher, HidViewPushToTalk);
 }
 
@@ -892,7 +912,8 @@ static void hid_ptt_draw_callback(Canvas* canvas, void* context) {
 
     const uint8_t controls_bottom_y = y_3 + 18;
     const uint8_t labels_center_y = (controls_bottom_y + helper_top_y) / 2;
-    const uint8_t app_label_y = app_label_needs_two_lines ? (controls_bottom_y + 10) : (labels_center_y - 1);
+    const uint8_t app_label_y = app_label_needs_two_lines ? (controls_bottom_y + 10) :
+                                                            (labels_center_y - 1);
     const uint8_t os_label_y = app_label_needs_two_lines ? (app_label_y + 20) : (app_label_y + 11);
 
     // Header
@@ -960,7 +981,8 @@ static void hid_ptt_draw_callback(Canvas* canvas, void* context) {
     canvas_set_color(canvas, ColorBlack);
 
     if(hid_ptt_is_zoom_app(model->appIndex)) {
-        hid_ptt_draw_zoom_enter_hint(canvas, x_1, y_2 + 18, model->left_hold_progress, model->left_pressed);
+        hid_ptt_draw_zoom_enter_hint(
+            canvas, x_1, y_2 + 18, model->left_hold_progress, model->left_pressed);
     }
 
     // Right / Camera
@@ -1097,9 +1119,8 @@ static void hid_ptt_process(HidPushToTalk* hid_ptt, InputEvent* event) {
                 model->muted = !model->muted;
                 notification_message(hid_ptt->hid->notifications, &sequence_single_vibro);
             } else if(event->type == InputTypeLong && event->key == InputKeyLeft) {
-                if(
-                    model->appIndex == HidPushToTalkAppIndexZoom ||
-                    model->appIndex == HidPushToTalkAppIndexZoomGlobal) {
+                if(model->appIndex == HidPushToTalkAppIndexZoom ||
+                   model->appIndex == HidPushToTalkAppIndexZoomGlobal) {
                     model->left_hold_progress = HID_PTT_LEFT_HOLD_ANIM_STEPS;
                     furi_timer_stop(hid_ptt->left_hold_timer);
                     hid_hal_keyboard_press(hid_ptt->hid, HID_KEYBOARD_RETURN);

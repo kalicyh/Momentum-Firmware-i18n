@@ -15,8 +15,9 @@
 * NFC: Fix CLI with NTAG4xx and Type 4 Tag support (by @WillyJL)
 * OFW PR 4362: NFC: **Fix BusFault** in Write to Initial Card (by @akrylysov)
 * OFW PR 4369: NFC: Fix stack buffer overflows in MFUL FAST_READ and DESFire file settings parsers (by @qp-x-qp)
-* Apps: Build tag (**25apr2026**) - **Check out more Apps updates and fixes by following** [this link](https://github.com/xMasterX/all-the-plugins/commits/dev)
+* Apps: Build tag (**29apr2026**) - **Check out more Apps updates and fixes by following** [this link](https://github.com/xMasterX/all-the-plugins/commits/dev)
 ## Other changes
+* HID App: PTT improvements (PR #996 | by @hryamzik)
 * UI: Wording changes to be more clear (PR #994 | by @SkeletonMan03)
 * SubGHz: Fix small logic error in KingGatesStylo4k protocol (found by @X-Stuff)
 * OFW PR 4364: JS: Address utf8 support when uploading JavaScript application (by @bekindpleaserewind)
