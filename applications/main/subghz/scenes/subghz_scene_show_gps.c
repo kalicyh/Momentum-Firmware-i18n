@@ -15,8 +15,7 @@ void subghz_scene_show_gps_draw_satellites(void* context) {
         longitude = subghz_history_get_longitude(subghz->history, subghz->idx_menu_chosen);
     }
     FuriString* text_str = furi_string_alloc_printf(
-        SUBGHZ_UI_TEXT("Captured at: %f,\r\n", "坐标: %f,\r\n") "%f\r\n"
-                                                                "\r\n",
+        SUBGHZ_UI_TEXT("Captured at: %f,\r\n%f\r\n\r\n", "坐标: %f,\r\n%f\r\n\r\n"),
         (double)latitude,
         (double)longitude);
 
