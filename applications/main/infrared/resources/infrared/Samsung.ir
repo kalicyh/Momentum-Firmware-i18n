@@ -1,103 +1,103 @@
 Filetype: IR signals file
 Version: 1
 # 
-name: POWER
+name: 电源
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 02 00 00 00
 # 
-name: Up
+name: 上键
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 60 00 00 00
 # 
-name: Down
+name: 下键
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 61 00 00 00
 # 
-name: Left
+name: 左键
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 65 00 00 00
 # 
-name: Right
+name: 右键
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 62 00 00 00
 # 
-name: Select
+name: 选择
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 68 00 00 00
 # 
-name: Menu
+name: 菜单
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 1A 00 00 00
 # 
-name: Source
+name: 信号源
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 01 00 00 00
 # 
-name: Return
+name: 返回
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 58 00 00 00
 # 
-name: Exit
+name: 退出
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 2D 00 00 00
 # 
-name: VOL+
+name: 音量加
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 07 00 00 00
 # 
-name: VOL-
+name: 音量减
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 0B 00 00 00
 # 
-name: CH+
+name: 频道加
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 12 00 00 00
 # 
-name: CH-
+name: 频道减
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 10 00 00 00
 # 
-name: MUTE
+name: 静音
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 0F 00 00 00
 # 
-name: Smarthub
+name: 智能中心
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00
 command: 79 00 00 00
 # 
-name: Info
+name: 信息
 type: parsed
 protocol: Samsung32
 address: 07 00 00 00

@@ -1,0 +1,571 @@
+Filetype: IR library file
+Version: 1
+# Last Updated 7th Sept, 2025
+# Last Checked 7th Sept, 2025
+#
+# TEMP FIX FOR POWER: Power signals are duplicated, since projectors require second confirm to poweroff
+
+#国内常见品牌追加
+# 追加遥控除可以在通用红外遥控器中使用，还可以单独提取出来做成单独遥控器使用
+# 代码收集人及追加品牌：
+# 星星一战：爱国者、爱普生、华为、极米、佳能、坚果、康佳、三星
+
+# 添加样例(按键需按此命名才会被程序加载，注意只有前6项会被加载，剩余按键仅作收集)
+# 投影仪(收集:佚名) ##############################################
+# 电源
+# name: Power
+# 静音
+# name: Mute
+# 播放
+# name: Play
+# 暂停
+# name: Pause
+# 音量加
+# name: Vol_up
+# 音量减
+# name: Vol_dn
+# 上
+# name: Up
+# 下
+# name: Down
+# 左
+# name: Left
+# 右
+# name: Right
+# 确定
+# name: Ok
+# 返回
+# name: Back
+# 退出
+# name: Exit
+# 菜单
+# name: Menu
+# 设置
+# name: Setting
+# 信号源
+# name: SOURCE
+
+# (提取出来做成单独遥控器方法说明)从下面这行开始提取
+
+# 爱国者投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: A8 00 00 00
+# 静音
+name: Mute
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: D1 00 00 00
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: 90 00 00 00
+# 音量减
+name: Vol_dn
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: 98 00 00 00
+# 上
+name: Up
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: CA 00 00 00
+# 下
+name: Down
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: D2 00 00 00
+# 左
+name: Left
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: 99 00 00 00
+# 右
+name: Right
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: C1 00 00 00
+# 确定
+name: Ok
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: CE 00 00 00
+# 返回
+name: Back
+type: parsed
+protocol: NEC
+address: 00 00 00 00
+command: CB 00 00 00
+
+# 爱普生投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: 90 6F 00 00
+# 静音
+# name: Mute
+
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: 98 67 00 00
+# 音量减
+name: Vol_dn
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: 99 66 00 00
+# 上
+name: Up
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: B0 4F 00 00
+# 下
+name: Down
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: B2 4D 00 00
+# 左
+name: Left
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: B3 4C 00 00
+# 右
+name: Right
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: B1 4E 00 00
+# 确定
+name: Ok
+type: parsed
+protocol: NECext
+address: 83 55 00 00
+command: 85 7A 00 00
+
+# 华为投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 48 B7 00 00
+# 静音
+# name: Mute
+
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 5E A1 00 00
+# 音量减
+name: Vol_dn
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 46 B9 00 00
+# 上
+name: Up
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 1F E0 00 00
+# 下
+name: Down
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 1B E4 00 00
+# 左
+name: Left
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 5D A2 00 00
+# 右
+name: Right
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 1E E1 00 00
+# 确定
+name: Ok
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 0B F4 00 00
+# 返回
+name: Back
+type: parsed
+protocol: NECext
+address: 44 AF 00 00
+command: 5A A5 00 00
+
+# 极米投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 71 00 00 00
+# 静音
+# name: Mute
+
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 09 00 00 00
+# 音量减
+name: Vol_dn
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 0C 00 00 00
+# 上
+name: Up
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 11 00 00 00
+# 下
+name: Down
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 14 00 00 00
+# 左
+name: Left
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 10 00 00 00
+# 右
+name: Right
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 12 00 00 00
+# 确定
+name: Ok
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 0F 00 00 00
+# 返回
+name: Back
+type: parsed
+protocol: NEC
+address: 32 00 00 00
+command: 86 00 00 00
+
+
+# 佳能投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 17 00 00 00
+# 静音
+name: Mute
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 0D 00 00 00
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 06 00 00 00
+# 音量减
+name: Vol_dn
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 23 00 00 00
+# 上
+name: Up
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 18 00 00 00
+# 下
+name: Down
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 09 00 00 00
+# 左
+name: Left
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 19 00 00 00
+# 右
+name: Right
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 08 00 00 00
+# 确定
+name: Ok
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 07 00 00 00
+# 返回
+name: Back
+type: parsed
+protocol: NEC42
+address: 35 01 00 00
+command: 04 00 00 00
+
+# 坚果投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 10 EF 00 00
+# 静音
+name: Mute
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 1F E0 00 00
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 1C E3 00 00
+# 音量减
+# name: Vol_dn
+
+# 上
+name: Up
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 17 E8 00 00
+# 下
+name: Down
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 16 E9 00 00
+# 左
+name: Left
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 4F B0 00 00
+# 右
+name: Right
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 51 AE 00 00
+# 确定
+name: Ok
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 50 AF 00 00
+# 返回
+name: Back
+type: parsed
+protocol: NECext
+address: 80 19 00 00
+command: 1A E5 00 00
+
+# 康佳投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: 87 78 00 00
+# 静音
+name: Mute
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: 5B A4 00 00
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: 89 76 00 00
+# 音量减
+name: Vol_dn
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: B5 4A 00 00
+# 上
+name: Up
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: 84 7B 00 00
+# 下
+name: Down
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: 8D 72 00 00
+# 左
+name: Left
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: BB 44 00 00
+# 右
+name: Right
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: 8E 71 00 00
+# 确定
+name: Ok
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: B2 4D 00 00
+# 返回
+name: Back
+type: parsed
+protocol: NECext
+address: 08 16 00 00
+command: 8B 74 00 00
+
+# 三星投影仪(收集:星星一战) ##############################################
+# 电源
+name: Power
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4451 4467 470 1517 470 522 471 523 470 523 470 1516 471 522 471 522 471 521 472 1516 471 522 471 522 471 1516 471 522 471 523 470 521 472 523 471 4498 471 522 471 522 471 522 471 521 472 1516 471 523 470 522 471 1516 471 1515 472 521 472 524 469 1516 471 523 470 1516 471 1516 471 523 470 525 468 1516 471 1517 470 522 471 56939 4450 4466 471 1515 472 523 470 524 470 521 472 1517 470 523 470 522 471 522 471 1516 471 522 471 522 471 1517 470 524 469 522 471 522 471 521 472 4497 472 522 471 523 470 523 470 522 471 1519 468 521 473 524 469 1516 471 1516 471 524 469 522 471 1516 471 524 469 1517 470 1516 472 522 471 521 472 1517 470 1517 470 521 472
+# 静音
+name: Mute
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4450 4466 495 1494 493 501 492 499 494 498 496 1493 494 499 495 500 493 499 494 1495 492 499 494 498 495 1494 494 500 494 499 494 502 491 498 495 4448 495 500 493 498 495 498 495 499 495 1494 493 1492 495 1493 494 1493 494 500 493 499 495 499 494 500 494 499 495 499 494 501 493 498 495 1493 494 1493 494 1495 492 1494 493 56915 4451 4468 492 1493 494 499 472 522 494 501 492 1495 493 497 473 522 494 499 471 1516 494 501 492 501 493 1493 471 522 494 500 470 523 470 522 471 4473 470 523 493 499 471 523 470 523 470 1517 470 1516 471 1518 469 1515 472 523 471 523 470 523 470 521 472 522 471 522 471 523 470 522 471 1517 470 1516 471 1516 471 1518 469
+# 播放
+# name: Play
+
+# 暂停
+# name: Pause
+
+# 音量加
+name: Vol_up
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4451 4469 492 1491 496 498 495 499 494 498 495 1492 495 501 492 498 495 498 495 1492 495 499 494 499 494 1491 496 499 494 498 495 497 496 498 495 4447 496 499 494 498 495 497 496 496 497 1493 494 1492 495 1492 495 498 495 525 468 499 494 499 495 498 495 497 496 499 494 499 494 1491 496 1494 493 1492 495 1495 492 1493 494 56916 4449 4466 495 1491 496 497 496 500 494 499 494 1495 492 500 493 501 492 498 495 1492 495 497 496 498 496 1492 495 498 495 498 495 498 495 525 468 4447 496 497 496 498 495 498 495 497 496 1493 494 1491 496 1492 495 498 495 499 494 500 493 500 493 498 495 497 496 498 495 500 493 1492 495 1492 495 1492 495 1491 496 1492 495
+# 音量减
+name: Vol_dn
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4451 4468 493 1494 493 500 493 499 494 499 494 1494 493 499 494 498 495 499 494 1492 495 499 494 498 495 1492 495 500 493 498 495 498 495 499 494 4449 494 500 493 499 494 499 494 499 494 1492 495 1493 494 499 495 1493 494 499 494 500 493 499 495 499 494 499 494 498 495 1493 494 500 494 1492 495 1493 494 1496 491 1492 495 56915 4451 4465 496 1493 494 499 494 499 494 500 493 1493 494 497 496 501 492 499 494 1496 491 500 493 498 495 1492 495 498 495 499 494 499 494 497 496 4449 494 499 494 498 495 500 493 498 495 1493 495 1493 494 498 495 1494 493 498 496 498 495 500 493 499 494 498 495 501 492 1494 493 498 495 1492 495 1491 496 1492 495 1493 494
+# 上
+name: Up
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4450 4466 522 1465 522 470 523 471 522 473 521 1465 522 472 521 472 521 472 521 1465 522 473 521 472 521 1466 521 471 522 471 522 471 522 470 523 4449 520 470 523 470 523 471 522 471 522 474 519 472 521 472 521 471 522 471 522 1465 522 1465 522 472 521 1466 521 1466 521 1466 521 1465 522 1466 521 470 523 472 521 1466 521 56913 4425 4467 521 1465 522 472 521 470 523 471 522 1465 522 470 523 470 523 471 523 1466 521 471 522 471 522 1466 521 471 523 471 522 473 520 473 520 4449 520 471 522 471 522 471 522 471 522 470 523 471 522 471 522 471 522 472 521 1467 520 1465 522 473 520 1465 522 1466 521 1465 522 1465 522 1465 522 472 521 471 522 1464 523
+# 下
+name: Down
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4449 4466 471 1516 471 522 471 523 470 521 472 1515 472 522 471 523 470 522 471 1518 469 522 471 522 471 1516 471 523 470 522 471 522 471 523 470 4498 471 522 471 523 470 524 469 522 471 1517 470 523 470 523 470 522 471 522 471 1517 470 1516 471 522 471 522 471 1518 469 1516 471 1515 472 1517 495 498 470 522 471 1518 469 56940 4449 4468 469 1518 469 524 469 522 471 522 471 1518 469 523 470 522 471 522 471 1516 471 522 471 523 470 1517 470 522 471 521 472 523 470 522 471 4498 471 522 471 523 470 522 471 522 471 1516 471 522 471 522 471 523 470 523 470 1517 470 1517 470 523 470 523 470 1517 470 1516 471 1516 471 1516 471 523 494 498 471 1517 470
+# 左
+name: Left
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4450 4466 471 1517 470 522 471 521 472 522 471 1516 471 522 471 521 472 523 470 1516 471 521 472 522 471 1515 472 522 471 549 444 522 471 523 470 4497 472 521 472 522 472 522 471 522 471 1515 472 523 470 1517 470 521 472 523 471 1515 472 1517 470 523 470 521 472 1515 472 522 471 1517 470 1516 471 522 471 523 470 1517 470 56938 4451 4466 471 1516 471 521 472 524 469 522 471 1515 472 523 470 522 471 522 471 1518 469 523 470 521 472 1516 471 522 471 521 473 522 471 522 471 4498 471 523 470 522 471 523 470 522 471 1516 471 522 471 1517 470 523 470 522 471 1515 472 1516 471 522 471 523 470 1517 470 523 470 1516 471 1516 471 521 472 523 470 1516 471
+# 右
+name: Right
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4449 4467 470 1516 471 521 472 523 470 522 471 1514 473 521 472 521 472 522 471 1516 471 522 471 492 501 1516 471 522 472 522 471 522 471 523 470 4497 472 522 471 522 471 522 471 523 470 521 472 1517 470 521 472 523 470 522 471 1516 471 1515 472 549 444 1515 472 521 472 1517 470 1517 470 1516 471 522 471 523 470 1516 471 56964 4425 4466 471 1516 471 522 471 522 471 521 472 1516 471 522 471 524 469 521 472 1514 473 523 470 522 471 1517 470 523 470 522 471 522 471 522 471 4497 472 521 472 522 471 522 471 520 473 521 473 1517 470 521 472 521 472 523 470 1516 471 1516 471 522 471 1515 472 523 470 1516 471 1516 471 1516 471 523 470 523 470 1518 469
+# 确定
+name: Ok
+type: raw
+frequency: 38000
+duty_cycle: 0.330000
+data: 4452 4466 471 1516 471 521 472 522 471 522 471 1516 471 522 471 523 470 522 471 1514 473 523 470 521 472 1514 473 521 472 521 472 522 471 520 473 4498 471 521 472 522 471 522 471 522 471 549 444 522 471 523 470 1516 471 523 470 1516 471 1515 472 522 472 1516 471 1517 470 1515 472 522 471 1514 473 520 473 522 471 1517 470 56937 4452 4466 471 1517 470 521 472 521 472 522 471 1519 468 522 471 522 471 521 472 1515 472 523 470 522 471 1515 472 523 470 522 471 522 471 523 470 4498 471 523 470 522 471 522 471 522 471 521 472 521 472 522 471 1516 471 521 472 1516 471 1516 471 522 471 1515 472 1516 471 1517 470 522 471 1515 472 521 472 521 472 1516 471
+# 返回
+# name: Back
