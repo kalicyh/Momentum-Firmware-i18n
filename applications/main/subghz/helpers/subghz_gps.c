@@ -1,5 +1,6 @@
 #include "subghz_gps.h"
 #include "minmea.h"
+#include "../subghz_i.h"
 
 #include <momentum/momentum.h>
 
@@ -191,9 +192,13 @@ static void subghz_gps_cat_realtime(
 
     furi_string_cat_printf(
         descr,
-        "Realtime:  Sats: %d\r\n"
-        "Distance: %.2f%s Dir: %s\r\n"
-        "GPS time: %02d:%02d:%02d UTC",
+        SUBGHZ_UI_TEXT(
+            "Realtime:  Sats: %d\r\n"
+            "Distance: %.2f%s Dir: %s\r\n"
+            "GPS time: %02d:%02d:%02d UTC",
+            "实时:  卫星: %d\r\n"
+            "距离: %.2f%s 方向: %s\r\n"
+            "GPS 时间: %02d:%02d:%02d UTC"),
         subghz_gps->satellites,
         (double)(subghz_gps->satellites > 0 ? distance > 1 ? distance : distance * 1000 : 0),
         distance > 1 ? "km" : "m",

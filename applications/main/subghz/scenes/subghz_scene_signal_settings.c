@@ -111,7 +111,8 @@ void subghz_scene_signal_settings_variable_item_list_enter_callback(void* contex
     if(index == 1) {
         submenu_called = 1;
         furi_string_cat_printf(byte_input_text, "%i", subghz_block_generic_global.cnt_length_bit);
-        furi_string_cat_str(byte_input_text, "-bits counter in HEX");
+        furi_string_cat_str(
+            byte_input_text, SUBGHZ_UI_TEXT("-bits counter in HEX", "位计数器(HEX)"));
 
         // Setup byte_input view
         ByteInput* byte_input = subghz->byte_input;
@@ -130,7 +131,7 @@ void subghz_scene_signal_settings_variable_item_list_enter_callback(void* contex
     if(index == 2) {
         submenu_called = 2;
         furi_string_cat_printf(byte_input_text, "%i", subghz_block_generic_global.btn_length_bit);
-        furi_string_cat_str(byte_input_text, "-bits button in HEX");
+        furi_string_cat_str(byte_input_text, SUBGHZ_UI_TEXT("-bits button in HEX", "位按键(HEX)"));
 
         // Setup byte_input view
         ByteInput* byte_input = subghz->byte_input;

@@ -16,7 +16,11 @@ void nfc_scene_debug_on_enter(void* context) {
     Submenu* submenu = nfc->submenu;
 
     submenu_add_item(
-        submenu, "Field", SubmenuDebugIndexField, nfc_scene_debug_submenu_callback, nfc);
+        submenu,
+        NFC_UI_TEXT("Field", "射频场"),
+        SubmenuDebugIndexField,
+        nfc_scene_debug_submenu_callback,
+        nfc);
 
     submenu_set_selected_item(
         submenu, scene_manager_get_scene_state(nfc->scene_manager, NfcSceneDebug));

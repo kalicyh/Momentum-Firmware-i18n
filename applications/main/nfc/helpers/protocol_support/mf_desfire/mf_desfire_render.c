@@ -1,6 +1,7 @@
 #include "mf_desfire_render.h"
 
 #include "../iso14443_4a/iso14443_4a_render.h"
+#include "nfc/nfc_app_i.h"
 
 #define MF_DESFIRE_RENDER_MAX_RECORD_SIZE (256U)
 
@@ -166,40 +167,40 @@ void nfc_render_mf_desfire_file_settings_data(
     const char* type;
     switch(settings->type) {
     case MfDesfireFileTypeStandard:
-        type = "standard";
+        type = NFC_UI_TEXT("standard", "标准");
         break;
     case MfDesfireFileTypeBackup:
-        type = "backup";
+        type = NFC_UI_TEXT("backup", "备份");
         break;
     case MfDesfireFileTypeValue:
-        type = "value";
+        type = NFC_UI_TEXT("value", "数值");
         break;
     case MfDesfireFileTypeLinearRecord:
-        type = "linear";
+        type = NFC_UI_TEXT("linear", "线性");
         break;
     case MfDesfireFileTypeCyclicRecord:
-        type = "cyclic";
+        type = NFC_UI_TEXT("cyclic", "循环");
         break;
     case MfDesfireFileTypeTransactionMac:
-        type = "txn-mac";
+        type = NFC_UI_TEXT("txn-mac", "交易 MAC");
         break;
     default:
-        type = "unknown";
+        type = NFC_UI_TEXT("unknown", "未知");
     }
 
     const char* comm;
     switch(settings->comm) {
     case MfDesfireFileCommunicationSettingsPlaintext:
-        comm = "plain";
+        comm = NFC_UI_TEXT("plain", "明文");
         break;
     case MfDesfireFileCommunicationSettingsAuthenticated:
-        comm = "auth";
+        comm = NFC_UI_TEXT("auth", "认证");
         break;
     case MfDesfireFileCommunicationSettingsEnciphered:
-        comm = "enciphered";
+        comm = NFC_UI_TEXT("enciphered", "加密");
         break;
     default:
-        comm = "unknown";
+        comm = NFC_UI_TEXT("unknown", "未知");
     }
 
     furi_string_cat_printf(str, "%s %s\n", type, comm);
@@ -261,7 +262,8 @@ void nfc_render_mf_desfire_file_settings_data(
         }
     }
     if(is_auth_required) {
-        furi_string_cat_printf(str, "Auth required to read file data\n");
+        furi_string_cat_printf(
+            str, NFC_UI_TEXT("Auth required to read file data\n", "需要认证才能读取文件数据\n"));
         return;
     }
 

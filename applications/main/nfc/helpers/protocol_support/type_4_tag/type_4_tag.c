@@ -42,7 +42,8 @@ static void nfc_scene_more_info_on_enter_type_4_tag(NfcApp* instance) {
     if(scene_state == NfcSceneMoreInfoStateASCII) {
         if(simple_array_get_count(data->ndef_data) == 0) {
             furi_string_cat_str(
-                instance->text_box_store, NFC_UI_TEXT("No NDEF data to show", "没有可显示的 NDEF 数据"));
+                instance->text_box_store,
+                NFC_UI_TEXT("No NDEF data to show", "没有可显示的 NDEF 数据"));
         } else {
             pretty_format_bytes_hex_canonical(
                 instance->text_box_store,
@@ -75,7 +76,7 @@ static void nfc_scene_more_info_on_enter_type_4_tag(NfcApp* instance) {
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeLeft,
-            "ASCII",
+            NFC_UI_TEXT("ASCII", "ASCII"),
             nfc_protocol_support_common_widget_callback,
             instance);
     }
@@ -186,11 +187,10 @@ static NfcCommand
         furi_string_reset(instance->text_box_store);
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventCardDetected);
     } else if(type_4_tag_event->type == Type4TagPollerEventTypeWriteFailed) {
-        const char* error_str = type_4_tag_event->data->error == Type4TagErrorCardLocked ?
-                                    NFC_UI_TEXT(
-                                        "Card does not\nallow writing\nnew data",
-                                        "卡片不允许\n写入新数据") :
-                                    NFC_UI_TEXT("Failed to\nwrite new data", "写入新数据\n失败");
+        const char* error_str =
+            type_4_tag_event->data->error == Type4TagErrorCardLocked ?
+                NFC_UI_TEXT("Card does not\nallow writing\nnew data", "卡片不允许\n写入新数据") :
+                NFC_UI_TEXT("Failed to\nwrite new data", "写入新数据\n失败");
         furi_string_set(instance->text_box_store, error_str);
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventPollerFailure);
         command = NfcCommandStop;

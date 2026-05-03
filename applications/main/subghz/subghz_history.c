@@ -1,4 +1,5 @@
 #include "subghz_history.h"
+#include "subghz_i.h"
 #include <lib/subghz/receiver.h>
 #include <rpc/rpc.h>
 
@@ -199,11 +200,14 @@ bool subghz_history_get_text_space_left(
     furi_assert(instance);
     if(!ignore_full) {
         if(memmgr_get_free_heap() < SUBGHZ_HISTORY_FREE_HEAP) {
-            if(output != NULL) furi_string_printf(output, "    Memory is FULL");
+            if(output != NULL)
+                furi_string_printf(output, SUBGHZ_UI_TEXT("    Memory is FULL", "    内存已满"));
             return true;
         }
         if(instance->last_index_write == SUBGHZ_HISTORY_MAX) {
-            if(output != NULL) furi_string_printf(output, "     History is FULL");
+            if(output != NULL)
+                furi_string_printf(
+                    output, SUBGHZ_UI_TEXT("     History is FULL", "     历史已满"));
             return true;
         }
     }

@@ -55,7 +55,7 @@ static void nfc_scene_read_menu_on_enter_emv(NfcApp* instance) {
     if(data->emv_application.active_tr > 0) {
         submenu_add_item(
             submenu,
-            "Transactions",
+            NFC_UI_TEXT("Transactions", "交易记录"),
             SubmenuIndexTransactions,
             nfc_protocol_support_common_submenu_callback,
             instance);

@@ -11,7 +11,7 @@ void nfc_scene_set_uid_on_enter(void* context) {
 
     // Setup view
     ByteInput* byte_input = instance->byte_input;
-    byte_input_set_header_text(byte_input, "Enter UID in hex");
+    byte_input_set_header_text(byte_input, NFC_UI_TEXT("Enter UID in hex", "输入 UID 十六进制"));
     byte_input_set_result_callback(
         byte_input,
         nfc_protocol_support_common_byte_input_done_callback,

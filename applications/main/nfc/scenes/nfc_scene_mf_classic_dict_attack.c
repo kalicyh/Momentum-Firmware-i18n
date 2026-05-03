@@ -279,7 +279,9 @@ static void nfc_scene_mf_classic_dict_attack_prepare_view(NfcApp* instance) {
             }
 
             instance->nfc_dict_context.dict = dict;
-            dict_attack_set_header(instance->dict_attack, "MF Classic CUID Dictionary");
+            dict_attack_set_header(
+                instance->dict_attack,
+                NFC_UI_TEXT("MF Classic CUID Dictionary", "MF Classic CUID 字典"));
             instance->nfc_dict_context.current_key_idx = 0; // Initialize key index for CUID mode
         } while(false);
 
@@ -321,13 +323,17 @@ static void nfc_scene_mf_classic_dict_attack_prepare_view(NfcApp* instance) {
                 break;
             }
 
-            dict_attack_set_header(instance->dict_attack, "MF Classic User Dictionary");
+            dict_attack_set_header(
+                instance->dict_attack,
+                NFC_UI_TEXT("MF Classic User Dictionary", "MF Classic 用户字典"));
         } while(false);
     }
     if(state == DictAttackStateSystemDictInProgress) {
         instance->nfc_dict_context.dict = keys_dict_alloc(
             NFC_APP_MF_CLASSIC_DICT_SYSTEM_PATH, KeysDictModeOpenExisting, sizeof(MfClassicKey));
-        dict_attack_set_header(instance->dict_attack, "MF Classic System Dictionary");
+        dict_attack_set_header(
+            instance->dict_attack,
+            NFC_UI_TEXT("MF Classic System Dictionary", "MF Classic 系统字典"));
     }
 
     instance->nfc_dict_context.dict_keys_total =

@@ -561,7 +561,7 @@ void subghz_scene_receiver_config_on_enter(void* context) {
        SubGhzCustomEventManagerSet) {
         item = variable_item_list_add(
             subghz->variable_item_list,
-            "Bin RAW",
+            SUBGHZ_UI_TEXT("Bin RAW", "Bin RAW"),
             COMBO_BOX_COUNT,
             subghz_scene_receiver_config_set_bin_raw,
             subghz);
@@ -719,7 +719,11 @@ void subghz_scene_receiver_config_on_enter(void* context) {
        SubGhzCustomEventManagerSet) {
         // Reset to default
         variable_item_list_add(
-            subghz->variable_item_list, SUBGHZ_UI_TEXT("Reset to Default", "恢复默认"), 1, NULL, NULL);
+            subghz->variable_item_list,
+            SUBGHZ_UI_TEXT("Reset to Default", "恢复默认"),
+            1,
+            NULL,
+            NULL);
 
         variable_item_list_set_enter_callback(
             subghz->variable_item_list,

@@ -37,13 +37,21 @@ void subghz_scene_show_error_on_enter(void* context) {
     if(scene_manager_get_scene_state(subghz->scene_manager, SubGhzSceneShowError) ==
        SubGhzCustomEventManagerSet) {
         widget_add_button_element(
-            subghz->widget, GuiButtonTypeRight, "OK", subghz_scene_show_error_callback, subghz);
+            subghz->widget,
+            GuiButtonTypeRight,
+            SUBGHZ_UI_TEXT("OK", "确定"),
+            subghz_scene_show_error_callback,
+            subghz);
     } else {
         notification_message(subghz->notifications, &subghz_sequence_sd_error);
     }
 
     widget_add_button_element(
-        subghz->widget, GuiButtonTypeLeft, "Back", subghz_scene_show_error_callback, subghz);
+        subghz->widget,
+        GuiButtonTypeLeft,
+        SUBGHZ_UI_TEXT("Back", "返回"),
+        subghz_scene_show_error_callback,
+        subghz);
 
     view_dispatcher_switch_to_view(subghz->view_dispatcher, SubGhzViewIdWidget);
 }

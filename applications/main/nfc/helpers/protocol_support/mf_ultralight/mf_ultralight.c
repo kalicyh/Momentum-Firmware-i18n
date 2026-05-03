@@ -64,14 +64,14 @@ static void nfc_scene_more_info_on_enter_mf_ultralight(NfcApp* instance) {
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeRight,
-            "Raw Data",
+            NFC_UI_TEXT("Raw Data", "原始数据"),
             nfc_protocol_support_common_widget_callback,
             instance);
 
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeLeft,
-            "Info",
+            NFC_UI_TEXT("Info", "信息"),
             nfc_protocol_support_common_widget_callback,
             instance);
     } else if(scene_state == NfcSceneMoreInfoStateRawData) {
@@ -82,7 +82,7 @@ static void nfc_scene_more_info_on_enter_mf_ultralight(NfcApp* instance) {
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeLeft,
-            "ASCII",
+            NFC_UI_TEXT("ASCII", "ASCII"),
             nfc_protocol_support_common_widget_callback,
             instance);
     }
@@ -226,13 +226,13 @@ static void nfc_scene_read_and_saved_menu_on_enter_mf_ultralight(NfcApp* instanc
         submenu_remove_item(submenu, SubmenuIndexCommonWrite);
         submenu_add_item(
             submenu,
-            "Write (Keep Key)",
+            NFC_UI_TEXT("Write (Keep Key)", "写入 (保留密钥)"),
             SubmenuIndexWriteKeepKey,
             nfc_protocol_support_common_submenu_callback,
             instance);
         submenu_add_item(
             submenu,
-            "Write (Copy Key)",
+            NFC_UI_TEXT("Write (Copy Key)", "写入 (复制密钥)"),
             SubmenuIndexWriteCopyKey,
             nfc_protocol_support_common_submenu_callback,
             instance);
@@ -241,14 +241,14 @@ static void nfc_scene_read_and_saved_menu_on_enter_mf_ultralight(NfcApp* instanc
     if(is_locked) {
         submenu_add_item(
             submenu,
-            "Unlock",
+            NFC_UI_TEXT("Unlock", "解锁"),
             SubmenuIndexUnlock,
             nfc_protocol_support_common_submenu_callback,
             instance);
         if(data->type == MfUltralightTypeMfulC) {
             submenu_add_item(
                 submenu,
-                "Unlock with Dictionary",
+                NFC_UI_TEXT("Unlock with Dictionary", "字典解锁"),
                 SubmenuIndexDictAttack,
                 nfc_protocol_support_common_submenu_callback,
                 instance);
@@ -469,12 +469,17 @@ static NfcCommand
                        "OVERWRITE with source key (pages 44-47 WILL be written)",
             (int)instance->mf_ultralight_c_write_context.copy_key);
     } else if(mf_ultralight_event->type == MfUltralightPollerEventTypeCardMismatch) {
-        furi_string_set(instance->text_box_store, "Card of the same\ntype should be\n presented");
+        furi_string_set(
+            instance->text_box_store,
+            NFC_UI_TEXT("Card of the same\ntype should be\n presented", "请使用\n同类型卡片"));
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventWrongCard);
         command = NfcCommandStop;
     } else if(mf_ultralight_event->type == MfUltralightPollerEventTypeCardLocked) {
         furi_string_set(
-            instance->text_box_store, "Card protected by\npassword, AUTH0\nor lock bits");
+            instance->text_box_store,
+            NFC_UI_TEXT(
+                "Card protected by\npassword, AUTH0\nor lock bits",
+                "卡片受密码\nAUTH0 或\n锁定位保护"));
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventPollerFailure);
         command = NfcCommandStop;
     } else if(mf_ultralight_event->type == MfUltralightPollerEventTypeWriteFail) {
@@ -499,7 +504,9 @@ static void nfc_scene_write_on_enter_mf_ultralight(NfcApp* instance) {
     }
     instance->mf_ultralight_c_dict_context.dict = NULL;
     instance->mf_ultralight_c_write_context.dict_state = NfcMfUltralightCWriteDictIdle;
-    furi_string_set(instance->text_box_store, "\nApply the\ntarget\ncard now");
+    furi_string_set(
+        instance->text_box_store,
+        NFC_UI_TEXT("\nApply the\ntarget\ncard now", "\n请将\n目标\n卡片放置"));
     instance->poller = nfc_poller_alloc(instance->nfc, NfcProtocolMfUltralight);
     nfc_poller_start(instance->poller, nfc_scene_write_poller_callback_mf_ultralight, instance);
 }

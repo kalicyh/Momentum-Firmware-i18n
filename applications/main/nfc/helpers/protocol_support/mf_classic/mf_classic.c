@@ -121,21 +121,21 @@ static void nfc_scene_read_menu_on_enter_mf_classic(NfcApp* instance) {
     if(!mf_classic_is_card_read(data)) {
         submenu_add_item(
             submenu,
-            "Extract MFC Keys",
+            NFC_UI_TEXT("Extract MFC Keys", "提取 MFC 密钥"),
             SubmenuIndexDetectReader,
             nfc_protocol_support_common_submenu_callback,
             instance);
 
         submenu_add_item(
             submenu,
-            "Unlock with Dictionary",
+            NFC_UI_TEXT("Unlock with Dictionary", "字典解锁"),
             SubmenuIndexDictAttack,
             nfc_protocol_support_common_submenu_callback,
             instance);
 
         submenu_add_item(
             submenu,
-            "Crack nonces in MFKey32",
+            NFC_UI_TEXT("Crack nonces in MFKey32", "MFKey32 破解随机数"),
             SubmenuIndexCrackNonces,
             nfc_protocol_support_common_submenu_callback,
             instance);
@@ -143,7 +143,7 @@ static void nfc_scene_read_menu_on_enter_mf_classic(NfcApp* instance) {
 
     submenu_add_item(
         submenu,
-        "Show Keys",
+        NFC_UI_TEXT("Show Keys", "显示密钥"),
         SubmenuIndexShowKeys,
         nfc_protocol_support_common_submenu_callback,
         instance);
@@ -170,19 +170,20 @@ static void nfc_scene_saved_menu_on_enter_mf_classic(NfcApp* instance) {
     Submenu* submenu = instance->submenu;
     const MfClassicData* data = nfc_device_get_data(instance->nfc_device, NfcProtocolMfClassic);
 
-    submenu_change_item_label(submenu, SubmenuIndexCommonWrite, "Write to Initial Card");
+    submenu_change_item_label(
+        submenu, SubmenuIndexCommonWrite, NFC_UI_TEXT("Write to Initial Card", "写入原卡"));
 
     if(!mf_classic_is_card_read(data)) {
         submenu_add_item(
             submenu,
-            "Extract MFC Keys",
+            NFC_UI_TEXT("Extract MFC Keys", "提取 MFC 密钥"),
             SubmenuIndexDetectReader,
             nfc_protocol_support_common_submenu_callback,
             instance);
 
         submenu_add_item(
             submenu,
-            "Unlock with Dictionary",
+            NFC_UI_TEXT("Unlock with Dictionary", "字典解锁"),
             SubmenuIndexDictAttack,
             nfc_protocol_support_common_submenu_callback,
             instance);
@@ -190,14 +191,14 @@ static void nfc_scene_saved_menu_on_enter_mf_classic(NfcApp* instance) {
 
     submenu_add_item(
         submenu,
-        "Update from Initial Card",
+        NFC_UI_TEXT("Update from Initial Card", "从原卡更新"),
         SubmenuIndexUpdate,
         nfc_protocol_support_common_submenu_callback,
         instance);
 
     submenu_add_item(
         submenu,
-        "Show Keys",
+        NFC_UI_TEXT("Show Keys", "显示密钥"),
         SubmenuIndexShowKeys,
         nfc_protocol_support_common_submenu_callback,
         instance);
@@ -294,7 +295,8 @@ static NfcCommand
         furi_string_reset(instance->text_box_store);
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventCardDetected);
     } else if(mfc_event->type == MfClassicPollerEventTypeCardLost) {
-        furi_string_set(instance->text_box_store, "Use the source\ncard only");
+        furi_string_set(
+            instance->text_box_store, NFC_UI_TEXT("Use the source\ncard only", "请使用\n源卡"));
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventCardLost);
     } else if(mfc_event->type == MfClassicPollerEventTypeRequestMode) {
         const MfClassicData* tag_data = nfc_poller_get_data(instance->poller);
@@ -302,7 +304,10 @@ static NfcCommand
             mfc_event->data->poller_mode.mode = MfClassicPollerModeWrite;
         } else {
             furi_string_set(
-                instance->text_box_store, "Use source card!\nTo write blanks\nuse NFC Magic app");
+                instance->text_box_store,
+                NFC_UI_TEXT(
+                    "Use source card!\nTo write blanks\nuse NFC Magic app",
+                    "请使用源卡!\n写入空白卡\n请使用 NFC Magic"));
             view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventWrongCard);
             command = NfcCommandStop;
         }
@@ -328,7 +333,9 @@ static NfcCommand
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventPollerSuccess);
         command = NfcCommandStop;
     } else if(mfc_event->type == MfClassicPollerEventTypeFail) {
-        furi_string_set(instance->text_box_store, "Not all sectors\nwere written\ncorrectly");
+        furi_string_set(
+            instance->text_box_store,
+            NFC_UI_TEXT("Not all sectors\nwere written\ncorrectly", "部分扇区\n写入失败"));
         view_dispatcher_send_custom_event(instance->view_dispatcher, NfcCustomEventPollerFailure);
         command = NfcCommandStop;
     }
@@ -339,7 +346,8 @@ static NfcCommand
 static void nfc_scene_write_on_enter_mf_classic(NfcApp* instance) {
     instance->poller = nfc_poller_alloc(instance->nfc, NfcProtocolMfClassic);
     nfc_poller_start(instance->poller, nfc_scene_write_poller_callback_mf_classic, instance);
-    furi_string_set(instance->text_box_store, "Use the source\ncard only");
+    furi_string_set(
+        instance->text_box_store, NFC_UI_TEXT("Use the source\ncard only", "请使用\n源卡"));
 }
 
 const NfcProtocolSupportBase nfc_protocol_support_mf_classic = {

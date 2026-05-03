@@ -26,7 +26,8 @@ void nfc_scene_mf_ultralight_capture_pass_on_enter(void* context) {
         AlignLeft,
         AlignCenter,
         FontPrimary,
-        "Touch the\nreader to get\npassword...");
+        NFC_UI_TEXT(
+            "Touch the\nreader to get\npassword...", "请将卡片靠近\n读卡器以\n获取密码..."));
     widget_add_icon_element(instance->widget, 0, 15, &I_Modern_reader_18x34);
     widget_add_icon_element(instance->widget, 20, 12, &I_Move_flipper_26x39);
     view_dispatcher_switch_to_view(instance->view_dispatcher, NfcViewWidget);

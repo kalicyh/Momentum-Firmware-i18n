@@ -419,7 +419,8 @@ void subghz_view_receiver_draw(Canvas* canvas, SubGhzViewReceiverModel* model) {
         }
         canvas_set_font(canvas, FontSecondary);
         elements_bold_rounded_frame(canvas, 14, 8, 99, 48);
-        elements_multiline_text(canvas, 65, 26, "To unlock\npress:");
+        elements_multiline_text(
+            canvas, 65, 26, SUBGHZ_UI_TEXT("To unlock\npress:", "解锁请\n按下:"));
         canvas_draw_icon(canvas, 65, 42, &I_Pin_back_arrow_10x8);
         canvas_draw_icon(canvas, 80, 42, &I_Pin_back_arrow_10x8);
         canvas_draw_icon(canvas, 95, 42, &I_Pin_back_arrow_10x8);

@@ -25,7 +25,8 @@ bool subghz_tx_start(SubGhz* subghz, FlipperFormat* flipper_format) {
     switch(subghz_txrx_tx_start(subghz->txrx, flipper_format)) {
     case SubGhzTxRxStartTxStateErrorParserOthers:
         dialog_message_show_storage_error(
-            subghz->dialogs, "Error in protocol\nparameters\ndescription");
+            subghz->dialogs,
+            SUBGHZ_UI_TEXT("Error in protocol\nparameters\ndescription", "协议参数\n描述错误"));
         break;
     case SubGhzTxRxStartTxStateErrorOnlyRx:
         uint32_t frequency = subghz_txrx_get_preset(subghz->txrx).frequency;
@@ -248,13 +249,15 @@ bool subghz_key_load(SubGhz* subghz, const char* file_path, bool show_dialog) {
     switch(load_key_state) {
     case SubGhzLoadKeyStateParseErr:
         if(show_dialog) {
-            dialog_message_show_storage_error(subghz->dialogs, "Cannot parse\nfile");
+            dialog_message_show_storage_error(
+                subghz->dialogs, SUBGHZ_UI_TEXT("Cannot parse\nfile", "无法解析\n文件"));
         }
         return false;
     case SubGhzLoadKeyStateProtocolDescriptionErr:
         if(show_dialog) {
             dialog_message_show_storage_error(
-                subghz->dialogs, "Error in protocol\nparameters\ndescription");
+                subghz->dialogs,
+                SUBGHZ_UI_TEXT("Error in protocol\nparameters\ndescription", "协议参数\n描述错误"));
         }
         return false;
 
@@ -342,7 +345,8 @@ bool subghz_save_protocol_to_file(
 
         // Create subghz folder directory if necessary
         if(!storage_simply_mkdir(storage, furi_string_get_cstr(file_dir))) {
-            dialog_message_show_storage_error(subghz->dialogs, "Cannot create\nfolder");
+            dialog_message_show_storage_error(
+                subghz->dialogs, SUBGHZ_UI_TEXT("Cannot create\nfolder", "无法创建\n文件夹"));
             break;
         }
 
@@ -411,7 +415,9 @@ bool subghz_rename_file(SubGhz* subghz) {
             furi_string_get_cstr(subghz->file_path));
 
         if(fs_result != FSE_OK) {
-            dialog_message_show_storage_error(subghz->dialogs, "Cannot rename\n file/directory");
+            dialog_message_show_storage_error(
+                subghz->dialogs,
+                SUBGHZ_UI_TEXT("Cannot rename\n file/directory", "无法重命名\n文件/目录"));
             ret = false;
         }
     }
@@ -429,7 +435,9 @@ bool subghz_file_available(SubGhz* subghz) {
         storage_common_stat(storage, furi_string_get_cstr(subghz->file_path), NULL);
 
     if(fs_result != FSE_OK) {
-        dialog_message_show_storage_error(subghz->dialogs, "File not available\n file/directory");
+        dialog_message_show_storage_error(
+            subghz->dialogs,
+            SUBGHZ_UI_TEXT("File not available\n file/directory", "文件不可用\n文件/目录"));
         ret = false;
     }
 

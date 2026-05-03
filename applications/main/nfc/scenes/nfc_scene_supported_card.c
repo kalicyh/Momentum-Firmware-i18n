@@ -13,7 +13,7 @@ void nfc_scene_supported_card_on_enter(void* context) {
         widget_add_button_element(
             instance->widget,
             GuiButtonTypeRight,
-            "More",
+            NFC_UI_TEXT("More", "更多"),
             nfc_protocol_support_common_widget_callback,
             instance);
 

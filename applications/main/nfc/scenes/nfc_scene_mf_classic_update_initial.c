@@ -61,10 +61,21 @@ static void nfc_scene_mf_classic_update_initial_setup_view(NfcApp* instance) {
 
     if(state == NfcSceneMfClassicUpdateInitialStateCardSearch) {
         popup_set_text(
-            instance->popup, "Use the source\ncard only", 128, 32, AlignRight, AlignCenter);
+            instance->popup,
+            NFC_UI_TEXT("Use the source\ncard only", "请使用\n源卡"),
+            128,
+            32,
+            AlignRight,
+            AlignCenter);
         popup_set_icon(instance->popup, 0, 8, &I_NFC_manual_60x50);
     } else {
-        popup_set_header(popup, "Updating\nDon't move...", 52, 32, AlignLeft, AlignCenter);
+        popup_set_header(
+            popup,
+            NFC_UI_TEXT("Updating\nDon't move...", "更新中\n请勿移动..."),
+            52,
+            32,
+            AlignLeft,
+            AlignCenter);
         popup_set_icon(popup, 12, 23, &A_Loading_24);
     }
 

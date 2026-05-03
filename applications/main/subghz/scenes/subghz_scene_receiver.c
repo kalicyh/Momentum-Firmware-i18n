@@ -72,8 +72,8 @@ static void subghz_scene_receiver_update_statusbar(void* context) {
                 modulation_str,
                 "%s        Mod: %s",
                 (subghz_txrx_radio_device_get(subghz->txrx) == SubGhzRadioDeviceTypeInternal) ?
-                    "Int" :
-                    "Ext",
+                    SUBGHZ_UI_TEXT("Int", "内") :
+                    SUBGHZ_UI_TEXT("Ext", "外"),
                 furi_string_get_cstr(temp_str));
             furi_string_free(temp_str);
         }

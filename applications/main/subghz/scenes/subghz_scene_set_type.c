@@ -279,7 +279,11 @@ bool subghz_scene_set_type_generate_protocol_from_infos(SubGhz* subghz) {
             subghz->scene_manager, SubGhzSceneSetType, SubGhzCustomEventManagerSet);
         scene_manager_next_scene(subghz->scene_manager, SubGhzSceneSaveName);
     } else {
-        furi_string_set(subghz->error_str, "Function requires\nan SD card with\nfresh databases.");
+        furi_string_set(
+            subghz->error_str,
+            SUBGHZ_UI_TEXT(
+                "Function requires\nan SD card with\nfresh databases.",
+                "此功能需要\n含有新数据库的\nSD 卡。"));
         scene_manager_next_scene(subghz->scene_manager, SubGhzSceneShowError);
     }
     return generated_protocol;
