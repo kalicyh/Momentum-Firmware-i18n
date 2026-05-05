@@ -29,7 +29,11 @@ static void loader_menu_storage_settings_back(void* context) {
 int32_t loader_menu_storage_settings(void* context) {
     Storage* storage = context;
     Loader* loader = furi_record_open(RECORD_LOADER);
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+    LoaderStatus result = loader_start(loader, "存储", NULL, NULL);
+#else
     LoaderStatus result = loader_start(loader, "Storage", NULL, NULL);
+#endif
     furi_record_close(RECORD_LOADER);
 
     if(result != LoaderStatusOk) {

@@ -1,7 +1,7 @@
 App(
     appid="storage_settings",
     name="Storage",
-    name_zh="Storage",
+    name_zh="存储",
     apptype=FlipperAppType.SETTINGS,
     entry_point="storage_settings_app",
     requires=["storage"],

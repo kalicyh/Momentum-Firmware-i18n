@@ -168,7 +168,11 @@ static void
 
     if(input_type == InputTypeShort) {
         // Workaround for SD format when app can't be opened
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+        if(!strcmp(name, "存储")) {
+#else
         if(!strcmp(name, "Storage")) {
+#endif
             Storage* storage = furi_record_open(RECORD_STORAGE);
             FS_Error status = storage_sd_status(storage);
             furi_record_close(RECORD_STORAGE);

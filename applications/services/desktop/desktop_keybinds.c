@@ -208,7 +208,11 @@ void desktop_run_keybind(Desktop* desktop, InputType _type, InputKey _key) {
         loader_start_detached_with_gui_error(
             desktop->loader, EXT_PATH("apps/Tools/nightstand.fap"), "");
     } else if(furi_string_equal(keybind, "Device Info")) {
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+        loader_start_detached_with_gui_error(desktop->loader, "电源", "about_battery");
+#else
         loader_start_detached_with_gui_error(desktop->loader, "Power", "about_battery");
+#endif
     } else if(furi_string_equal(keybind, "Lock Menu")) {
         view_dispatcher_send_custom_event(desktop->view_dispatcher, DesktopMainEventOpenLockMenu);
     } else if(furi_string_equal(keybind, "Lock Keypad")) {
@@ -216,7 +220,11 @@ void desktop_run_keybind(Desktop* desktop, InputType _type, InputKey _key) {
     } else if(furi_string_equal(keybind, "Lock with PIN")) {
         view_dispatcher_send_custom_event(desktop->view_dispatcher, DesktopMainEventLockWithPin);
     } else if(furi_string_equal(keybind, "Wipe Device")) {
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+        loader_start_detached_with_gui_error(desktop->loader, "存储", "Wipe Device");
+#else
         loader_start_detached_with_gui_error(desktop->loader, "Storage", "Wipe Device");
+#endif
     } else {
         const char* str = furi_string_get_cstr(keybind);
         if(storage_common_exists(desktop->storage, str)) {

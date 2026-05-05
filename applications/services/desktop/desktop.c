@@ -459,7 +459,11 @@ void desktop_unlock(Desktop* desktop) {
 int32_t desktop_shutdown(void* context) {
     // Attempt to launch the app, and if failed offer to shutdown (simpler UI)
     Desktop* desktop = context;
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+    LoaderStatus result = loader_start(desktop->loader, "电源", "off", NULL);
+#else
     LoaderStatus result = loader_start(desktop->loader, "Power", "off", NULL);
+#endif
     if(result != LoaderStatusOk) {
         // Mimic applications/settings/power_settings_app/scenes/power_settings_scene_power_off.c
         DialogMessage* message = dialog_message_alloc();

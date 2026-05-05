@@ -94,7 +94,11 @@ bool desktop_scene_lock_menu_on_event(void* context, SceneManagerEvent event) {
                 desktop_lock(desktop, true);
             } else {
                 loader_start_detached_with_gui_error(
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+                    desktop->loader, "桌面", DESKTOP_SETTINGS_RUN_PIN_SETUP_ARG);
+#else
                     desktop->loader, "Desktop", DESKTOP_SETTINGS_RUN_PIN_SETUP_ARG);
+#endif
                 scene_manager_set_scene_state(
                     desktop->scene_manager, DesktopSceneLockMenu, CheckPinLock);
             }
@@ -110,7 +114,11 @@ bool desktop_scene_lock_menu_on_event(void* context, SceneManagerEvent event) {
                 furi_record_close(RECORD_POWER);
             } else {
                 loader_start_detached_with_gui_error(
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+                    desktop->loader, "桌面", DESKTOP_SETTINGS_RUN_PIN_SETUP_ARG);
+#else
                     desktop->loader, "Desktop", DESKTOP_SETTINGS_RUN_PIN_SETUP_ARG);
+#endif
                 scene_manager_set_scene_state(
                     desktop->scene_manager, DesktopSceneLockMenu, CheckPinLockOff);
             }
