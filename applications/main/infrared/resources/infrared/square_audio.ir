@@ -9,42 +9,42 @@ Version: 1
 # 电源无
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 80 00 00 00
 command: 01 00 00 00
 # 
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 80 00 00 00
 command: 12 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 80 00 00 00
 command: 02 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 80 00 00 00
 command: 03 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 80 00 00 00
 command: 06 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 80 00 00 00
@@ -60,49 +60,49 @@ command: 05 00 00 00
 # 遥控器02 ##############################################
 #
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 45 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 44 00 00 00
 # 
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 47 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 40 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 43 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 09 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -119,7 +119,7 @@ command: 15 00 00 00
 # 遥控器03 ##############################################
 #
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 80 00 00 00
@@ -133,7 +133,7 @@ command: 12 00 00 00
 # command: 01 00 00 00
 # 
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 80 00 00 00
@@ -168,7 +168,7 @@ command: 1E 00 00 00
 # command: 05 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 80 00 00 00
@@ -185,7 +185,7 @@ command: 1A 00 00 00
 # command: 45 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -199,35 +199,35 @@ command: 43 00 00 00
 # command: 47 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 44 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 40 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 15 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 07 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -237,14 +237,14 @@ command: 46 00 00 00
 # 遥控器05 ##############################################
 #
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NECext
 address: 6E 5D 00 00
 command: EF 10 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NECext
 address: 6E 5D 00 00
@@ -253,35 +253,35 @@ command: E8 17 00 00
 # 静音 无
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NECext
 address: 6E 5D 00 00
 command: E0 1F 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NECext
 address: 6E 5D 00 00
 command: F8 07 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NECext
 address: 6E 5D 00 00
 command: E2 1D 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NECext
 address: 6E 5D 00 00
 command: FA 05 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NECext
 address: 6E 5D 00 00
@@ -298,7 +298,7 @@ command: F0 0F 00 00
 # command: 45 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -312,35 +312,35 @@ command: 09 00 00 00
 # command: 47 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 07 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 15 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 19 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 16 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -352,7 +352,7 @@ command: 44 00 00 00
 # 电源无
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 02 00 00 00
@@ -361,35 +361,35 @@ command: 00 00 00 00
 # 静音无
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 02 00 00 00
 command: 09 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 02 00 00 00
 command: 0A 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 02 00 00 00
 command: 06 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 02 00 00 00
 command: 05 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 02 00 00 00
@@ -406,7 +406,7 @@ command: 1A 00 00 00
 # command: 45 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -465,7 +465,7 @@ command: 00 00 00 00
 # command: 12 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 80 00 00 00
@@ -479,14 +479,14 @@ command: 1B 00 00 00
 # command: 1E 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 80 00 00 00
 command: 0A 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 80 00 00 00
@@ -507,7 +507,7 @@ command: 1F 00 00 00
 # command: 05 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 80 00 00 00
@@ -518,56 +518,56 @@ command: 0C 00 00 00
 # 遥控器10 ##############################################
 #
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 01 00 00 00
 command: 45 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 01 00 00 00
 command: 15 00 00 00
 # 
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 01 00 00 00
 command: 47 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 01 00 00 00
 command: 07 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 01 00 00 00
 command: 09 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 01 00 00 00
 command: 40 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 01 00 00 00
 command: 19 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 01 00 00 00
@@ -578,21 +578,21 @@ command: 5E 00 00 00
 # 遥控器11 ##############################################
 #
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 46 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 15 00 00 00
 # 
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -606,21 +606,21 @@ command: 45 00 00 00
 # command: 07 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 09 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 40 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -686,7 +686,7 @@ command: 19 00 00 00
 # command: 19 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -697,49 +697,49 @@ command: 0C 00 00 00
 # 遥控器13 ##############################################
 #
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 00 00 00 00
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 0D 00 00 00
 # 
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 02 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 09 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 11 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 0E 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -754,49 +754,49 @@ command: 0C 00 00 00
 # 电源无
 # 
 # 暂停/播放
-name: Pause
+name: 暂停
 type: parsed
 protocol: NEC
 address: 20 00 00 00
 command: 50 00 00 00
 # 
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 20 00 00 00
 command: 17 00 00 00
 # 
 # 上一曲
-name: Prev
+name: 上一曲
 type: parsed
 protocol: NEC
 address: 20 00 00 00
 command: 55 00 00 00
 # 
 # 下一曲
-name: Next
+name: 下一曲
 type: parsed
 protocol: NEC
 address: 20 00 00 00
 command: 13 00 00 00
 # 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 20 00 00 00
 command: 19 00 00 00
 # 
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 210 00 00 00
 command: 16 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 20 00 00 00
@@ -855,7 +855,7 @@ command: 4C 00 00 00
 # command: 19 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -914,7 +914,7 @@ command: 0D 00 00 00
 # command: 15 00 00 00
 # 
 # 信号源
-name: SOURCE
+name: 信号源
 type: parsed
 protocol: NEC
 address: 00 00 00 00

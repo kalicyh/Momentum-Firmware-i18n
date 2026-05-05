@@ -52,7 +52,7 @@ Version: 1
 
 # 安桥音响(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NECext
 address: D2 6C 00 00
@@ -67,13 +67,13 @@ command: CB 34 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NECext
 address: D2 6D 00 00
 command: 02 FD 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NECext
 address: D2 6D 00 00
@@ -85,37 +85,37 @@ command: 03 FC 00 00
 # name: Next
 
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NECext
 address: D2 6D 00 00
 command: 82 7D 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NECext
 address: D2 6D 00 00
 command: 83 7C 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NECext
 address: D2 6D 00 00
 command: 84 7B 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NECext
 address: D2 6D 00 00
 command: 85 7A 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NECext
 address: D2 6D 00 00
 command: 97 68 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NECext
 address: D2 6C 00 00
@@ -126,13 +126,13 @@ command: 54 AB 00 00
 
 # 傲立音响(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: RC5
 address: 13 00 00 00
 command: 0C 00 00 00
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: RC5
 address: 13 00 00 00
@@ -144,13 +144,13 @@ command: 0D 00 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: RC5
 address: 13 00 00 00
 command: 10 00 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: RC5
 address: 13 00 00 00
@@ -162,31 +162,31 @@ command: 11 00 00 00
 # name: Next
 
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: RC5X
 address: 13 00 00 00
 command: 01 00 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: RC5X
 address: 13 00 00 00
 command: 02 00 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: RC5
 address: 13 00 00 00
 command: 1B 00 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: RC5
 address: 13 00 00 00
 command: 1A 00 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: RC5X
 address: 13 00 00 00
@@ -194,13 +194,13 @@ command: 17 00 00 00
 
 # 丹尼克斯音响(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
 command: 06 F9 00 00
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
@@ -212,13 +212,13 @@ command: 6A 95 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
 command: 61 9E 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
@@ -230,31 +230,31 @@ command: 60 9F 00 00
 # name: Next
 
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
 command: 11 EE 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
 command: 15 EA 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
 command: 0F F0 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
 command: 13 EC 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NECext
 address: 85 ED 00 00
@@ -264,13 +264,13 @@ command: 17 E8 00 00
 
 # 马兰士音响(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 883 945 1770 1800 884 945 1770 942 883 1800 886 3574 884 942 885 1800 886 943 1772 940 885 943 884 944 883 943 884 941 886 943 884 942 885 76517 883 943 1772 1799 885 942 1773 942 883 1801 885 3573 885 943 884 1802 883 943 1772 941 884 944 883 943 884 944 883 942 885 945 882 943 884
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: RC5
 address: 10 00 00 00
@@ -282,13 +282,13 @@ command: 0D 00 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: RC5
 address: 10 00 00 00
 command: 10 00 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: RC5
 address: 10 00 00 00
@@ -300,37 +300,37 @@ command: 11 00 00 00
 # name: Next
 
 # 上
-name: Up
+name: 上键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 1771 1801 883 944 883 944 1771 941 885 1802 884 3574 884 1800 1774 941 884 942 885 944 883 944 883 944 883 943 884 943 884 942 885 944 883 76519 1770 1800 884 943 884 943 1772 942 884 1802 884 3577 881 1803 1770 942 884 944 883 944 883 942 885 944 883 944 883 944 883 944 883 945 882
 # 下
-name: Down
+name: 下键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 1771 943 882 1803 883 945 1770 943 883 1802 884 3574 884 1803 1770 942 883 943 884 1803 1770 942 883 943 884 945 882 943 884 943 884 76518 1771 942 883 1803 883 944 1771 943 882 1803 882 3575 883 1804 1769 942 883 945 882 1803 1771 943 883 944 883 944 883 944 883 944 883
 # 左
-name: Left
+name: 左键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 1793 1776 908 919 908 919 1796 918 908 1778 908 3550 908 1778 1795 1776 1772 1800 1795 919 906 918 910 920 907 921 906 918 909 76494 1794 1777 908 920 907 920 1795 919 907 1777 909 3550 908 1778 1796 1776 1772 1800 1795 918 908 921 906 921 906 919 908 918 909
 # 右
-name: Right
+name: 右键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 1771 943 882 1803 883 943 1772 942 884 1803 883 3575 883 1802 1772 1802 882 943 1772 943 882 945 882 943 884 944 883 943 884 944 883 76518 1771 941 885 1803 882 944 1771 943 883 1802 883 3576 882 1803 1771 1800 884 944 1771 942 883 946 881 944 883 944 883 943 884 943 884
 # 确定
-name: Ok
+name: 确定
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 1770 1801 907 919 908 919 1796 918 908 1778 908 3551 907 1779 1794 1776 908 920 907 919 1772 942 907 919 908 920 907 918 909 921 906 76494 1771 1801 907 919 908 920 1795 919 906 1779 907 3551 907 1777 1796 1777 907 919 908 919 1772 943 906 921 906 920 907 920 907 920 907
 # 返回
-name: Back
+name: 返回
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
@@ -338,7 +338,7 @@ data: 1795 919 907 1777 909 920 1795 918 907 1777 909 3551 907 1780 1794 1777 90
 
 # 索尼音响(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: SIRC15
 address: 50 00 00 00
@@ -353,13 +353,13 @@ command: 15 00 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: SIRC15
 address: 50 00 00 00
 command: 12 00 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: SIRC15
 address: 50 00 00 00
@@ -371,31 +371,31 @@ command: 13 00 00 00
 # name: Next
 
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: SIRC20
 address: 10 02 00 00
 command: 78 00 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: SIRC20
 address: 10 02 00 00
 command: 79 00 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: SIRC20
 address: 10 02 00 00
 command: 7A 00 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: SIRC20
 address: 10 02 00 00
 command: 7B 00 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: SIRC20
 address: 10 02 00 00
@@ -405,13 +405,13 @@ command: 7C 00 00 00
 
 # 雅马哈音响(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 7E 00 00 00
 command: 2A 00 00 00
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
@@ -423,13 +423,13 @@ command: 1C 00 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
 command: 1A 00 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
@@ -441,37 +441,37 @@ command: 1B 00 00 00
 # name: Next
 
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
 command: 9D 00 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
 command: 9C 00 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
 command: 9F 00 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
 command: 9E 00 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NEC
 address: 7A 00 00 00
 command: DE 00 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NEC
 address: 7A 00 00 00

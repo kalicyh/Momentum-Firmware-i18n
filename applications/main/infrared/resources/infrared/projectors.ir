@@ -49,13 +49,13 @@ Version: 1
 
 # 爱国者投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: A8 00 00 00
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -67,49 +67,49 @@ command: D1 00 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 90 00 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 98 00 00 00
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: CA 00 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: D2 00 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 99 00 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: C1 00 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: CE 00 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -117,7 +117,7 @@ command: CB 00 00 00
 
 # 爱普生投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NECext
 address: 83 55 00 00
@@ -132,43 +132,43 @@ command: 90 6F 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NECext
 address: 83 55 00 00
 command: 98 67 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NECext
 address: 83 55 00 00
 command: 99 66 00 00
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NECext
 address: 83 55 00 00
 command: B0 4F 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NECext
 address: 83 55 00 00
 command: B2 4D 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NECext
 address: 83 55 00 00
 command: B3 4C 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NECext
 address: 83 55 00 00
 command: B1 4E 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NECext
 address: 83 55 00 00
@@ -176,7 +176,7 @@ command: 85 7A 00 00
 
 # 华为投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
@@ -191,49 +191,49 @@ command: 48 B7 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
 command: 5E A1 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
 command: 46 B9 00 00
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
 command: 1F E0 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
 command: 1B E4 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
 command: 5D A2 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
 command: 1E E1 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
 command: 0B F4 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NECext
 address: 44 AF 00 00
@@ -241,7 +241,7 @@ command: 5A A5 00 00
 
 # 极米投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 32 00 00 00
@@ -256,49 +256,49 @@ command: 71 00 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC
 address: 32 00 00 00
 command: 09 00 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC
 address: 32 00 00 00
 command: 0C 00 00 00
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NEC
 address: 32 00 00 00
 command: 11 00 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NEC
 address: 32 00 00 00
 command: 14 00 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NEC
 address: 32 00 00 00
 command: 10 00 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NEC
 address: 32 00 00 00
 command: 12 00 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NEC
 address: 32 00 00 00
 command: 0F 00 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NEC
 address: 32 00 00 00
@@ -307,13 +307,13 @@ command: 86 00 00 00
 
 # 佳能投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 17 00 00 00
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
@@ -325,49 +325,49 @@ command: 0D 00 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 06 00 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 23 00 00 00
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 18 00 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 09 00 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 19 00 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 08 00 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
 command: 07 00 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NEC42
 address: 35 01 00 00
@@ -375,13 +375,13 @@ command: 04 00 00 00
 
 # 坚果投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NECext
 address: 80 19 00 00
 command: 10 EF 00 00
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NECext
 address: 80 19 00 00
@@ -393,7 +393,7 @@ command: 1F E0 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NECext
 address: 80 19 00 00
@@ -402,37 +402,37 @@ command: 1C E3 00 00
 # name: Vol_dn
 
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NECext
 address: 80 19 00 00
 command: 17 E8 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NECext
 address: 80 19 00 00
 command: 16 E9 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NECext
 address: 80 19 00 00
 command: 4F B0 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NECext
 address: 80 19 00 00
 command: 51 AE 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NECext
 address: 80 19 00 00
 command: 50 AF 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NECext
 address: 80 19 00 00
@@ -440,13 +440,13 @@ command: 1A E5 00 00
 
 # 康佳投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: 87 78 00 00
 # 静音
-name: Mute
+name: 静音
 type: parsed
 protocol: NECext
 address: 08 16 00 00
@@ -458,49 +458,49 @@ command: 5B A4 00 00
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: 89 76 00 00
 # 音量减
-name: Vol_dn
+name: 音量减
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: B5 4A 00 00
 # 上
-name: Up
+name: 上键
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: 84 7B 00 00
 # 下
-name: Down
+name: 下键
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: 8D 72 00 00
 # 左
-name: Left
+name: 左键
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: BB 44 00 00
 # 右
-name: Right
+name: 右键
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: 8E 71 00 00
 # 确定
-name: Ok
+name: 确定
 type: parsed
 protocol: NECext
 address: 08 16 00 00
 command: B2 4D 00 00
 # 返回
-name: Back
+name: 返回
 type: parsed
 protocol: NECext
 address: 08 16 00 00
@@ -508,13 +508,13 @@ command: 8B 74 00 00
 
 # 三星投影仪(收集:星星一战) ##############################################
 # 电源
-name: Power
+name: 电源
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 4451 4467 470 1517 470 522 471 523 470 523 470 1516 471 522 471 522 471 521 472 1516 471 522 471 522 471 1516 471 522 471 523 470 521 472 523 471 4498 471 522 471 522 471 522 471 521 472 1516 471 523 470 522 471 1516 471 1515 472 521 472 524 469 1516 471 523 470 1516 471 1516 471 523 470 525 468 1516 471 1517 470 522 471 56939 4450 4466 471 1515 472 523 470 524 470 521 472 1517 470 523 470 522 471 522 471 1516 471 522 471 522 471 1517 470 524 469 522 471 522 471 521 472 4497 472 522 471 523 470 523 470 522 471 1519 468 521 473 524 469 1516 471 1516 471 524 469 522 471 1516 471 524 469 1517 470 1516 472 522 471 521 472 1517 470 1517 470 521 472
 # 静音
-name: Mute
+name: 静音
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
@@ -526,43 +526,43 @@ data: 4450 4466 495 1494 493 501 492 499 494 498 496 1493 494 499 495 500 493 49
 # name: Pause
 
 # 音量加
-name: Vol_up
+name: 音量加
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 4451 4469 492 1491 496 498 495 499 494 498 495 1492 495 501 492 498 495 498 495 1492 495 499 494 499 494 1491 496 499 494 498 495 497 496 498 495 4447 496 499 494 498 495 497 496 496 497 1493 494 1492 495 1492 495 498 495 525 468 499 494 499 495 498 495 497 496 499 494 499 494 1491 496 1494 493 1492 495 1495 492 1493 494 56916 4449 4466 495 1491 496 497 496 500 494 499 494 1495 492 500 493 501 492 498 495 1492 495 497 496 498 496 1492 495 498 495 498 495 498 495 525 468 4447 496 497 496 498 495 498 495 497 496 1493 494 1491 496 1492 495 498 495 499 494 500 493 500 493 498 495 497 496 498 495 500 493 1492 495 1492 495 1492 495 1491 496 1492 495
 # 音量减
-name: Vol_dn
+name: 音量减
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 4451 4468 493 1494 493 500 493 499 494 499 494 1494 493 499 494 498 495 499 494 1492 495 499 494 498 495 1492 495 500 493 498 495 498 495 499 494 4449 494 500 493 499 494 499 494 499 494 1492 495 1493 494 499 495 1493 494 499 494 500 493 499 495 499 494 499 494 498 495 1493 494 500 494 1492 495 1493 494 1496 491 1492 495 56915 4451 4465 496 1493 494 499 494 499 494 500 493 1493 494 497 496 501 492 499 494 1496 491 500 493 498 495 1492 495 498 495 499 494 499 494 497 496 4449 494 499 494 498 495 500 493 498 495 1493 495 1493 494 498 495 1494 493 498 496 498 495 500 493 499 494 498 495 501 492 1494 493 498 495 1492 495 1491 496 1492 495 1493 494
 # 上
-name: Up
+name: 上键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 4450 4466 522 1465 522 470 523 471 522 473 521 1465 522 472 521 472 521 472 521 1465 522 473 521 472 521 1466 521 471 522 471 522 471 522 470 523 4449 520 470 523 470 523 471 522 471 522 474 519 472 521 472 521 471 522 471 522 1465 522 1465 522 472 521 1466 521 1466 521 1466 521 1465 522 1466 521 470 523 472 521 1466 521 56913 4425 4467 521 1465 522 472 521 470 523 471 522 1465 522 470 523 470 523 471 523 1466 521 471 522 471 522 1466 521 471 523 471 522 473 520 473 520 4449 520 471 522 471 522 471 522 471 522 470 523 471 522 471 522 471 522 472 521 1467 520 1465 522 473 520 1465 522 1466 521 1465 522 1465 522 1465 522 472 521 471 522 1464 523
 # 下
-name: Down
+name: 下键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 4449 4466 471 1516 471 522 471 523 470 521 472 1515 472 522 471 523 470 522 471 1518 469 522 471 522 471 1516 471 523 470 522 471 522 471 523 470 4498 471 522 471 523 470 524 469 522 471 1517 470 523 470 523 470 522 471 522 471 1517 470 1516 471 522 471 522 471 1518 469 1516 471 1515 472 1517 495 498 470 522 471 1518 469 56940 4449 4468 469 1518 469 524 469 522 471 522 471 1518 469 523 470 522 471 522 471 1516 471 522 471 523 470 1517 470 522 471 521 472 523 470 522 471 4498 471 522 471 523 470 522 471 522 471 1516 471 522 471 522 471 523 470 523 470 1517 470 1517 470 523 470 523 470 1517 470 1516 471 1516 471 1516 471 523 494 498 471 1517 470
 # 左
-name: Left
+name: 左键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 4450 4466 471 1517 470 522 471 521 472 522 471 1516 471 522 471 521 472 523 470 1516 471 521 472 522 471 1515 472 522 471 549 444 522 471 523 470 4497 472 521 472 522 472 522 471 522 471 1515 472 523 470 1517 470 521 472 523 471 1515 472 1517 470 523 470 521 472 1515 472 522 471 1517 470 1516 471 522 471 523 470 1517 470 56938 4451 4466 471 1516 471 521 472 524 469 522 471 1515 472 523 470 522 471 522 471 1518 469 523 470 521 472 1516 471 522 471 521 473 522 471 522 471 4498 471 523 470 522 471 523 470 522 471 1516 471 522 471 1517 470 523 470 522 471 1515 472 1516 471 522 471 523 470 1517 470 523 470 1516 471 1516 471 521 472 523 470 1516 471
 # 右
-name: Right
+name: 右键
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 4449 4467 470 1516 471 521 472 523 470 522 471 1514 473 521 472 521 472 522 471 1516 471 522 471 492 501 1516 471 522 472 522 471 522 471 523 470 4497 472 522 471 522 471 522 471 523 470 521 472 1517 470 521 472 523 470 522 471 1516 471 1515 472 549 444 1515 472 521 472 1517 470 1517 470 1516 471 522 471 523 470 1516 471 56964 4425 4466 471 1516 471 522 471 522 471 521 472 1516 471 522 471 524 469 521 472 1514 473 523 470 522 471 1517 470 523 470 522 471 522 471 522 471 4497 472 521 472 522 471 522 471 520 473 521 473 1517 470 521 472 521 472 523 470 1516 471 1516 471 522 471 1515 472 523 470 1516 471 1516 471 1516 471 523 470 523 470 1518 469
 # 确定
-name: Ok
+name: 确定
 type: raw
 frequency: 38000
 duty_cycle: 0.330000

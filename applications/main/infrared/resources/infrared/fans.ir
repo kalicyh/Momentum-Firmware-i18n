@@ -24,7 +24,7 @@ Version: 1
 
 # Basa电风扇(收集:Mr.KL) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 00 00 00 00
@@ -39,19 +39,19 @@ command: 00 00 00 00
 # name: Timer
 
 # 风速加
-name: Speed_up
+name: 风速加
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 0E 00 00 00
 # 风速减
-name: Speed_dn
+name: 风速减
 type: parsed
 protocol: NEC
 address: 00 00 00 00
 command: 12 00 00 00
 #
-name: Light
+name: 灯光
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
@@ -59,19 +59,19 @@ data: 438 829 250 541 199 1677 225 514 298 10902 177 92138 218 309 194 412 179 5
 
 # Daewoo电风扇(收集:Mr.KL) ##############################################
 # 电源
-name: Power
+name: 电源
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 9240 4466 624 516 594 544 597 541 600 538 624 1649 603 1670 602 535 596 542 599 1673 599 1673 599 1673 599 1673 599 538 593 544 597 1675 597 1674 598 539 602 534 597 1675 597 1675 597 539 602 535 596 540 601 536 595 1676 596 1676 596 540 601 536 595 1676 596 1676 596 1675 597 1674 598 39188 9134 2229 629
 # 模式
-name: Mode
+name: 模式
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 03 00 00 00
 # 摇头(左右)
-name: Rotate
+name: 摇头
 type: parsed
 protocol: NEC
 address: 30 00 00 00
@@ -80,31 +80,31 @@ command: 1C 00 00 00
 # name: Timer
 
 # 风速加(最大)
-name: Speed_up
+name: 风速加
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 01 00 00 00
 # 风速减(逐级)
-name: Speed_dn
+name: 风速减
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 07 00 00 00
 # 摇头(上下)
-name: Up_Down
+name: 上下摇头
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 15 00 00 00
 # 停止摇头
-name: Stop Swip
+name: 停止摇头
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 05 00 00 00
 # 
-name: Light
+name: 灯光
 type: parsed
 protocol: NEC
 address: 30 00 00 00
@@ -113,31 +113,31 @@ command: 08 00 00 00
 
 # Origo电风扇(收集:Mr.KL) ##############################################
 # 电源
-name: Power
+name: 电源
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 8C 00 00 00
 # 模式
-name: Mode
+name: 模式
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 87 00 00 00
 # 摇头
-name: Rotate
+name: 摇头
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 95 00 00 00
 # 定时
-name: Timer
+name: 定时
 type: parsed
 protocol: NEC
 address: 30 00 00 00
 command: 88 00 00 00
 # 风速加
-name: Speed_up
+name: 风速加
 type: parsed
 protocol: NEC
 address: 30 00 00 00
@@ -146,7 +146,7 @@ command: 86 00 00 00
 # name: Speed_dn
 
 # 摇头(上下)
-name: Up_Down
+name: 上下摇头
 type: parsed
 protocol: NEC
 address: 30 00 00 00
@@ -154,7 +154,7 @@ command: 9C 00 00 00
 
 # Rasonic电风扇(收集:Mr.KL) ##############################################
 # 电源
-name: Power
+name: 电源
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
@@ -163,20 +163,20 @@ data: 484 1367 494 1355 465 1414 488 1365 496 1356 495 1359 1376 488 489 1362 48
 # name: Mode
 
 # 摇头
-name: Rotate
+name: 摇头
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 437 1413 479 1369 492 1360 491 1362 478 1400 482 1371 490 1363 457 1392 459 1420 482 1372 1404 431 484 8577 493 1359 502 1375 486 1367 463 1389 462 1414 478 1376 485 1367 463 1390 461 1392 459 1421 1407 429 455 8605 465 1384 456 1422 490 1363 467 1386 465 1388 463 1416 486 1367 494 1360 491 1362 458 1422 1406 431 494 8569 460 1392 459 1418 484 1369 461 1389 472 1381 459 1421 481 1372 469 1385 466 1388 463 1390 1407 456 459 8605 465
 # 定时
-name: Timer
+name: 定时
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 465 1385 466 1408 484 1368 462 1391 470 1382 458 1420 482 1370 1386 449 466 1386 465 1414 457 1394 467 8594 466 1385 466 1385 517 1362 458 1395 466 1383 458 1395 456 1423 1384 453 462 1391 460 1393 458 1416 466 8593 457 1393 458 1394 457 1422 460 1393 458 1395 466 1387 464 1416 1381 457 458 1394 467 1386 465 1413 458 8603 457 1394 467 1384 467 1412 459 1390 461 1392 459 1394 467 1386 1401 462 463 1389 462 1390 461 1417 454 8605 486 1363 467 1384 467 1413 489 1363 488 1365 496 1357 494 1356 1431 434 491 1361 459 1394 467 1385 507 8585 485 1366 464 1387 464 1389 297
 # 
 # 风速加
-name: Speed_up
+name: 风速加
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
@@ -185,13 +185,13 @@ data: 481 1370 491 1355 465 1387 464 1415 487 1365 1381 457 458 1394 457 1417 48
 # name: Speed_dn
 
 # 
-name: White_Light
+name: 白光
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
 data: 457 1445 436 1385 455 1397 464 1388 463 1442 429 1397 464 1389 493 1357 1378 485 461 1392 459 1392 489 8573 456 1394 457 1420 461 1391 491 1363 488
 # 
-name: Yellow_Light
+name: 暖光
 type: raw
 frequency: 38000
 duty_cycle: 0.330000
