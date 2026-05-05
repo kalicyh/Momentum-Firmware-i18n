@@ -599,8 +599,10 @@ int32_t infrared_app(void* p) {
                 is_remote_loaded = false;
                 bool wrong_file_type = INFRARED_ERROR_CHECK(error, InfraredErrorCodeWrongFileType);
                 const char* format = wrong_file_type ?
-                                         "Library file\n\"%s\" can't be opened as a remote" :
-                                         "Failed to load\n\"%s\"";
+                                         INFRARED_UI_TEXT(
+                                             "Library file\n\"%s\" can't be opened as a remote",
+                                             "库文件\n\"%s\" 无法作为遥控打开") :
+                                         INFRARED_UI_TEXT("Failed to load\n\"%s\"", "无法载入\n\"%s\"");
 
                 infrared_show_error_message(infrared, format, file_path);
                 return -1;
