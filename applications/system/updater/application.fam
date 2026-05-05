@@ -17,7 +17,7 @@ App(
 App(
     appid="updater_app",
     name="UpdaterApp",
-    name_zh="更新程序",
+    name_zh="UpdaterApp",
     apptype=FlipperAppType.SYSTEM,
     cdefines=["APP_UPDATER"],
     requires=[
