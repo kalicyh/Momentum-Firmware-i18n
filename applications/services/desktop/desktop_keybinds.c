@@ -225,6 +225,12 @@ void desktop_run_keybind(Desktop* desktop, InputType _type, InputKey _key) {
 #else
         loader_start_detached_with_gui_error(desktop->loader, "Storage", "Wipe Device");
 #endif
+    } else if(furi_string_equal(keybind, "Passport")) {
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+        loader_start_detached_with_gui_error(desktop->loader, "护照", NULL);
+#else
+        loader_start_detached_with_gui_error(desktop->loader, "Passport", NULL);
+#endif
     } else {
         const char* str = furi_string_get_cstr(keybind);
         if(storage_common_exists(desktop->storage, str)) {
