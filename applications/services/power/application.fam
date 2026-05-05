@@ -1,6 +1,7 @@
 App(
     appid="power",
     name="PowerSrv",
+    name_zh="电源服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="power_srv",
     cdefines=["SRV_POWER"],

@@ -1,6 +1,7 @@
 App(
     appid="loader",
     name="LoaderSrv",
+    name_zh="加载器服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="loader_srv",
     cdefines=["SRV_LOADER"],

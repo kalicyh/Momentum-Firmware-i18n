@@ -53,6 +53,7 @@ class FlipperApplication:
     appid: str
     apptype: FlipperAppType
     name: Optional[str] = ""
+    name_zh: Optional[str] = ""
     entry_point: Optional[str] = None
     flags: List[str] = field(default_factory=lambda: ["Default"])
     cdefines: List[str] = field(default_factory=list)
@@ -105,6 +106,11 @@ class FlipperApplication:
     @property
     def do_strict_import_checks(self):
         return self.apptype != FlipperAppType.PLUGIN
+
+    def get_display_name(self, use_zh: bool = False):
+        if use_zh and self.name_zh:
+            return self.name_zh
+        return self.name
 
     def __post_init__(self):
         if self.apptype == FlipperAppType.PLUGIN:

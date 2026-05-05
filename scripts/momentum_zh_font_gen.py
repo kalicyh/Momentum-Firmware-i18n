@@ -8,6 +8,7 @@ import subprocess
 from pathlib import Path
 
 STRING_LITERAL_RE = re.compile(r'"((?:\\.|[^"\\])*)"', re.DOTALL)
+MANIFEST_NAME_ZH_RE = re.compile(r'^\s*name_zh\s*=\s*"((?:\\.|[^"\\])*)"', re.MULTILINE)
 
 SOURCE_SCAN_ROOTS = (
     Path("applications/main"),
@@ -17,6 +18,7 @@ SOURCE_SCAN_ROOTS = (
     Path("lib"),
 )
 ANIMATION_TEXT_ROOT = Path("assets/dolphin")
+MANIFEST_SCAN_ROOT = Path("applications")
 
 
 def parse_args():
@@ -103,6 +105,24 @@ def collect_chars_from_animation_text(repo_root: Path):
                 if ord(ch) > 127:
                     chars.add(ch)
     return chars
+
+
+def collect_chars_from_manifest_names(repo_root: Path):
+    chars = set()
+    root = repo_root / MANIFEST_SCAN_ROOT
+    if not root.is_dir():
+        return chars
+
+    for manifest_file in root.rglob("application.fam"):
+        contents = manifest_file.read_text(encoding="utf-8", errors="ignore")
+        for match in MANIFEST_NAME_ZH_RE.finditer(contents):
+            text = decode_c_string_literal(match.group(1))
+            for ch in text:
+                if ord(ch) > 127:
+                    chars.add(ch)
+    return chars
+
+
 def write_map(chars, path: Path):
     lines = ["32-128,"]
     for codepoint in sorted(ord(ch) for ch in chars):
@@ -210,6 +230,7 @@ def main():
     chars = collect_chars_from_strings(strings)
     chars.update(collect_chars_from_source_literals(repo_root))
     chars.update(collect_chars_from_animation_text(repo_root))
+    chars.update(collect_chars_from_manifest_names(repo_root))
     if chars:
         map_file = work_dir / "primary_zh.map"
         chars_file = work_dir / "primary_zh_chars.txt"

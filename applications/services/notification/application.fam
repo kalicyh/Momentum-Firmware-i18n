@@ -1,6 +1,7 @@
 App(
     appid="notification",
     name="NotificationSrv",
+    name_zh="通知服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="notification_srv",
     cdefines=["SRV_NOTIFICATION"],

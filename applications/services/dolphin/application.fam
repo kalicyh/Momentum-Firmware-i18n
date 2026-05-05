@@ -1,6 +1,7 @@
 App(
     appid="dolphin",
     name="DolphinSrv",
+    name_zh="Dolphin 服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="dolphin_srv",
     cdefines=["SRV_DOLPHIN"],

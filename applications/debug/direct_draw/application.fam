@@ -1,6 +1,7 @@
 App(
     appid="direct_draw",
     name="Direct Draw",
+    name_zh="直接绘制",
     apptype=FlipperAppType.DEBUG,
     entry_point="direct_draw_app",
     requires=["gui", "input"],

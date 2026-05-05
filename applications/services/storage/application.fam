@@ -1,6 +1,7 @@
 App(
     appid="storage",
     name="StorageSrv",
+    name_zh="存储服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="storage_srv",
     cdefines=["SRV_STORAGE"],

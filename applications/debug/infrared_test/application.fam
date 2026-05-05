@@ -1,6 +1,7 @@
 App(
     appid="infrared_test",
     name="Infrared Test",
+    name_zh="红外测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="infrared_test_app",
     fap_category="Debug",

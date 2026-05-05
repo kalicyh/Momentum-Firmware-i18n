@@ -1,6 +1,7 @@
 App(
     appid="region",
     name="RegionSrv",
+    name_zh="区域服务",
     apptype=FlipperAppType.STARTUP,
     targets=["f7"],
     entry_point="region_on_system_start",

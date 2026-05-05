@@ -1,6 +1,7 @@
 App(
     appid="crash_test",
     name="Crash Test",
+    name_zh="崩溃测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="crash_test_app",
     requires=["gui"],

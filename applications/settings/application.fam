@@ -1,6 +1,7 @@
 App(
     appid="settings_apps",
     name="Basic settings apps bundle",
+    name_zh="基础设置应用包",
     apptype=FlipperAppType.METAPACKAGE,
     provides=[
         "passport",

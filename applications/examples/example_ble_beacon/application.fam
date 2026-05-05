@@ -1,6 +1,7 @@
 App(
     appid="example_ble_beacon",
     name="Example: BLE Beacon",
+    name_zh="示例：BLE 信标",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="ble_beacon_app",
     requires=["gui"],

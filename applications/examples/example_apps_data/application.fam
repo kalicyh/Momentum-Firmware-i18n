@@ -1,6 +1,7 @@
 App(
     appid="example_apps_data",
     name="Example: Apps Data",
+    name_zh="示例：应用数据",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_apps_data_main",
     requires=["gui"],

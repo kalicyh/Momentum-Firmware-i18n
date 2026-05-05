@@ -1,6 +1,7 @@
 App(
     appid="gui",
     name="GuiSrv",
+    name_zh="GUI 服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="gui_srv",
     cdefines=["SRV_GUI"],

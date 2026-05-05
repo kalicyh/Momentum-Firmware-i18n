@@ -1,6 +1,7 @@
 App(
     appid="desktop",
     name="DesktopSrv",
+    name_zh="桌面服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="desktop_srv",
     cdefines=["SRV_DESKTOP"],

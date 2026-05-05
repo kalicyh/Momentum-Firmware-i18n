@@ -1,6 +1,7 @@
 App(
     appid="subghz_test",
     name="Sub-Ghz test",
+    name_zh="Sub-GHz 测试",
     apptype=FlipperAppType.DEBUG,
     targets=["f7"],
     entry_point="subghz_test_app",

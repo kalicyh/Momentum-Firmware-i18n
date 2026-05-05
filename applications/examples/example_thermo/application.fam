@@ -1,6 +1,7 @@
 App(
     appid="example_thermo",
     name="Example: Thermometer",
+    name_zh="示例：温度计",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_thermo_main",
     requires=["gui"],

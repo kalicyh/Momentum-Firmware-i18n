@@ -1,6 +1,7 @@
 App(
     appid="input",
     name="InputSrv",
+    name_zh="输入服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="input_srv",
     cdefines=["SRV_INPUT"],

@@ -1,6 +1,7 @@
 App(
     appid="example_advanced_plugins",
     name="Example: advanced plugins",
+    name_zh="示例：高级插件",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_advanced_plugins_app",
     stack_size=2 * 1024,

@@ -1,6 +1,7 @@
 App(
     appid="main_apps",
     name="Basic applications for main menu",
+    name_zh="主菜单基础应用",
     apptype=FlipperAppType.METAPACKAGE,
     provides=[
         "gpio",
@@ -20,6 +21,7 @@ App(
 App(
     appid="main_apps_on_start",
     name="On start hooks",
+    name_zh="启动钩子",
     apptype=FlipperAppType.METAPACKAGE,
     provides=[
         "cli",

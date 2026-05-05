@@ -1,6 +1,7 @@
 App(
     appid="updater",
     name="UpdaterSrv",
+    name_zh="更新服务",
     apptype=FlipperAppType.SERVICE,
     cdefines=["SRV_UPDATER"],
     requires=[
@@ -16,6 +17,7 @@ App(
 App(
     appid="updater_app",
     name="UpdaterApp",
+    name_zh="更新程序",
     apptype=FlipperAppType.SYSTEM,
     cdefines=["APP_UPDATER"],
     requires=[

@@ -31,9 +31,10 @@ EXT_PATH("zh_fonts/primary_zh.u8f")
 中文构建时：
 
 1. 从 `localization/zh_CN/strings.json` 提取全部非 ASCII 字符
-2. 调用 `scripts/momentum_zh_font_gen.py`
-3. 使用仓库内的 `tools/u8g2_cn_tools/bdfconv`
-4. 生成 `primary_zh.u8f`
+2. 扫描源码字符串字面量、`application.fam` 里的 `name_zh`，以及海豚动画文本
+3. 调用 `scripts/momentum_zh_font_gen.py`
+4. 使用仓库内的 `tools/u8g2_cn_tools/bdfconv`
+5. 生成 `primary_zh.u8f`
 
 只有：
 

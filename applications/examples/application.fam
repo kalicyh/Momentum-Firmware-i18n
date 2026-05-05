@@ -2,5 +2,6 @@
 App(
     appid="example_apps",
     name="Example apps bundle",
+    name_zh="示例应用包",
     apptype=FlipperAppType.METAPACKAGE,
 )

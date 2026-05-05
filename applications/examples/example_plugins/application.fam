@@ -1,6 +1,7 @@
 App(
     appid="example_plugins",
     name="Example: App w/plugin",
+    name_zh="示例：带插件的应用",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_plugins_app",
     stack_size=2 * 1024,
@@ -11,6 +12,7 @@ App(
 App(
     appid="example_plugins_multi",
     name="Example: App w/plugins",
+    name_zh="示例：带插件的应用",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_plugins_multi_app",
     stack_size=2 * 1024,

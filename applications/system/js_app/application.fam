@@ -1,6 +1,7 @@
 App(
     appid="js_app",
     name="JS Runner",
+    name_zh="JS 运行器",
     apptype=FlipperAppType.EXTERNAL,
     cdefines=["JS_RUNNER_FAP"],
     fap_icon="icon.png",

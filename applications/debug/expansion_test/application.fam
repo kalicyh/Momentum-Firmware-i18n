@@ -1,6 +1,7 @@
 App(
     appid="expansion_test",
     name="Expansion Module Test",
+    name_zh="扩展模块测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="expansion_test_app",
     requires=["expansion_start"],

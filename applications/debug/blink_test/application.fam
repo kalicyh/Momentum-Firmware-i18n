@@ -1,6 +1,7 @@
 App(
     appid="blink_test",
     name="Blink Test",
+    name_zh="闪烁测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="blink_test_app",
     requires=["gui"],

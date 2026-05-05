@@ -1,6 +1,7 @@
 App(
     appid="momentum_app",
     name="Momentum",
+    name_zh="Momentum",
     apptype=FlipperAppType.MENUEXTERNAL,
     entry_point="momentum_app",
     stack_size=2 * 1024,

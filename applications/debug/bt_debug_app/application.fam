@@ -1,6 +1,7 @@
 App(
     appid="bt_debug",
     name="Bluetooth Debug",
+    name_zh="蓝牙调试",
     apptype=FlipperAppType.DEBUG,
     entry_point="bt_debug_app",
     cdefines=["SRV_BT"],

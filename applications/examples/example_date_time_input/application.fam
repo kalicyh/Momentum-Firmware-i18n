@@ -1,6 +1,7 @@
 App(
     appid="example_date_time_input",
     name="Example: Date/Time Input",
+    name_zh="示例：日期/时间输入",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_date_time_input",
     requires=["gui"],

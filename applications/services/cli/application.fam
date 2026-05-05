@@ -18,6 +18,7 @@ App(
 App(
     appid="cli_vcp",
     name="CliVcpSrv",
+    name_zh="CLI VCP 服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="cli_vcp_srv",
     stack_size=1024,

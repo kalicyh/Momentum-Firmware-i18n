@@ -1,6 +1,7 @@
 App(
     appid="findmy",
     name="FindMy Flipper",
+    name_zh="查找 Flipper",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="findmy_main",
     requires=["gui"],

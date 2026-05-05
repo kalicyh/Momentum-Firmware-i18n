@@ -1,6 +1,7 @@
 App(
     appid="example_images",
     name="Example: Images",
+    name_zh="示例：图像",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_images_main",
     requires=["gui"],

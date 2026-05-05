@@ -1,6 +1,7 @@
 App(
     appid="uart_echo",
     name="UART Echo",
+    name_zh="UART 回显",
     apptype=FlipperAppType.DEBUG,
     entry_point="uart_echo_app",
     requires=["gui"],

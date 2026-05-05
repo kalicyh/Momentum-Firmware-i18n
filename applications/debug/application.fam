@@ -1,6 +1,7 @@
 App(
     appid="debug_apps",
     name="Basic debug apps bundle",
+    name_zh="基础调试应用包",
     apptype=FlipperAppType.METAPACKAGE,
     provides=[
         "blink_test",

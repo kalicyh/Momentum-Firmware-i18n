@@ -1,6 +1,7 @@
 App(
     appid="input_settings",
     name="Input",
+    name_zh="输入",
     apptype=FlipperAppType.SETTINGS,
     entry_point="input_settings_app",
     requires=["input"],

@@ -1,6 +1,7 @@
 App(
     appid="accessor",
     name="Accessor",
+    name_zh="配件",
     apptype=FlipperAppType.DEBUG,
     targets=["f7"],
     entry_point="accessor_app",

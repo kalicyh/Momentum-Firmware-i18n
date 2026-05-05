@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 Import("env")
 
@@ -13,6 +14,13 @@ momentum_zh_fonts_all_out_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_
 momentum_zh_fonts_all_work_dir = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_all_work")
 momentum_zh_fonts_all_stamp = env["BUILD_DIR"].Dir("generated").Dir("zh_fonts_all_state").File("stamp")
 momentum_bdf_files = sorted(momentum_tools_root.Dir("bdf").glob("*.bdf"), key=lambda n: str(n))
+momentum_manifest_files = [
+    File(f"#/{path}")
+    for path in sorted(
+        str(path.relative_to(Dir("#").abspath))
+        for path in Path(Dir("#").abspath, "applications").rglob("application.fam")
+    )
+]
 
 momentum_zh_font_gen = env.Command(
     [momentum_zh_font_stamp, momentum_zh_fonts_out_dir.File("primary_zh.u8f")],
@@ -21,6 +29,7 @@ momentum_zh_font_gen = env.Command(
         File("#/localization/zh_CN/strings.json"),
         momentum_tools_root.File("bdfconv"),
         momentum_default_bdf,
+        *momentum_manifest_files,
     ],
     [
         [
@@ -61,6 +70,7 @@ momentum_zh_font_gen_all = env.Command(
         File("#/localization/zh_CN/strings.json"),
         momentum_tools_root.File("bdfconv"),
         *momentum_bdf_files,
+        *momentum_manifest_files,
     ],
     [
         [

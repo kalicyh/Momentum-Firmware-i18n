@@ -1,6 +1,7 @@
 App(
     appid="dialogs",
     name="DialogsSrv",
+    name_zh="对话框服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="dialogs_srv",
     cdefines=["SRV_DIALOGS"],

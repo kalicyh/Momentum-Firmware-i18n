@@ -1,6 +1,7 @@
 App(
     appid="keypad_test",
     name="Keypad Test",
+    name_zh="键盘测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="keypad_test_app",
     requires=["gui"],

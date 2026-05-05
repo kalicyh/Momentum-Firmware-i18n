@@ -1,6 +1,7 @@
 App(
     appid="gpio",
     name="GPIO",
+    name_zh="GPIO",
     apptype=FlipperAppType.MENUEXTERNAL,
     entry_point="gpio_app",
     stack_size=2 * 1024,

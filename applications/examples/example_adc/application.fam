@@ -1,6 +1,7 @@
 App(
     appid="example_adc",
     name="Example: ADC",
+    name_zh="示例：ADC",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_adc_main",
     requires=["gui"],

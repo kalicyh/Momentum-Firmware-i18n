@@ -1,6 +1,7 @@
 App(
     appid="usb_test",
     name="USB Test",
+    name_zh="USB 测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="usb_test_app",
     requires=["gui"],

@@ -1,6 +1,7 @@
 App(
     appid="lfrfid_debug",
     name="LF-RFID Debug",
+    name_zh="LF-RFID 调试",
     apptype=FlipperAppType.DEBUG,
     targets=["f7"],
     entry_point="lfrfid_debug_app",

@@ -1,6 +1,7 @@
 App(
     appid="bt",
     name="BtSrv",
+    name_zh="蓝牙服务",
     apptype=FlipperAppType.SERVICE,
     entry_point="bt_srv",
     cdefines=["SRV_BT"],

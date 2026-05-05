@@ -13,6 +13,7 @@ App(
 App(
     appid="delay_test",
     name="Delay Test",
+    name_zh="延时测试",
     sources=["tests/common/*.c", "tests/rpc/*.c"],
     apptype=FlipperAppType.SYSTEM,
     entry_point="delay_test_app",

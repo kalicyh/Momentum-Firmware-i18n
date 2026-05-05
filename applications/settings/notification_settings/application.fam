@@ -1,6 +1,7 @@
 App(
     appid="notification_settings",
     name="LCD and Notifications",
+    name_zh="LCD 与通知",
     apptype=FlipperAppType.SETTINGS,
     entry_point="notification_settings_app",
     requires=["notification"],

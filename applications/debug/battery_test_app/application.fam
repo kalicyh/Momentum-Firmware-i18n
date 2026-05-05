@@ -1,6 +1,7 @@
 App(
     appid="battery_test",
     name="Battery Test",
+    name_zh="电池测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="battery_test_app",
     requires=[

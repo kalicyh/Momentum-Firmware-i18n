@@ -1,6 +1,7 @@
 App(
     appid="file_browser_test",
     name="File Browser Test",
+    name_zh="文件浏览器测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="file_browser_app",
     requires=["gui"],

@@ -1,6 +1,7 @@
 App(
     appid="example_view_holder",
     name="Example: ViewHolder",
+    name_zh="示例：ViewHolder",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_view_holder_app",
     requires=["gui"],

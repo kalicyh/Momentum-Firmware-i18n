@@ -1,6 +1,7 @@
 App(
     appid="usb_mouse",
     name="USB Mouse",
+    name_zh="USB 鼠标",
     apptype=FlipperAppType.DEBUG,
     entry_point="usb_mouse_app",
     requires=["gui"],

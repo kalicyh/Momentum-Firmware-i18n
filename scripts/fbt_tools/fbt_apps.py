@@ -40,9 +40,10 @@ class ApplicationsCGenerator:
         ),
     }
 
-    def __init__(self, buildset: AppBuildset, autorun_app: str = ""):
+    def __init__(self, buildset: AppBuildset, autorun_app: str = "", use_zh: bool = False):
         self.buildset = buildset
         self.autorun = autorun_app
+        self.use_zh = use_zh
 
     def get_app_ep_forward(self, app: FlipperApplication):
         if app.apptype == FlipperAppType.STARTUP:
@@ -54,7 +55,7 @@ class ApplicationsCGenerator:
             return app.entry_point
         return f"""
     {{.app = {app.entry_point},
-     .name = "{app.name}",
+     .name = "{app.get_display_name(self.use_zh)}",
      .appid = "{app.appid}", 
      .stack_size = {app.stack_size},
      .icon = {f"&{app.icon}" if app.icon else "NULL"},
@@ -67,7 +68,7 @@ class ApplicationsCGenerator:
         app_path += f"/{app.appid}.fap"
         return f"""
     {{
-     .name = "{app.name}",
+     .name = "{app.get_display_name(self.use_zh)}",
      .icon = {f"&{app.icon}" if app.icon else "NULL"},
      .path = "{app_path}" }}"""
 
@@ -182,7 +183,11 @@ def DumpApplicationConfig(target, source, env):
 def build_apps_c(target, source, env):
     target_file_name = target[0].path
 
-    gen = ApplicationsCGenerator(env["APPBUILD"], env.subst("$LOADER_AUTOSTART"))
+    gen = ApplicationsCGenerator(
+        env["APPBUILD"],
+        env.subst("$LOADER_AUTOSTART"),
+        env.subst("$MOMENTUM_UI_LANG_ZH") == "1",
+    )
     with open(target_file_name, "w") as file:
         file.write(gen.generate())
 

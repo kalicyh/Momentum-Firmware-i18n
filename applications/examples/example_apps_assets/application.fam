@@ -1,6 +1,7 @@
 App(
     appid="example_apps_assets",
     name="Example: Apps Assets",
+    name_zh="示例：应用资产",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_apps_assets_main",
     requires=["gui"],

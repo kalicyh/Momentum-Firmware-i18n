@@ -1,6 +1,7 @@
 App(
     appid="example_custom_font",
     name="Example: custom font",
+    name_zh="示例：自定义字体",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_custom_font_main",
     requires=["gui"],

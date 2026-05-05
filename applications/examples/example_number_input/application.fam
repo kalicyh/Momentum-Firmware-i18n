@@ -1,6 +1,7 @@
 App(
     appid="example_number_input",
     name="Example: Number Input",
+    name_zh="示例：数字输入",
     apptype=FlipperAppType.EXTERNAL,
     entry_point="example_number_input",
     requires=["gui"],

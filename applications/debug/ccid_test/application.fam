@@ -1,6 +1,7 @@
 App(
     appid="ccid_test",
     name="CCID Debug",
+    name_zh="CCID 调试",
     apptype=FlipperAppType.DEBUG,
     entry_point="ccid_test_app",
     requires=[

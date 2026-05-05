@@ -2,5 +2,6 @@
 App(
     appid="drivers",
     name="Drivers device",
+    name_zh="驱动设备",
     apptype=FlipperAppType.METAPACKAGE,
 )

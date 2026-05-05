@@ -1,6 +1,7 @@
 App(
     appid="event_loop_blink_test",
     name="Event Loop Blink Test",
+    name_zh="事件循环闪烁测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="event_loop_blink_test_app",
     requires=["input"],

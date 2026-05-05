@@ -1,6 +1,7 @@
 App(
     appid="loader_chaining_a",
     name="Loader Chaining Test: App A",
+    name_zh="加载器链式测试：应用 A",
     apptype=FlipperAppType.DEBUG,
     entry_point="chaining_test_app_a",
     stack_size=1 * 1024,

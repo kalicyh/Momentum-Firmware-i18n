@@ -1,6 +1,7 @@
 App(
     appid="text_box_view_test",
     name="Text Box View Test",
+    name_zh="文本框视图测试",
     apptype=FlipperAppType.DEBUG,
     entry_point="text_box_view_test_app",
     requires=["gui"],
