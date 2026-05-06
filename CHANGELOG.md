@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.8.5 - 2026-05-06
+
+### Changed
+- 更新 `FreeRTOS-Kernel` 到 `V10.6.0`，改善内核侧稳定性，并缓解固件打包时的容量压力。
+
+## v0.8.4 - 2026-05-06
+
+### Changed
+- 更新 `stm32wbxx_hal_driver` 到 `v1.14.7`，同步一批 STM32WB 外设驱动修复。
+- 更新 `nanopb` 到 `0.4.9.1`，获取上游稳定性修复。
+- 更新 `libusb_stm32` 到 `b9d70a0`，同步 USB MSC Bulk 相关支持。
+- 更新 `cmsis-device-wb` 到 `v1.12.3`，对齐 STM32WB 设备头文件与启动文件更新。
+- 更新 `doxygen-awesome-css` 到 `v2.4.2`，同步文档样式改进。
+
 ## v0.8.3 - 2026-05-06
 
 ### Changed
