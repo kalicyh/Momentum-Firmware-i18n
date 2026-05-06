@@ -1,6 +1,8 @@
 #pragma once
 
+#include <m-array.h>
 #include <furi.h>
+#include <m-algo.h>
 #include <storage/storage.h>
 #include "toolbox/path.h"
 #include <momentum/momentum.h>
@@ -44,11 +46,66 @@ typedef struct {
     bool is_app;
 } ArchiveFile_t;
 
-void ArchiveFile_t_init(ArchiveFile_t* obj);
-void ArchiveFile_t_init_set(ArchiveFile_t* obj, const ArchiveFile_t* src);
-void ArchiveFile_t_set(ArchiveFile_t* obj, const ArchiveFile_t* src);
-void ArchiveFile_t_clear(ArchiveFile_t* obj);
-int ArchiveFile_t_cmp(const ArchiveFile_t* a, const ArchiveFile_t* b);
+static void ArchiveFile_t_init(ArchiveFile_t* obj) {
+    obj->path = furi_string_alloc();
+    obj->type = ArchiveFileTypeUnknown;
+    obj->custom_icon_data = NULL;
+    obj->custom_name = furi_string_alloc();
+    obj->fav = false;
+    obj->is_app = false;
+}
+
+static void ArchiveFile_t_init_set(ArchiveFile_t* obj, const ArchiveFile_t* src) {
+    obj->path = furi_string_alloc_set(src->path);
+    obj->type = src->type;
+    if(src->custom_icon_data) {
+        obj->custom_icon_data = malloc(FAP_MANIFEST_MAX_ICON_SIZE);
+        memcpy(obj->custom_icon_data, src->custom_icon_data, FAP_MANIFEST_MAX_ICON_SIZE);
+    } else {
+        obj->custom_icon_data = NULL;
+    }
+    obj->custom_name = furi_string_alloc_set(src->custom_name);
+    obj->fav = src->fav;
+    obj->is_app = src->is_app;
+}
+
+static void ArchiveFile_t_set(ArchiveFile_t* obj, const ArchiveFile_t* src) {
+    furi_string_set(obj->path, src->path);
+    obj->type = src->type;
+    if(src->custom_icon_data) {
+        obj->custom_icon_data = malloc(FAP_MANIFEST_MAX_ICON_SIZE);
+        memcpy(obj->custom_icon_data, src->custom_icon_data, FAP_MANIFEST_MAX_ICON_SIZE);
+    } else {
+        obj->custom_icon_data = NULL;
+    }
+    furi_string_set(obj->custom_name, src->custom_name);
+    obj->fav = src->fav;
+    obj->is_app = src->is_app;
+}
+
+static void ArchiveFile_t_clear(ArchiveFile_t* obj) {
+    furi_string_free(obj->path);
+    if(obj->custom_icon_data) {
+        free(obj->custom_icon_data);
+        obj->custom_icon_data = NULL;
+    }
+    furi_string_free(obj->custom_name);
+}
+
+static int ArchiveFile_t_cmp(const ArchiveFile_t* a, const ArchiveFile_t* b) {
+    if(momentum_settings.sort_dirs_first) {
+        if(a->type == ArchiveFileTypeFolder && b->type != ArchiveFileTypeFolder) {
+            return -1;
+        }
+        if(a->type != ArchiveFileTypeFolder && b->type == ArchiveFileTypeFolder) {
+            return 1;
+        }
+    }
+
+    return furi_string_cmpi(
+        furi_string_empty(a->custom_name) ? a->path : a->custom_name,
+        furi_string_empty(b->custom_name) ? b->path : b->custom_name);
+}
 
 #define M_OPL_ArchiveFile_t()                 \
     (INIT(API_2(ArchiveFile_t_init)),         \
@@ -59,25 +116,9 @@ int ArchiveFile_t_cmp(const ArchiveFile_t* a, const ArchiveFile_t* b);
      SWAP(M_SWAP_DEFAULT),                    \
      EQUAL(API_6(M_EQUAL_DEFAULT)))
 
-typedef struct {
-    size_t size;
-    size_t alloc;
-    ArchiveFile_t* ptr;
-} files_array_data_t;
+ARRAY_DEF(files_array, ArchiveFile_t)
 
-typedef files_array_data_t files_array_t[1];
-
-void files_array_init(files_array_t array);
-void files_array_reset(files_array_t array);
-void files_array_clear(files_array_t array);
-size_t files_array_size(const files_array_t array);
-ArchiveFile_t* files_array_get(const files_array_t array, size_t index);
-void files_array_sort(files_array_t array);
-void files_array_remove_v(files_array_t array, size_t start, size_t end);
-void files_array_pop_at(ArchiveFile_t* out, files_array_t array, size_t index);
-void files_array_push_at(files_array_t array, size_t index, const ArchiveFile_t item);
-void files_array_swap_at(files_array_t array, size_t index1, size_t index2);
-void files_array_push_back(files_array_t array, const ArchiveFile_t item);
+ALGO_DEF(files_array, ARRAY_OPLIST(files_array, M_OPL_ArchiveFile_t()))
 
 void archive_set_file_type(ArchiveFile_t* file, const char* path, bool is_folder, bool is_app);
 bool archive_get_items(void* context, const char* path);

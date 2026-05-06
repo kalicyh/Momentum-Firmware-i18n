@@ -2,59 +2,17 @@
 #include "cli_registry_i.h"
 #include <toolbox/pipe.h>
 #include <storage/storage.h>
-#include <string.h>
 
 #define TAG "CliRegistry"
 
-typedef struct {
-    FuriString* name;
-    CliRegistryCommand command;
-} CliRegistryEntry;
-
 struct CliRegistry {
-    CliRegistryEntry* commands;
-    size_t count;
-    size_t alloc;
+    CliCommandDict_t commands;
     FuriMutex* mutex;
 };
 
-static void cli_registry_reserve(CliRegistry* registry, size_t min_alloc) {
-    furi_assert(registry);
-
-    if(registry->alloc >= min_alloc) {
-        return;
-    }
-
-    size_t new_alloc = registry->alloc ? registry->alloc : 8;
-    while(new_alloc < min_alloc) {
-        new_alloc *= 2;
-    }
-
-    CliRegistryEntry* commands = realloc(registry->commands, sizeof(CliRegistryEntry) * new_alloc);
-    furi_check(commands != NULL);
-
-    registry->commands = commands;
-    registry->alloc = new_alloc;
-}
-
-static ssize_t cli_registry_find_index(CliRegistry* registry, FuriString* name) {
-    furi_assert(registry);
-    furi_assert(name);
-
-    for(size_t i = 0; i < registry->count; i++) {
-        if(furi_string_cmp(registry->commands[i].name, name) == 0) {
-            return (ssize_t)i;
-        }
-    }
-
-    return -1;
-}
-
 CliRegistry* cli_registry_alloc(void) {
     CliRegistry* registry = malloc(sizeof(CliRegistry));
-    registry->commands = NULL;
-    registry->count = 0;
-    registry->alloc = 0;
+    CliCommandDict_init(registry->commands);
     registry->mutex = furi_mutex_alloc(FuriMutexTypeRecursive);
     return registry;
 }
@@ -62,12 +20,7 @@ CliRegistry* cli_registry_alloc(void) {
 void cli_registry_free(CliRegistry* registry) {
     furi_check(furi_mutex_acquire(registry->mutex, FuriWaitForever) == FuriStatusOk);
     furi_mutex_free(registry->mutex);
-
-    for(size_t i = 0; i < registry->count; i++) {
-        furi_string_free(registry->commands[i].name);
-    }
-
-    free(registry->commands);
+    CliCommandDict_clear(registry->commands);
     free(registry);
 }
 
@@ -108,15 +61,7 @@ void cli_registry_add_command_ex(
     };
 
     furi_check(furi_mutex_acquire(registry->mutex, FuriWaitForever) == FuriStatusOk);
-    ssize_t index = cli_registry_find_index(registry, name_str);
-    if(index >= 0) {
-        registry->commands[index].command = command;
-    } else {
-        cli_registry_reserve(registry, registry->count + 1);
-        registry->commands[registry->count].name = furi_string_alloc_set(name_str);
-        registry->commands[registry->count].command = command;
-        registry->count++;
-    }
+    CliCommandDict_set_at(registry->commands, name_str, command);
     furi_check(furi_mutex_release(registry->mutex) == FuriStatusOk);
 
     furi_string_free(name_str);
@@ -134,17 +79,7 @@ void cli_registry_delete_command(CliRegistry* registry, const char* name) {
     } while(name_replace != FURI_STRING_FAILURE);
 
     furi_check(furi_mutex_acquire(registry->mutex, FuriWaitForever) == FuriStatusOk);
-    ssize_t index = cli_registry_find_index(registry, name_str);
-    if(index >= 0) {
-        furi_string_free(registry->commands[index].name);
-        if((size_t)index + 1 < registry->count) {
-            memmove(
-                &registry->commands[index],
-                &registry->commands[index + 1],
-                (registry->count - (size_t)index - 1) * sizeof(registry->commands[0]));
-        }
-        registry->count--;
-    }
+    CliCommandDict_erase(registry->commands, name_str);
     furi_check(furi_mutex_release(registry->mutex) == FuriStatusOk);
 
     furi_string_free(name_str);
@@ -156,34 +91,26 @@ bool cli_registry_get_command(
     CliRegistryCommand* result) {
     furi_assert(registry);
     furi_check(furi_mutex_acquire(registry->mutex, FuriWaitForever) == FuriStatusOk);
-    ssize_t index = cli_registry_find_index(registry, command);
-    if(index >= 0) {
-        *result = registry->commands[index].command;
-    }
+    CliRegistryCommand* data = CliCommandDict_get(registry->commands, command);
+    if(data) *result = *data;
 
     furi_check(furi_mutex_release(registry->mutex) == FuriStatusOk);
 
-    return index >= 0;
+    return !!data;
 }
 
 void cli_registry_remove_external_commands(CliRegistry* registry) {
     furi_check(registry);
     furi_check(furi_mutex_acquire(registry->mutex, FuriWaitForever) == FuriStatusOk);
 
-    size_t write_index = 0;
-    for(size_t read_index = 0; read_index < registry->count; read_index++) {
-        CliRegistryEntry* entry = &registry->commands[read_index];
-        if(entry->command.flags & CliCommandFlagExternal) {
-            furi_string_free(entry->name);
-            continue;
+    CliCommandDict_t internal_cmds;
+    CliCommandDict_init(internal_cmds);
+    for
+        M_EACH(item, registry->commands, CliCommandDict_t) {
+            if(!(item->value.flags & CliCommandFlagExternal))
+                CliCommandDict_set_at(internal_cmds, item->key, item->value);
         }
-
-        if(write_index != read_index) {
-            registry->commands[write_index] = *entry;
-        }
-        write_index++;
-    }
-    registry->count = write_index;
+    CliCommandDict_move(registry->commands, internal_cmds);
 
     furi_check(furi_mutex_release(registry->mutex) == FuriStatusOk);
 }
@@ -219,15 +146,7 @@ void cli_registry_reload_external_commands(
                 .execute_callback = NULL,
                 .flags = CliCommandFlagExternal,
             };
-            ssize_t index = cli_registry_find_index(registry, plugin_name);
-            if(index >= 0) {
-                registry->commands[index].command = command;
-            } else {
-                cli_registry_reserve(registry, registry->count + 1);
-                registry->commands[registry->count].name = furi_string_alloc_set(plugin_name);
-                registry->commands[registry->count].command = command;
-                registry->count++;
-            }
+            CliCommandDict_set_at(registry->commands, plugin_name, command);
         }
 
         furi_string_free(plugin_name);
@@ -251,19 +170,7 @@ void cli_registry_unlock(CliRegistry* registry) {
     furi_mutex_release(registry->mutex);
 }
 
-size_t cli_registry_get_count(CliRegistry* registry) {
+CliCommandDict_t* cli_registry_get_commands(CliRegistry* registry) {
     furi_assert(registry);
-    return registry->count;
-}
-
-FuriString* cli_registry_get_name_at(CliRegistry* registry, size_t index) {
-    furi_assert(registry);
-    furi_assert(index < registry->count);
-    return registry->commands[index].name;
-}
-
-const CliRegistryCommand* cli_registry_get_command_at(CliRegistry* registry, size_t index) {
-    furi_assert(registry);
-    furi_assert(index < registry->count);
-    return &registry->commands[index].command;
+    return &registry->commands;
 }

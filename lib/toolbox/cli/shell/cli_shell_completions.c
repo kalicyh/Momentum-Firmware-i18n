@@ -111,13 +111,14 @@ void cli_shell_completions_fill_variants(CliShellCompletions* completions) {
     if(segment.type == CliShellCompletionSegmentTypeCommand) {
         CliRegistry* registry = completions->registry;
         cli_registry_lock(registry);
-        size_t commands_count = cli_registry_get_count(registry);
-        for(size_t i = 0; i < commands_count; i++) {
-            FuriString* command_name = cli_registry_get_name_at(registry, i);
-            if(furi_string_start_with(command_name, input)) {
-                CommandCompletions_push_back(completions->variants, command_name);
+        CliCommandDict_t* commands = cli_registry_get_commands(registry);
+        for
+            M_EACH(registered_command, *commands, CliCommandDict_t) {
+                FuriString* command_name = registered_command->key;
+                if(furi_string_start_with(command_name, input)) {
+                    CommandCompletions_push_back(completions->variants, command_name);
+                }
             }
-        }
         cli_registry_unlock(registry);
 
     } else {
