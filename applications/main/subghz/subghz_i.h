@@ -118,18 +118,6 @@ void subghz_blink_stop(SubGhz* subghz);
 
 bool subghz_tx_start(SubGhz* subghz, FlipperFormat* flipper_format);
 void subghz_dialog_message_freq_error(SubGhz* subghz, SubGhzTx can_tx);
-void subghz_update_receiver_statusbar(SubGhz* subghz, bool show_device_info);
-void subghz_history_prune_old_signals(SubGhz* subghz, uint16_t* idx, bool reset_rx_key_state);
-void subghz_history_drop_last_duplicate(
-    SubGhz* subghz,
-    SubGhzProtocolDecoderBase* decoder_base,
-    uint16_t* idx,
-    bool reset_rx_key_state);
-void subghz_history_append_to_receiver_menu(SubGhz* subghz, uint16_t idx);
-void subghz_history_autosave_item(
-    SubGhz* subghz,
-    SubGhzProtocolDecoderBase* decoder_base,
-    uint16_t idx);
 
 bool subghz_key_load(SubGhz* subghz, const char* file_path, bool show_dialog);
 bool subghz_get_next_name_file(SubGhz* subghz, uint8_t max_len);
