@@ -105,8 +105,6 @@ static void subghz_scene_add_to_history_callback(
 void subghz_scene_receiver_on_enter(void* context) {
     SubGhz* subghz = context;
     SubGhzHistory* history = subghz->history;
-    FuriString* item_name = furi_string_alloc();
-    FuriString* item_time = furi_string_alloc();
 
     if(subghz_rx_key_state_get(subghz) == SubGhzRxKeyStateIDLE) {
         subghz_txrx_set_preset_internal(
@@ -128,22 +126,7 @@ void subghz_scene_receiver_on_enter(void* context) {
 
     subghz_view_receiver_set_mode(subghz->subghz_receiver, SubGhzViewReceiverModeLive);
 
-    subghz_view_receiver_exit(subghz->subghz_receiver);
-    for(uint16_t i = 0; i < subghz_history_get_item(history); i++) {
-        subghz_history_get_text_item_menu(history, item_name, i);
-        subghz_history_get_time_item_menu(history, item_time, i);
-        subghz_view_receiver_add_item_to_menu(
-            subghz->subghz_receiver,
-            furi_string_get_cstr(item_name),
-            furi_string_get_cstr(item_time),
-            subghz_history_get_type_protocol(history, i),
-            subghz_history_get_repeats(history, i));
-        subghz_rx_key_state_set(subghz, SubGhzRxKeyStateAddKey);
-        furi_string_reset(item_name);
-        furi_string_reset(item_time);
-    }
-    furi_string_free(item_name);
-    furi_string_free(item_time);
+    subghz_history_load_to_receiver(subghz, true);
 
     subghz_view_receiver_set_callback(
         subghz->subghz_receiver, subghz_scene_receiver_callback, subghz);

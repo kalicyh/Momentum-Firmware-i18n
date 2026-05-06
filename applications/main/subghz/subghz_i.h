@@ -126,6 +126,7 @@ void subghz_history_drop_last_duplicate(
     uint16_t* idx,
     bool reset_rx_key_state);
 void subghz_history_append_to_receiver_menu(SubGhz* subghz, uint16_t idx);
+void subghz_history_load_to_receiver(SubGhz* subghz, bool update_rx_key_state);
 void subghz_history_autosave_item(
     SubGhz* subghz,
     SubGhzProtocolDecoderBase* decoder_base,
