@@ -149,35 +149,6 @@ void subghz_history_append_to_receiver_menu(SubGhz* subghz, uint16_t idx) {
     furi_string_free(item_time);
 }
 
-void subghz_history_load_to_receiver(SubGhz* subghz, bool update_rx_key_state) {
-    furi_assert(subghz);
-
-    FuriString* item_name = furi_string_alloc();
-    FuriString* item_time = furi_string_alloc();
-
-    subghz_view_receiver_exit(subghz->subghz_receiver);
-    for(uint16_t i = 0; i < subghz_history_get_item(subghz->history); i++) {
-        subghz_history_get_text_item_menu(subghz->history, item_name, i);
-        subghz_history_get_time_item_menu(subghz->history, item_time, i);
-        subghz_view_receiver_add_item_to_menu(
-            subghz->subghz_receiver,
-            furi_string_get_cstr(item_name),
-            furi_string_get_cstr(item_time),
-            subghz_history_get_type_protocol(subghz->history, i),
-            subghz_history_get_repeats(subghz->history, i));
-
-        if(update_rx_key_state) {
-            subghz_rx_key_state_set(subghz, SubGhzRxKeyStateAddKey);
-        }
-
-        furi_string_reset(item_name);
-        furi_string_reset(item_time);
-    }
-
-    furi_string_free(item_name);
-    furi_string_free(item_time);
-}
-
 void subghz_history_autosave_item(
     SubGhz* subghz,
     SubGhzProtocolDecoderBase* decoder_base,
