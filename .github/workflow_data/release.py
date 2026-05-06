@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import re
 from pathlib import Path
 
 
@@ -39,7 +40,12 @@ def read_changelog():
     if not changelog:
         return ""
 
-    return f"\n\n---\n\n{changelog}\n"
+    match = re.search(r"^## .+?(?=^## |\Z)", changelog, flags=re.MULTILINE | re.DOTALL)
+    if not match:
+        return ""
+
+    latest_entry = match.group(0).strip()
+    return f"\n\n---\n\n{latest_entry}\n"
 
 
 if __name__ == "__main__":

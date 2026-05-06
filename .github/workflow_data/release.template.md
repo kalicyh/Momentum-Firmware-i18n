@@ -20,3 +20,4 @@
 - `复刻版`：`MOMENTUM_DEVICE=clone`
 - `Clipper`：`MOMENTUM_DEVICE=clipper`
 - 所有 Release 固件均为中文构建：`MOMENTUM_UI_LANG=zh_CN`
+- 完整版本日志查看：[CHANGELOG.md](https://github.com/{REPOSITORY}/blob/dev/CHANGELOG.md)
