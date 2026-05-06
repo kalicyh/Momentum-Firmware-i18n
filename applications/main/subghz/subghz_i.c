@@ -7,8 +7,180 @@
 #include <notification/notification_messages.h>
 #include <flipper_format/flipper_format.h>
 #include <flipper_format/flipper_format_i.h>
+#include <toolbox/name_generator.h>
 
 #define TAG "SubGhz"
+
+void subghz_update_receiver_statusbar(SubGhz* subghz, bool show_device_info) {
+    FuriString* history_stat_str = furi_string_alloc();
+    bool show_sats = subghz->gps && furi_hal_rtc_get_timestamp() % 2;
+
+    if(!subghz_history_get_text_space_left(
+           subghz->history,
+           history_stat_str,
+           subghz->last_settings->delete_old_signals,
+           show_sats,
+           show_sats ? subghz->gps->satellites : 0)) {
+        FuriString* frequency_str = furi_string_alloc();
+        FuriString* modulation_str = furi_string_alloc();
+
+#ifdef SUBGHZ_EXT_PRESET_NAME
+        if(show_device_info && subghz_history_get_last_index(subghz->history) == 0) {
+            FuriString* temp_str = furi_string_alloc();
+
+            subghz_txrx_get_frequency_and_modulation(subghz->txrx, frequency_str, temp_str, true);
+            furi_string_printf(
+                modulation_str,
+                "%s        Mod: %s",
+                (subghz_txrx_radio_device_get(subghz->txrx) == SubGhzRadioDeviceTypeInternal) ?
+                    SUBGHZ_UI_TEXT("Int", "内") :
+                    SUBGHZ_UI_TEXT("Ext", "外"),
+                furi_string_get_cstr(temp_str));
+            furi_string_free(temp_str);
+        } else
+#endif
+        {
+            subghz_txrx_get_frequency_and_modulation(
+                subghz->txrx, frequency_str, modulation_str, false);
+        }
+
+        subghz_view_receiver_add_data_statusbar(
+            subghz->subghz_receiver,
+            furi_string_get_cstr(frequency_str),
+            furi_string_get_cstr(modulation_str),
+            furi_string_get_cstr(history_stat_str),
+            subghz_txrx_hopper_get_state(subghz->txrx) != SubGhzHopperStateOFF,
+            READ_BIT(subghz->filter, SubGhzProtocolFlag_BinRAW) > 0,
+            show_sats,
+            subghz->repeater);
+
+        furi_string_free(frequency_str);
+        furi_string_free(modulation_str);
+    } else {
+        subghz_view_receiver_add_data_statusbar(
+            subghz->subghz_receiver,
+            furi_string_get_cstr(history_stat_str),
+            "",
+            "",
+            subghz_txrx_hopper_get_state(subghz->txrx) != SubGhzHopperStateOFF,
+            READ_BIT(subghz->filter, SubGhzProtocolFlag_BinRAW) > 0,
+            show_sats,
+            subghz->repeater);
+    }
+
+    furi_string_free(history_stat_str);
+    subghz_view_receiver_set_radio_device_type(
+        subghz->subghz_receiver, subghz_txrx_radio_device_get(subghz->txrx));
+}
+
+void subghz_history_prune_old_signals(SubGhz* subghz, uint16_t* idx, bool reset_rx_key_state) {
+    furi_assert(subghz);
+    furi_assert(idx);
+
+    if(!(subghz->last_settings->delete_old_signals && subghz_history_full(subghz->history))) {
+        return;
+    }
+
+    subghz_view_receiver_disable_draw_callback(subghz->subghz_receiver);
+    while(*idx > 0 && subghz_history_full(subghz->history)) {
+        subghz_history_delete_item(subghz->history, 0);
+        subghz_view_receiver_delete_item(subghz->subghz_receiver, 0);
+        (*idx)--;
+    }
+    subghz_view_receiver_enable_draw_callback(subghz->subghz_receiver);
+
+    if(reset_rx_key_state && *idx == 0) {
+        subghz_rx_key_state_set(subghz, SubGhzRxKeyStateStart);
+    }
+
+    subghz_update_receiver_statusbar(subghz, false);
+    subghz->idx_menu_chosen = subghz_view_receiver_get_idx_menu(subghz->subghz_receiver);
+}
+
+void subghz_history_drop_last_duplicate(
+    SubGhz* subghz,
+    SubGhzProtocolDecoderBase* decoder_base,
+    uint16_t* idx,
+    bool reset_rx_key_state) {
+    furi_assert(subghz);
+    furi_assert(decoder_base);
+    furi_assert(idx);
+
+    if(!subghz->remove_duplicates) {
+        return;
+    }
+
+    uint32_t hash_data = subghz_protocol_decoder_base_get_hash_data_long(decoder_base);
+    subghz_view_receiver_disable_draw_callback(subghz->subghz_receiver);
+    for(uint16_t i = *idx; i > 0; i--) {
+        i--;
+        if(subghz_history_get_hash_data(subghz->history, i) == hash_data &&
+           subghz_history_get_protocol(subghz->history, i) == decoder_base->protocol) {
+            subghz_history_delete_item(subghz->history, i);
+            subghz_view_receiver_delete_item(subghz->subghz_receiver, i);
+            (*idx)--;
+        }
+        i++;
+    }
+    subghz->idx_menu_chosen = subghz_view_receiver_get_idx_menu(subghz->subghz_receiver);
+    subghz_view_receiver_enable_draw_callback(subghz->subghz_receiver);
+
+    if(reset_rx_key_state && *idx == 0) {
+        subghz_rx_key_state_set(subghz, SubGhzRxKeyStateStart);
+    }
+}
+
+void subghz_history_append_to_receiver_menu(SubGhz* subghz, uint16_t idx) {
+    furi_assert(subghz);
+
+    FuriString* item_name = furi_string_alloc();
+    FuriString* item_time = furi_string_alloc();
+
+    subghz_history_get_text_item_menu(subghz->history, item_name, idx);
+    subghz_history_get_time_item_menu(subghz->history, item_time, idx);
+    subghz_view_receiver_add_item_to_menu(
+        subghz->subghz_receiver,
+        furi_string_get_cstr(item_name),
+        furi_string_get_cstr(item_time),
+        subghz_history_get_type_protocol(subghz->history, idx),
+        subghz_history_get_repeats(subghz->history, idx));
+
+    furi_string_free(item_name);
+    furi_string_free(item_time);
+}
+
+void subghz_history_autosave_item(
+    SubGhz* subghz,
+    SubGhzProtocolDecoderBase* decoder_base,
+    uint16_t idx) {
+    furi_assert(subghz);
+    furi_assert(decoder_base);
+
+    if(!(decoder_base->protocol->flag & SubGhzProtocolFlag_Save && subghz->last_settings->autosave)) {
+        return;
+    }
+
+    char file[SUBGHZ_MAX_LEN_NAME] = {0};
+    const char* suffix = subghz->last_settings->protocol_file_names ?
+                             decoder_base->protocol->name :
+                             SUBGHZ_APP_FILENAME_PREFIX;
+    DateTime time = subghz_history_get_datetime(subghz->history, idx);
+    name_generator_make_detailed_datetime(file, sizeof(file), suffix, &time, true);
+
+    FuriString* path = furi_string_alloc_set(SUBGHZ_APP_FOLDER "/Autosave");
+    char* dir = strdup(furi_string_get_cstr(path));
+    const char* ext = SUBGHZ_APP_FILENAME_EXTENSION;
+    Storage* storage = furi_record_open(RECORD_STORAGE);
+    storage_get_next_filename(storage, dir, file, ext, path, sizeof(file));
+    strlcpy(file, furi_string_get_cstr(path), sizeof(file));
+    furi_string_printf(path, "%s/%s%s", dir, file, ext);
+    furi_record_close(RECORD_STORAGE);
+    free(dir);
+
+    subghz_save_protocol_to_file(
+        subghz, subghz_history_get_raw_data(subghz->history, idx), furi_string_get_cstr(path));
+    furi_string_free(path);
+}
 
 void subghz_blink_start(SubGhz* subghz) {
     furi_assert(subghz);

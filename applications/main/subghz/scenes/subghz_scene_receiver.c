@@ -1,8 +1,6 @@
 #include "../subghz_i.h"
 #include <dolphin/dolphin.h>
 #include <lib/subghz/protocols/bin_raw.h>
-#include <toolbox/name_generator.h>
-
 #define TAG "SubGhzSceneReceiver"
 
 const NotificationSequence subghz_sequence_rx = {
@@ -47,70 +45,6 @@ const NotificationSequence subghz_sequence_tx_beep = {
     NULL,
 };
 
-static void subghz_scene_receiver_update_statusbar(void* context) {
-    SubGhz* subghz = context;
-    FuriString* history_stat_str = furi_string_alloc();
-    bool show_sats = subghz->gps && furi_hal_rtc_get_timestamp() % 2;
-    if(!subghz_history_get_text_space_left(
-           subghz->history,
-           history_stat_str,
-           subghz->last_settings->delete_old_signals,
-           show_sats,
-           show_sats ? subghz->gps->satellites : 0)) {
-        FuriString* frequency_str = furi_string_alloc();
-        FuriString* modulation_str = furi_string_alloc();
-
-#ifdef SUBGHZ_EXT_PRESET_NAME
-        if(subghz_history_get_last_index(subghz->history) > 0) {
-            subghz_txrx_get_frequency_and_modulation(
-                subghz->txrx, frequency_str, modulation_str, false);
-        } else {
-            FuriString* temp_str = furi_string_alloc();
-
-            subghz_txrx_get_frequency_and_modulation(subghz->txrx, frequency_str, temp_str, true);
-            furi_string_printf(
-                modulation_str,
-                "%s        Mod: %s",
-                (subghz_txrx_radio_device_get(subghz->txrx) == SubGhzRadioDeviceTypeInternal) ?
-                    SUBGHZ_UI_TEXT("Int", "内") :
-                    SUBGHZ_UI_TEXT("Ext", "外"),
-                furi_string_get_cstr(temp_str));
-            furi_string_free(temp_str);
-        }
-#else
-        subghz_txrx_get_frequency_and_modulation(
-            subghz->txrx, frequency_str, modulation_str, false);
-#endif
-
-        subghz_view_receiver_add_data_statusbar(
-            subghz->subghz_receiver,
-            furi_string_get_cstr(frequency_str),
-            furi_string_get_cstr(modulation_str),
-            furi_string_get_cstr(history_stat_str),
-            subghz_txrx_hopper_get_state(subghz->txrx) != SubGhzHopperStateOFF,
-            READ_BIT(subghz->filter, SubGhzProtocolFlag_BinRAW) > 0,
-            show_sats,
-            subghz->repeater);
-
-        furi_string_free(frequency_str);
-        furi_string_free(modulation_str);
-    } else {
-        subghz_view_receiver_add_data_statusbar(
-            subghz->subghz_receiver,
-            furi_string_get_cstr(history_stat_str),
-            "",
-            "",
-            subghz_txrx_hopper_get_state(subghz->txrx) != SubGhzHopperStateOFF,
-            READ_BIT(subghz->filter, SubGhzProtocolFlag_BinRAW) > 0,
-            show_sats,
-            subghz->repeater);
-    }
-    furi_string_free(history_stat_str);
-
-    subghz_view_receiver_set_radio_device_type(
-        subghz->subghz_receiver, subghz_txrx_radio_device_get(subghz->txrx));
-}
-
 void subghz_scene_receiver_callback(SubGhzCustomEvent event, void* context) {
     furi_assert(context);
     SubGhz* subghz = context;
@@ -130,8 +64,6 @@ static void subghz_scene_add_to_history_callback(
     SubGhz* subghz = context;
 
     SubGhzHistory* history = subghz->history;
-    FuriString* item_name = furi_string_alloc();
-    FuriString* item_time = furi_string_alloc();
     uint16_t idx = subghz_history_get_item(history);
 
     SubGhzRadioPreset preset = subghz_txrx_get_preset(subghz->txrx);
@@ -143,27 +75,9 @@ static void subghz_scene_add_to_history_callback(
         preset.longitude = 0;
     }
 
-    if(subghz->last_settings->delete_old_signals && subghz_history_full(subghz->history)) {
-        subghz_view_receiver_disable_draw_callback(subghz->subghz_receiver);
-
-        while(idx > 0 && subghz_history_full(subghz->history)) {
-            subghz_history_delete_item(subghz->history, 0);
-            subghz_view_receiver_delete_item(subghz->subghz_receiver, 0);
-            idx--;
-        }
-
-        subghz_view_receiver_enable_draw_callback(subghz->subghz_receiver);
-        if(idx == 0) {
-            subghz_rx_key_state_set(subghz, SubGhzRxKeyStateStart);
-        }
-        subghz_scene_receiver_update_statusbar(subghz);
-        subghz->idx_menu_chosen = subghz_view_receiver_get_idx_menu(subghz->subghz_receiver);
-    }
+    subghz_history_prune_old_signals(subghz, &idx, true);
 
     if(subghz_history_add_to_history(history, decoder_base, &preset)) {
-        furi_string_reset(item_name);
-        furi_string_reset(item_time);
-
         //If the repeater is on, dont add to the menu, just TX the signal.
         if(subghz->repeater != SubGhzRepeaterStateOff) {
             view_dispatcher_send_custom_event(
@@ -171,66 +85,10 @@ static void subghz_scene_add_to_history_callback(
         } else {
             subghz->state_notifications = SubGhzNotificationStateRxDone;
 
-            if(subghz->remove_duplicates) {
-                // Look in history for signal hash
-                uint32_t hash_data = subghz_protocol_decoder_base_get_hash_data_long(decoder_base);
-                subghz_view_receiver_disable_draw_callback(subghz->subghz_receiver);
-                for(uint16_t i = idx; i > 0; i--) {
-                    i--; // Iterating in reverse with off by one
-                    if(subghz_history_get_hash_data(subghz->history, i) == hash_data &&
-                       subghz_history_get_protocol(subghz->history, i) == decoder_base->protocol) {
-                        // Remove previous instance and update menu index
-                        subghz_history_delete_item(subghz->history, i);
-                        subghz_view_receiver_delete_item(subghz->subghz_receiver, i);
-                        idx--;
-                    }
-                    i++;
-                }
-                // Restore ui state
-                subghz->idx_menu_chosen =
-                    subghz_view_receiver_get_idx_menu(subghz->subghz_receiver);
-                subghz_view_receiver_enable_draw_callback(subghz->subghz_receiver);
-                if(idx == 0) {
-                    subghz_rx_key_state_set(subghz, SubGhzRxKeyStateStart);
-                }
-            }
-
-            subghz_history_get_text_item_menu(history, item_name, idx);
-            subghz_history_get_time_item_menu(history, item_time, idx);
-            subghz_view_receiver_add_item_to_menu(
-                subghz->subghz_receiver,
-                furi_string_get_cstr(item_name),
-                furi_string_get_cstr(item_time),
-                subghz_history_get_type_protocol(history, idx),
-                subghz_history_get_repeats(history, idx));
-
-            if(decoder_base->protocol->flag & SubGhzProtocolFlag_Save &&
-               subghz->last_settings->autosave) {
-                // File name
-                char file[SUBGHZ_MAX_LEN_NAME] = {0};
-                const char* suf = subghz->last_settings->protocol_file_names ?
-                                      decoder_base->protocol->name :
-                                      SUBGHZ_APP_FILENAME_PREFIX;
-                DateTime time = subghz_history_get_datetime(history, idx);
-                name_generator_make_detailed_datetime(file, sizeof(file), suf, &time, true);
-                // Dir name
-                FuriString* path = furi_string_alloc_set(SUBGHZ_APP_FOLDER "/Autosave");
-                char* dir = strdup(furi_string_get_cstr(path));
-                // Find non-existent path
-                const char* ext = SUBGHZ_APP_FILENAME_EXTENSION;
-                Storage* storage = furi_record_open(RECORD_STORAGE);
-                storage_get_next_filename(storage, dir, file, ext, path, sizeof(file));
-                strlcpy(file, furi_string_get_cstr(path), sizeof(file));
-                furi_string_printf(path, "%s/%s%s", dir, file, ext);
-                furi_record_close(RECORD_STORAGE);
-                free(dir);
-                // Save
-                subghz_save_protocol_to_file(
-                    subghz, subghz_history_get_raw_data(history, idx), furi_string_get_cstr(path));
-                furi_string_free(path);
-            }
-
-            subghz_scene_receiver_update_statusbar(subghz);
+            subghz_history_drop_last_duplicate(subghz, decoder_base, &idx, true);
+            subghz_history_append_to_receiver_menu(subghz, idx);
+            subghz_history_autosave_item(subghz, decoder_base, idx);
+            subghz_update_receiver_statusbar(subghz, true);
             if(!subghz->last_settings->delete_old_signals &&
                subghz_history_full(subghz->history)) {
                 subghz->state_notifications = SubGhzNotificationStateIDLE;
@@ -242,14 +100,11 @@ static void subghz_scene_add_to_history_callback(
         subghz_rx_key_state_set(subghz, SubGhzRxKeyStateAddKey);
     }
     subghz_receiver_reset(receiver);
-    furi_string_free(item_name);
-    furi_string_free(item_time);
 }
 
 void subghz_scene_receiver_on_enter(void* context) {
     SubGhz* subghz = context;
     SubGhzHistory* history = subghz->history;
-
     FuriString* item_name = furi_string_alloc();
     FuriString* item_time = furi_string_alloc();
 
@@ -273,11 +128,8 @@ void subghz_scene_receiver_on_enter(void* context) {
 
     subghz_view_receiver_set_mode(subghz->subghz_receiver, SubGhzViewReceiverModeLive);
 
-    // Load history to receiver
     subghz_view_receiver_exit(subghz->subghz_receiver);
     for(uint16_t i = 0; i < subghz_history_get_item(history); i++) {
-        furi_string_reset(item_name);
-        furi_string_reset(item_time);
         subghz_history_get_text_item_menu(history, item_name, i);
         subghz_history_get_time_item_menu(history, item_time, i);
         subghz_view_receiver_add_item_to_menu(
@@ -287,6 +139,8 @@ void subghz_scene_receiver_on_enter(void* context) {
             subghz_history_get_type_protocol(history, i),
             subghz_history_get_repeats(history, i));
         subghz_rx_key_state_set(subghz, SubGhzRxKeyStateAddKey);
+        furi_string_reset(item_name);
+        furi_string_reset(item_time);
     }
     furi_string_free(item_name);
     furi_string_free(item_time);
@@ -341,7 +195,7 @@ void subghz_scene_receiver_on_enter(void* context) {
     furi_check(
         subghz_txrx_load_decoder_by_name_protocol(subghz->txrx, SUBGHZ_PROTOCOL_BIN_RAW_NAME));
 
-    subghz_scene_receiver_update_statusbar(subghz);
+    subghz_update_receiver_statusbar(subghz, true);
 
     subghz_view_receiver_set_lock(subghz->subghz_receiver, subghz_is_locked(subghz));
 
@@ -391,7 +245,7 @@ bool subghz_scene_receiver_on_event(void* context, SceneManagerEvent event) {
                 subghz_view_receiver_get_idx_menu(subghz->subghz_receiver));
             subghz_view_receiver_enable_draw_callback(subghz->subghz_receiver);
 
-            subghz_scene_receiver_update_statusbar(subghz);
+            subghz_update_receiver_statusbar(subghz, true);
             subghz->idx_menu_chosen = subghz_view_receiver_get_idx_menu(subghz->subghz_receiver);
             if(subghz_history_get_last_index(subghz->history) == 0) {
                 subghz_rx_key_state_set(subghz, SubGhzRxKeyStateStart);
@@ -487,7 +341,7 @@ bool subghz_scene_receiver_on_event(void* context, SceneManagerEvent event) {
         if(subghz_rx_key_state_get(subghz) != SubGhzRxKeyStateTX) {
             if(subghz_txrx_hopper_get_state(subghz->txrx) != SubGhzHopperStateOFF) {
                 subghz_txrx_hopper_update(subghz->txrx, subghz->last_settings->hopping_threshold);
-                subghz_scene_receiver_update_statusbar(subghz);
+                subghz_update_receiver_statusbar(subghz, true);
             }
 
             SubGhzThresholdRssiData ret_rssi = subghz_threshold_get_rssi_data(
@@ -504,7 +358,7 @@ bool subghz_scene_receiver_on_event(void* context, SceneManagerEvent event) {
                     subghz->gps->fix_minute = 0;
                     subghz->gps->fix_second = 0;
                 }
-                subghz_scene_receiver_update_statusbar(subghz);
+                subghz_update_receiver_statusbar(subghz, true);
             }
 
             subghz_receiver_rssi(subghz->subghz_receiver, ret_rssi.rssi);
