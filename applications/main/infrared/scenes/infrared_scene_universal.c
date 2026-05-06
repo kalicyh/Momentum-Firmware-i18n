@@ -2,11 +2,16 @@
 
 typedef enum {
     SubmenuIndexUniversalTV,
+    SubmenuIndexUniversalTVExtra,
     SubmenuIndexUniversalProjector,
+    SubmenuIndexUniversalProjectorExtra,
     SubmenuIndexUniversalAudio,
+    SubmenuIndexUniversalAudioExtra,
+    SubmenuIndexUniversalSquareAudio,
     SubmenuIndexUniversalAirConditioner,
     SubmenuIndexUniversalLEDs,
     SubmenuIndexUniversalFan,
+    SubmenuIndexUniversalFanExtra,
     SubmenuIndexUniversalBluray,
     SubmenuIndexUniversalMonitor,
     SubmenuIndexUniversalDigitalSign,
@@ -31,6 +36,13 @@ void infrared_scene_universal_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
+        INFRARED_UI_TEXT("TVs+", "电视补充"),
+        SubmenuIndexUniversalTVExtra,
+        infrared_scene_universal_submenu_callback,
+        context);
+
+    submenu_add_item(
+        submenu,
         INFRARED_UI_TEXT("Projectors", "投影仪"),
         SubmenuIndexUniversalProjector,
         infrared_scene_universal_submenu_callback,
@@ -38,8 +50,29 @@ void infrared_scene_universal_on_enter(void* context) {
 
     submenu_add_item(
         submenu,
+        INFRARED_UI_TEXT("Projectors+", "投影补充"),
+        SubmenuIndexUniversalProjectorExtra,
+        infrared_scene_universal_submenu_callback,
+        context);
+
+    submenu_add_item(
+        submenu,
         INFRARED_UI_TEXT("Audio", "音响"),
         SubmenuIndexUniversalAudio,
+        infrared_scene_universal_submenu_callback,
+        context);
+
+    submenu_add_item(
+        submenu,
+        INFRARED_UI_TEXT("Audio+", "音响补充"),
+        SubmenuIndexUniversalAudioExtra,
+        infrared_scene_universal_submenu_callback,
+        context);
+
+    submenu_add_item(
+        submenu,
+        INFRARED_UI_TEXT("Square Audio", "广场音响"),
+        SubmenuIndexUniversalSquareAudio,
         infrared_scene_universal_submenu_callback,
         context);
 
@@ -61,6 +94,13 @@ void infrared_scene_universal_on_enter(void* context) {
         submenu,
         INFRARED_UI_TEXT("Fans", "风扇"),
         SubmenuIndexUniversalFan,
+        infrared_scene_universal_submenu_callback,
+        context);
+
+    submenu_add_item(
+        submenu,
+        INFRARED_UI_TEXT("Fans+", "风扇补充"),
+        SubmenuIndexUniversalFanExtra,
         infrared_scene_universal_submenu_callback,
         context);
 
@@ -107,11 +147,30 @@ bool infrared_scene_universal_on_event(void* context, SceneManagerEvent event) {
         if(event.event == SubmenuIndexUniversalTV) {
             scene_manager_next_scene(scene_manager, InfraredSceneUniversalTV);
             consumed = true;
+        } else if(event.event == SubmenuIndexUniversalTVExtra) {
+            furi_string_set(infrared->universal_db_path, EXT_PATH("infrared/assets/tv_extra.ir"));
+            scene_manager_next_scene(scene_manager, InfraredSceneUniversalFromFile);
+            consumed = true;
         } else if(event.event == SubmenuIndexUniversalProjector) {
             scene_manager_next_scene(scene_manager, InfraredSceneUniversalProjector);
             consumed = true;
+        } else if(event.event == SubmenuIndexUniversalProjectorExtra) {
+            furi_string_set(
+                infrared->universal_db_path, EXT_PATH("infrared/assets/projectors_extra.ir"));
+            scene_manager_next_scene(scene_manager, InfraredSceneUniversalFromFile);
+            consumed = true;
         } else if(event.event == SubmenuIndexUniversalAudio) {
             scene_manager_next_scene(scene_manager, InfraredSceneUniversalAudio);
+            consumed = true;
+        } else if(event.event == SubmenuIndexUniversalAudioExtra) {
+            furi_string_set(
+                infrared->universal_db_path, EXT_PATH("infrared/assets/audio_extra.ir"));
+            scene_manager_next_scene(scene_manager, InfraredSceneUniversalFromFile);
+            consumed = true;
+        } else if(event.event == SubmenuIndexUniversalSquareAudio) {
+            furi_string_set(
+                infrared->universal_db_path, EXT_PATH("infrared/assets/square_audio.ir"));
+            scene_manager_next_scene(scene_manager, InfraredSceneUniversalFromFile);
             consumed = true;
         } else if(event.event == SubmenuIndexUniversalAirConditioner) {
             scene_manager_next_scene(scene_manager, InfraredSceneUniversalAC);
@@ -121,6 +180,10 @@ bool infrared_scene_universal_on_event(void* context, SceneManagerEvent event) {
             consumed = true;
         } else if(event.event == SubmenuIndexUniversalFan) {
             scene_manager_next_scene(scene_manager, InfraredSceneUniversalFan);
+            consumed = true;
+        } else if(event.event == SubmenuIndexUniversalFanExtra) {
+            furi_string_set(infrared->universal_db_path, EXT_PATH("infrared/assets/fans_extra.ir"));
+            scene_manager_next_scene(scene_manager, InfraredSceneUniversalFromFile);
             consumed = true;
         } else if(event.event == SubmenuIndexUniversalBluray) {
             scene_manager_next_scene(scene_manager, InfraredSceneUniversalBluray);

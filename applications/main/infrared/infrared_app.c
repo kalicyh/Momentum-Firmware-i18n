@@ -152,6 +152,7 @@ static InfraredApp* infrared_alloc(void) {
         furi_thread_alloc_ex("InfraredTask", INFRARED_TASK_STACK_SIZE, NULL, infrared);
     infrared->file_path = furi_string_alloc();
     infrared->button_name = furi_string_alloc();
+    infrared->universal_db_path = furi_string_alloc();
 
     InfraredAppState* app_state = &infrared->app_state;
     app_state->is_learning_new_remote = false;
@@ -305,6 +306,7 @@ static void infrared_free(InfraredApp* infrared) {
 
     furi_string_free(infrared->file_path);
     furi_string_free(infrared->button_name);
+    furi_string_free(infrared->universal_db_path);
 
     free(infrared);
 }
