@@ -108,15 +108,9 @@ void cli_command_help(PipeSide* pipe, FuriString* args, void* context) {
 
     printf("Available commands:\r\n" ANSI_FG_GREEN);
     cli_registry_lock(registry);
-    CliCommandDict_t* commands = cli_registry_get_commands(registry);
-    size_t commands_count = CliCommandDict_size(*commands);
-
-    CliCommandDict_it_t iterator;
-    CliCommandDict_it(iterator, *commands);
+    size_t commands_count = cli_registry_get_count(registry);
     for(size_t i = 0; i < commands_count; i++) {
-        const CliCommandDict_itref_t* item = CliCommandDict_cref(iterator);
-        printf("%-30s", furi_string_get_cstr(item->key));
-        CliCommandDict_next(iterator);
+        printf("%-30s", furi_string_get_cstr(cli_registry_get_name_at(registry, i)));
 
         if(i % columns == columns - 1) printf("\r\n");
     }
@@ -175,16 +169,15 @@ static void
     furi_string_reset(suggestion);
 
     cli_registry_lock(cli_shell->registry);
-    CliCommandDict_t* commands = cli_registry_get_commands(cli_shell->registry);
-    for
-        M_EACH(registered_command, *commands, CliCommandDict_t) {
-            const char* command_name = furi_string_get_cstr(registered_command->key);
-            const size_t distance = cli_shell_string_distance(input, command_name);
-            if(distance < min_distance && distance <= max_allowed) {
-                min_distance = distance;
-                furi_string_set(suggestion, command_name);
-            }
+    size_t commands_count = cli_registry_get_count(cli_shell->registry);
+    for(size_t i = 0; i < commands_count; i++) {
+        const char* command_name = furi_string_get_cstr(cli_registry_get_name_at(cli_shell->registry, i));
+        const size_t distance = cli_shell_string_distance(input, command_name);
+        if(distance < min_distance && distance <= max_allowed) {
+            min_distance = distance;
+            furi_string_set(suggestion, command_name);
         }
+    }
     cli_registry_unlock(cli_shell->registry);
 }
 
