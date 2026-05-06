@@ -68,6 +68,204 @@ struct InfraredBruteForce {
     bool is_started;
 };
 
+static bool infrared_brute_force_has_record_name(
+    const InfraredBruteForce* brute_force,
+    const char* name) {
+    InfraredBruteForceRecordDict_it_t it;
+    for(InfraredBruteForceRecordDict_it(it, brute_force->records);
+        !InfraredBruteForceRecordDict_end_p(it);
+        InfraredBruteForceRecordDict_next(it)) {
+        const InfraredBruteForceRecordDict_itref_t* pair = InfraredBruteForceRecordDict_cref(it);
+        if(strcmp(furi_string_get_cstr(pair->key), name) == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static const char* infrared_brute_force_first_matching_record_name(
+    const InfraredBruteForce* brute_force,
+    const char* const* candidates,
+    size_t candidate_count) {
+    for(size_t i = 0; i < candidate_count; ++i) {
+        if(infrared_brute_force_has_record_name(brute_force, candidates[i])) {
+            return candidates[i];
+        }
+    }
+
+    return NULL;
+}
+
+static const char* infrared_brute_force_resolve_button_name(
+    const InfraredBruteForce* brute_force,
+    const char* name) {
+    static const char* power_candidates[] = {"Power", "POWER"};
+    static const char* play_candidates[] = {"Play", "PLAY"};
+    const char* const* candidates = NULL;
+    size_t candidate_count = 0;
+
+    if(strcmp(name, "电源") == 0) {
+        candidates = power_candidates;
+        candidate_count = COUNT_OF(power_candidates);
+    } else if(strcmp(name, "静音") == 0) {
+        static const char* mute_candidates[] = {"Mute"};
+        candidates = mute_candidates;
+        candidate_count = COUNT_OF(mute_candidates);
+    } else if(strcmp(name, "音量加") == 0) {
+        static const char* vol_up_candidates[] = {"Vol_up"};
+        candidates = vol_up_candidates;
+        candidate_count = COUNT_OF(vol_up_candidates);
+    } else if(strcmp(name, "音量减") == 0) {
+        static const char* vol_dn_candidates[] = {"Vol_dn"};
+        candidates = vol_dn_candidates;
+        candidate_count = COUNT_OF(vol_dn_candidates);
+    } else if(strcmp(name, "频道加") == 0) {
+        static const char* ch_next_candidates[] = {"Ch_next"};
+        candidates = ch_next_candidates;
+        candidate_count = COUNT_OF(ch_next_candidates);
+    } else if(strcmp(name, "频道减") == 0) {
+        static const char* ch_prev_candidates[] = {"Ch_prev"};
+        candidates = ch_prev_candidates;
+        candidate_count = COUNT_OF(ch_prev_candidates);
+    } else if(strcmp(name, "播放") == 0) {
+        candidates = play_candidates;
+        candidate_count = COUNT_OF(play_candidates);
+    } else if(strcmp(name, "暂停") == 0) {
+        static const char* pause_candidates[] = {"Pause"};
+        candidates = pause_candidates;
+        candidate_count = COUNT_OF(pause_candidates);
+    } else if(strcmp(name, "上一曲") == 0) {
+        static const char* prev_candidates[] = {"Prev"};
+        candidates = prev_candidates;
+        candidate_count = COUNT_OF(prev_candidates);
+    } else if(strcmp(name, "下一曲") == 0) {
+        static const char* next_candidates[] = {"Next"};
+        candidates = next_candidates;
+        candidate_count = COUNT_OF(next_candidates);
+    } else if(strcmp(name, "模式") == 0) {
+        static const char* mode_candidates[] = {"Mode"};
+        candidates = mode_candidates;
+        candidate_count = COUNT_OF(mode_candidates);
+    } else if(strcmp(name, "风速加") == 0) {
+        static const char* speed_up_candidates[] = {"Speed_up"};
+        candidates = speed_up_candidates;
+        candidate_count = COUNT_OF(speed_up_candidates);
+    } else if(strcmp(name, "风速减") == 0) {
+        static const char* speed_dn_candidates[] = {"Speed_dn"};
+        candidates = speed_dn_candidates;
+        candidate_count = COUNT_OF(speed_dn_candidates);
+    } else if(strcmp(name, "摇头") == 0) {
+        static const char* rotate_candidates[] = {"Rotate"};
+        candidates = rotate_candidates;
+        candidate_count = COUNT_OF(rotate_candidates);
+    } else if(strcmp(name, "定时") == 0) {
+        static const char* timer_candidates[] = {"Timer"};
+        candidates = timer_candidates;
+        candidate_count = COUNT_OF(timer_candidates);
+    } else if(strcmp(name, "关闭") == 0) {
+        static const char* off_candidates[] = {"Off"};
+        candidates = off_candidates;
+        candidate_count = COUNT_OF(off_candidates);
+    } else if(strcmp(name, "除湿") == 0) {
+        static const char* dh_candidates[] = {"Dh"};
+        candidates = dh_candidates;
+        candidate_count = COUNT_OF(dh_candidates);
+    } else if(strcmp(name, "强力制冷") == 0) {
+        static const char* cool_hi_candidates[] = {"Cool_hi"};
+        candidates = cool_hi_candidates;
+        candidate_count = COUNT_OF(cool_hi_candidates);
+    } else if(strcmp(name, "节能制冷") == 0) {
+        static const char* cool_lo_candidates[] = {"Cool_lo"};
+        candidates = cool_lo_candidates;
+        candidate_count = COUNT_OF(cool_lo_candidates);
+    } else if(strcmp(name, "强力制热") == 0) {
+        static const char* heat_hi_candidates[] = {"Heat_hi"};
+        candidates = heat_hi_candidates;
+        candidate_count = COUNT_OF(heat_hi_candidates);
+    } else if(strcmp(name, "节能制热") == 0) {
+        static const char* heat_lo_candidates[] = {"Heat_lo"};
+        candidates = heat_lo_candidates;
+        candidate_count = COUNT_OF(heat_lo_candidates);
+    } else if(strcmp(name, "信号源") == 0) {
+        static const char* source_candidates[] = {"SOURCE"};
+        candidates = source_candidates;
+        candidate_count = COUNT_OF(source_candidates);
+    } else if(strcmp(name, "菜单") == 0) {
+        static const char* menu_candidates[] = {"MENU"};
+        candidates = menu_candidates;
+        candidate_count = COUNT_OF(menu_candidates);
+    } else if(strcmp(name, "退出") == 0) {
+        static const char* exit_candidates[] = {"EXIT"};
+        candidates = exit_candidates;
+        candidate_count = COUNT_OF(exit_candidates);
+    } else if(strcmp(name, "停止") == 0) {
+        static const char* stop_candidates[] = {"STOP"};
+        candidates = stop_candidates;
+        candidate_count = COUNT_OF(stop_candidates);
+    } else if(strcmp(name, "电源开") == 0) {
+        static const char* power_on_candidates[] = {"Power_on"};
+        candidates = power_on_candidates;
+        candidate_count = COUNT_OF(power_on_candidates);
+    } else if(strcmp(name, "电源关") == 0) {
+        static const char* power_off_candidates[] = {"Power_off"};
+        candidates = power_off_candidates;
+        candidate_count = COUNT_OF(power_off_candidates);
+    } else if(strcmp(name, "亮度加") == 0) {
+        static const char* brightness_up_candidates[] = {"Brightness_up"};
+        candidates = brightness_up_candidates;
+        candidate_count = COUNT_OF(brightness_up_candidates);
+    } else if(strcmp(name, "亮度减") == 0) {
+        static const char* brightness_dn_candidates[] = {"Brightness_dn"};
+        candidates = brightness_dn_candidates;
+        candidate_count = COUNT_OF(brightness_dn_candidates);
+    } else if(strcmp(name, "红色") == 0) {
+        static const char* red_candidates[] = {"Red"};
+        candidates = red_candidates;
+        candidate_count = COUNT_OF(red_candidates);
+    } else if(strcmp(name, "绿色") == 0) {
+        static const char* green_candidates[] = {"Green"};
+        candidates = green_candidates;
+        candidate_count = COUNT_OF(green_candidates);
+    } else if(strcmp(name, "蓝色") == 0) {
+        static const char* blue_candidates[] = {"Blue"};
+        candidates = blue_candidates;
+        candidate_count = COUNT_OF(blue_candidates);
+    } else if(strcmp(name, "白色") == 0) {
+        static const char* white_candidates[] = {"White"};
+        candidates = white_candidates;
+        candidate_count = COUNT_OF(white_candidates);
+    } else if(strcmp(name, "弹出") == 0) {
+        static const char* eject_candidates[] = {"Eject"};
+        candidates = eject_candidates;
+        candidate_count = COUNT_OF(eject_candidates);
+    } else if(strcmp(name, "快退") == 0) {
+        static const char* fast_ba_candidates[] = {"Fast_ba"};
+        candidates = fast_ba_candidates;
+        candidate_count = COUNT_OF(fast_ba_candidates);
+    } else if(strcmp(name, "快进") == 0) {
+        static const char* fast_fo_candidates[] = {"Fast_fo"};
+        candidates = fast_fo_candidates;
+        candidate_count = COUNT_OF(fast_fo_candidates);
+    } else if(strcmp(name, "确定") == 0) {
+        static const char* ok_candidates[] = {"Ok"};
+        candidates = ok_candidates;
+        candidate_count = COUNT_OF(ok_candidates);
+    } else if(strcmp(name, "字幕") == 0) {
+        static const char* subtitle_candidates[] = {"Subtitle"};
+        candidates = subtitle_candidates;
+        candidate_count = COUNT_OF(subtitle_candidates);
+    }
+
+    if(candidates) {
+        const char* resolved_name = infrared_brute_force_first_matching_record_name(
+            brute_force, candidates, candidate_count);
+        return resolved_name ? resolved_name : name;
+    }
+
+    return name;
+}
+
 InfraredBruteForce* infrared_brute_force_alloc(void) {
     InfraredBruteForce* brute_force = malloc(sizeof(InfraredBruteForce));
     brute_force->ff = NULL;
@@ -105,6 +303,7 @@ InfraredErrorCode infrared_brute_force_calculate_messages_ex(
     Storage* storage = furi_record_open(RECORD_STORAGE);
     FlipperFormat* ff = flipper_format_buffered_file_alloc(storage);
     FuriString* signal_name = furi_string_alloc();
+    FuriString* lookup_name = furi_string_alloc();
     InfraredSignal* signal = infrared_signal_alloc();
 
     do {
@@ -146,8 +345,16 @@ InfraredErrorCode infrared_brute_force_calculate_messages_ex(
             signal_valid = (!INFRARED_ERROR_PRESENT(error)) && infrared_signal_is_valid(signal);
             if(!signal_valid) break;
 
+            if(auto_detect_buttons) {
+                furi_string_set(lookup_name, signal_name);
+            } else {
+                const char* resolved_name = infrared_brute_force_resolve_button_name(
+                    brute_force, furi_string_get_cstr(signal_name));
+                furi_string_set_str(lookup_name, resolved_name);
+            }
+
             InfraredBruteForceRecord* record =
-                InfraredBruteForceRecordDict_get(brute_force->records, signal_name);
+                InfraredBruteForceRecordDict_get(brute_force->records, lookup_name);
             if(!record) {
                 if(auto_detect_buttons) {
                     infrared_brute_force_add_record(
@@ -168,6 +375,7 @@ InfraredErrorCode infrared_brute_force_calculate_messages_ex(
     } while(false);
 
     infrared_signal_free(signal);
+    furi_string_free(lookup_name);
     furi_string_free(signal_name);
 
     flipper_format_free(ff);
