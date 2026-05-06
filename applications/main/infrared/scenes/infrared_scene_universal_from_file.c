@@ -43,15 +43,21 @@ void infrared_scene_universal_from_file_on_enter(void* context) {
     InfraredApp* infrared = context;
     ButtonMenu* button_menu = infrared->button_menu;
     InfraredBruteForce* brute_force = infrared->brute_force;
+    bool use_preset_file = furi_string_size(infrared->universal_db_path) > 0;
 
-    DialogsFileBrowserOptions browser_options;
-    dialog_file_browser_set_basic_options(&browser_options, INFRARED_APP_EXTENSION, &I_ir_10px);
-    browser_options.base_path = INFRARED_APP_FOLDER;
-    browser_options.skip_assets = false;
-    if(!dialog_file_browser_show(
-           infrared->dialogs, infrared->file_path, infrared->file_path, &browser_options)) {
-        scene_manager_previous_scene(infrared->scene_manager);
-        return;
+    if(use_preset_file) {
+        furi_string_set(infrared->file_path, furi_string_get_cstr(infrared->universal_db_path));
+        furi_string_reset(infrared->universal_db_path);
+    } else {
+        DialogsFileBrowserOptions browser_options;
+        dialog_file_browser_set_basic_options(&browser_options, INFRARED_APP_EXTENSION, &I_ir_10px);
+        browser_options.base_path = INFRARED_APP_FOLDER;
+        browser_options.skip_assets = false;
+        if(!dialog_file_browser_show(
+               infrared->dialogs, infrared->file_path, infrared->file_path, &browser_options)) {
+            scene_manager_previous_scene(infrared->scene_manager);
+            return;
+        }
     }
 
     infrared_brute_force_set_db_filename(brute_force, furi_string_get_cstr(infrared->file_path));
