@@ -1,99 +1,118 @@
-### Added:
-- Apps:
-  - Games: Checkers (by @H4W9)
-  - GPIO: CAN Commander (by @MatthewKuKanich)
-  - NFC:
-    - ISO 15693-3 NFC Writer (by @ch4istO)
-    - UL-C Bruteforce (by @noproto)
-    - UL-C Relay (by @noproto)
-    - ULCFkey (by @noproto)
-  - Sub-GHz: ProtoPirate (by @RocketGod-git & @xMasterX & @zero-mega et al.)
-  - Tools: Flipper Wedge (by @dangerous-tac0s)
-- Sub-GHz:
-  - UL: Cardin S449 protocol full support (64bit keeloq) (with Add manually, and all button codes) (use FSK12K modulation to read the remote) (by @xMasterX & @zero-mega)
-  - UL: Beninca ARC AES128 protocol full support (128bit dynamic) (with Add manually, and 2 button codes) (by @xMasterX & @zero-mega)
-  - UL: Jarolift protocol full support (72bit dynamic) (with Add manually, and all button codes) (by @xMasterX & d82k & Steffen (bastelbudenbuben de))
-  - UL: Treadmill37 protocol support (37bit static) (by @xMasterX)
-  - UL: Ditec GOL4 protocol (with programming mode, button switch, add manually) (by @xMasterX & @zero-mega)
-  - UL: KeyFinder protocol (24bit static) (by @xMasterX & @mishamyte)
-  - UL: New modulation FSK with 12KHz deviation (by @xMasterX)
-  - UL: KingGates Stylo 4k Add manually and button switch support and refactoring of encoder (by @xMasterX)
-  - UL: Stilmatic (R-Tech) 12bit discr. fix & button 9 support (two buttons hold simulation) (mapped on arrow keys) (by @xMasterX)
-  - UL: Sommer last button code 0x6 support (mapped on arrow keys) (by @xMasterX)
-  - UL: V2 Phoenix (Phox) added 2 counter modes support (docs updated) (by @xMasterX)
-  - UL: Add 390MHz and 430.5MHz to default hopper list (6 elements like in OFW) (works well with Hopper RSSI level set for your enviroment) (by @xMasterX)
-  - UL: Add signals button editor and real remote simulation (full signal transmit with just one click) (by @Dmitry422)
-  - UL: KeeLoq add counter mode 7 (sends 7 signals increasing counter with 0x3333 steps) - may bypass counter on some receivers! (by @xMasterX)
-  - UL: TX Power setting (by @LeeroysHub)
-  - UL: Somfy Keytis button switch and Add Manually support (by @xMasterX)
-  - UL: Genius Echo/Bravo add 2 buttons hold simulation (0xB btn code) (by @xMasterX)
-- NFC: Add Mifare Ultralight C Write Support (#524 by @haw8411)
-- OFW: RFID: Add Indala 224-bit (long format) protocol support (by @kuzaxak)
-- UL: JS: Add IR capabilities to the JS engine (by @LuisMayo)
-- FBT: Allow apps to specify custom cflags (by @WillyJL)
-- UL: Docs: Add [full list of supported SubGHz protocols](https://github.com/Next-Flip/Momentum-Firmware/blob/dev/documentation/SubGHzSupportedSystems.md) and their frequencies/modulations that can be used for reading remotes (by @xMasterX)
+# Changelog
 
-### Updated:
-- Apps:
-  - XERO: MFKey: 4.1 with 40% faster key recovery, improved memory efficiency (by @dchristle), new SEN dictionary for 10x faster recovery (by @noproto)
-  - UL: Update Sub-GHz apps for FM12K modulation (by @xMasterX)
-  - CAN Tools: Parity with DBC format, support importing DBC files (by @MatthewKuKanich)
-  - ESP Flasher: Bump Marauder 1.10.2 (by @justcallmekoko)
-  - ESP32 WiFi Marauder: Marauder 1.10.0 support (by @justcallmekoko), Marauder 1.9.0 support (by @H4W9)
-  - FlipLibrary: Added Fahrenheit, current weather, and wind speed/direction (by @H4W9)
-  - FlipSocial: Autocomplete, keyboard improvements, explore and profile view enhancements, bugfixes (by @jblanked)
-  - FlipWeather: Added Fahrenheit, current weather, and wind speed/direction (by @H4W9)
-  - Free Roam: Minimap, code optimization, ux improvements (by @jblanked)
-  - Flipper Blackhat: TUI command (by @o7-machinehum)
-  - Geometry Dash: Major refactor, bugfixes and performance improvements, rename from Geometry Flip (by @gooseprjkt)
-  - HC-SR04 Distance Sensor: Option to change measure units (by @Tyl3rA)
-  - IconEdit: Save/Send animations, settings tab with canvas scale and cursor guides, bugfixes (by @rdefeo)
-  - INA2xx INA Meter: Fixed application freezing when the sensor is not connected (by @cepetr)
-  - Lidar Emulator: Support external IR boards (by @ANTodorov)
-  - NFC Login: Code refactor, bugfixes, renamed from NFC PC Login, restore BLE profile on app exit (by @Play2BReal)
-  - Picopass: Option to Create credential without a card (by @redteamlife), info screen improvements, allow Emulation of NRMAC dumped cards (by @bettse)
-  - Seader: SAM ATR3 support, better IFSC/IFSD handling, various improvements (by @bettse), reverse engineered U90 packet, memory optimization (by @cindersocket)
-  - Seos Compatible: Seos write support, various improvements (by @aaronjamt), support switching key sets (by @pcunning), code refactoring, various bugfixes (by @bettse)
-  - Sub-GHz Scheduler: Added new interval times, bugfixes and improvements (by @shalebridge)
-  - Tetris: Various bugfixes (by @Bricktech2000)
-  - Unitemp: Numerous improvements from @MLAB-project fork (by @MLAB-project)
-  - XRemote: Add dolphin xp and crash bugfix (by @teohumeau)
-- Sub-GHz:
-  - UL: Counter editor refactoring (by @Dmitry422)
-  - UL: Alutech AT-4N & Nice Flor S turbo speedup (by @Dmitry422)
-  - UL: Sommer fm2 in Add manually now uses FM12K modulation (Sommer without fm2 tag uses FM476) (try this if regular option doesn't work for you) (by @xMasterX)
-  - UL: Replaced Cars ignore option with Revers RB2 protocol ignore option (by @xMasterX)
-  - UL: Improve docs on low level code (by @Dmitry422)
-  - UL: KeeLoq display decrypted `Hop` instead of showing encrypted as is (encrypted non byte reversed hop is still displayed in `Key` field) (by @xMasterX)
-  - UL: BFT KeeLoq try decoding with zero seed too (by @xMasterX)
-  - UL: KeeLoq display BFT programming mode TX (when arrow button is held) (by @xMasterX)
-  - UL: Signal Settings Improvements (by @Dmitry422)
-  - UL: KeeLoq change delta size (by @xMasterX)
-- Archive: Support opening and pinning ProtoPirate files from Archive (#510 by @LeeroysHub)
-- OFW: RFID: Make FDX-B readout more descriptive (by @snowsign)
-- OFW: API: Make `view_port_send_to_back()` public (by @loftyinclination)
+## v0.8.3 - 2026-05-06
 
-### Fixed:
-- Sub-GHz:
-  - UL: Fixed button mapping for FAAC RC/XT (by @xMasterX)
-  - UL: Possible Sommer timings fix (by @xMasterX)
-  - UL: Various fixes and cleanup (by @xMasterX)
-  - UL: Nice Flor S remove extra uint64 variable (by @xMasterX)
-  - UL: Fix Alutech AT4N false positives (by @xMasterX)
-  - UL: Fix documentation link for HT12A protocol (by @carlogrisetti)
-  - UL: BFT Mitto fix decode bug (seed was not resetting after one successful decode) (by @xMasterX)
-  - UL: KeeLoq fix display of AN-Motors and HCS101 keys (by @xMasterX)
-- NFC:
-  - Fix sending 32+ byte ISO 15693-3 commands (by @WillyJL)
-  - Fixes to `READ_MULTI` and `GET_BLOCK_SECURITY` commands in ISO 15693-3 emulation (#501 by @WillyJL & aaronjamt)
-  - Fix CLI with NTAG4xx and Type 4 Tag support (by @WillyJL)
-  - UL: Fix LED not blinking at SLIX unlock (by @xMasterX)
-- UL: Settings: Storage settings exit scenes properly if used via favourites (by @xMasterX)
-- UL: UI: Some small changes (by @xMasterX)
-- OFW: USB: Fix USB HID keyboard LED state reporting (by @Caballosanex)
+### Changed
+- 更新 `external` 中文分支子模块，继续同步外部应用的汉化内容。
+- 补全红外模块错误信息的中文翻译。
+- 汉化红外遥控器按键名称，提升红外页面的一致性与可读性。
 
-### Removed:
-- Sub-GHz:
-  - Removed Starline, ScherKhan and Kia protocols from main Sub-GHz app, they can be decoded with `Apps > Sub-GHz > ProtoPirate` external app
-  - Disabled X10 and Hormann Bisecur protocols due to flash space constraints and very limited usefulness, Momentum now has same protocol list as Unleashed
-- Desktop: Removed winter holidays anims
+## v0.8.2 - 2026-05-05
+
+### Fixed
+- 修复 `Passport` 启动快捷键在本地化名称下无法正确关联的问题。
+
+## v0.8.1 - 2026-05-05
+
+### Added
+- 补全设置菜单汉化，进一步统一系统设置页的中文显示。
+
+## v0.8.0 - 2026-05-05
+
+### Added
+- 补全外部应用名称汉化，提升应用列表和启动器中的中文覆盖率。
+
+### Changed
+- 对与启动器耦合较强的应用名称保留英文，避免名称本地化带来的关联问题。
+
+## v0.7.9 - 2026-05-04
+
+### Changed
+- 再次同步外部应用，继续完善 `BLE Spam` 相关汉化。
+
+### Added
+- 为红外模块补充一批从互联网整理的红外数据。
+
+## v0.7.8 - 2026-05-03
+
+### Added
+- 本地化 NFC 与 Sub-GHz 界面文本，补齐两大核心模块的常用中文字符串。
+- 同步外部应用，加入 `BLE Spam` 相关汉化内容。
+
+### Fixed
+- 修复 Sub-GHz GPS 本地化格式字符串问题。
+
+## v0.7.7 - 2026-04-20
+
+### Fixed
+- 补齐 `NFC Type 4 Tag` 与 `NTAG4xx` 相关中文适配。
+
+## v0.7.6 - 2026-04-19
+
+### Fixed
+- 调整关机页与锁屏页的中文文案显示。
+
+### Changed
+- 更新工作流配置。
+
+## v0.7.5 - 2026-04-18
+
+### Changed
+- 更新 `external` 子模块到最新中文提交。
+- 字库生成逻辑改为全量扫描 `external` 源码，减少外部应用汉字缺失。
+
+### Fixed
+- 修复界面中被遮挡的“次”字显示问题。
+
+## v0.7.4 - 2026-04-13
+
+### Added
+- 完善升级页面汉化，并修正文案措辞。
+
+## v0.7.3 - 2026-04-13
+
+### Added
+- 扩展 `external` 外部应用汉化覆盖范围。
+- 将 `external` 应用汉字合并进主字库，减少运行时缺字。
+
+### Fixed
+- 调整中文对话页面顶部内边距。
+- 更新外部应用子模块，修复 `i2ctools` 构建兼容性。
+
+## v0.7.2 - 2026-04-10
+
+### Changed
+- 优化 `momentum_app` 的加载时机，减少不必要的开销。
+
+### Fixed
+- 调整 release 流程，移除自动更新内容中的冗余项。
+
+## v0.7.1 - 2026-04-10
+
+### Fixed
+- 更新 GitHub Actions 版本并复用 release 流程，修复发布侧工作流问题。
+
+## v0.7.0 - 2026-04-10
+
+### Added
+- 首个从当前中文分支开始维护的版本。
+- 切换默认中文字体，并支持批量生成中文字库。
+- 自动提取 `UI_TEXT` 并更新中文字库，优化中文字符收集流程。
+- 为 `Settings`、`Desktop`、`Dolphin`、`NFC`、`Sub-GHz`、`BadUSB`、`Momentum App`、`Infrared`、`LF RFID`、`U2F`、`iButton`、`GPIO`、`Archive` 等系统/内置应用补充汉化。
+- 增加 `Real` / `Clone` / `Clipper` 构建选项。
+- 自动发布多版本固件与字体资源。
+- 集成并同步一批上游 Momentum/OFW 功能，包括新外部应用、Sub-GHz 协议增强、NFC 写卡与模拟能力更新等。
+
+### Changed
+- 优化中文字库生成与加载逻辑。
+- 改进中文字库提取脚本。
+- 切换 `external` 子模块到中文维护提交。
+
+### Updated
+- 更新中文说明文档与配图。
+- 补充部分 `Sub-GHz` 数据与协议说明。
+
+### Fixed
+- 修复 `Settings` 更新包构建问题。
+- 修复 release 字体构建问题。
+- 修复编译失败问题。

@@ -30,15 +30,29 @@ def build_download_table(version_tag: str, repository: str):
     return "\n".join(lines)
 
 
+def read_changelog():
+    changelog_path = Path("CHANGELOG.md")
+    if not changelog_path.exists():
+        return ""
+
+    changelog = changelog_path.read_text(encoding="utf-8").strip()
+    if not changelog:
+        return ""
+
+    return f"\n\n---\n\n{changelog}\n"
+
+
 if __name__ == "__main__":
     version_tag = os.environ["RELEASE_TAG"]
     repository = os.environ["GITHUB_REPOSITORY"]
 
-    template_path = Path(".github/workflow_data/release.md")
+    template_path = Path(".github/workflow_data/release.template.md")
+    output_path = Path(".github/workflow_data/release.md")
     template = template_path.read_text(encoding="utf-8")
     notes = template.format(
         VERSION_TAG=version_tag,
         REPOSITORY=repository,
         DOWNLOAD_TABLE=build_download_table(version_tag, repository),
     )
-    template_path.write_text(notes, encoding="utf-8")
+    notes += read_changelog()
+    output_path.write_text(notes, encoding="utf-8")
