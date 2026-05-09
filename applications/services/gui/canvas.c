@@ -78,6 +78,12 @@ static const uint8_t* canvas_get_zh_font(void) {
         return canvas_zh_font;
     }
 
+    // Early boot paths can render before the storage service registers its record.
+    // In that case, skip zh font loading instead of blocking or crashing.
+    if(!furi_record_exists(RECORD_STORAGE)) {
+        return NULL;
+    }
+
     Storage* storage = furi_record_open(RECORD_STORAGE);
     File* file = storage_file_alloc(storage);
     uint8_t* font = NULL;
