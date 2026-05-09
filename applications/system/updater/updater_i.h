@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-#ifdef MOMENTUM_UI_LANG_ZH_CN
+#if defined(MOMENTUM_UI_LANG_ZH_CN) && !defined(FURI_RAM_EXEC)
 #define UPDATER_UI_TEXT(en, zh) (zh)
 #else
 #define UPDATER_UI_TEXT(en, zh) (en)
