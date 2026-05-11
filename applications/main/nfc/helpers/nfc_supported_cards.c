@@ -53,6 +53,8 @@ struct NfcSupportedCards {
 NfcSupportedCards* nfc_supported_cards_alloc(CompositeApiResolver* api_resolver) {
     NfcSupportedCards* instance = malloc(sizeof(NfcSupportedCards));
     instance->api_resolver = api_resolver;
+    instance->load_state = NfcSupportedCardsLoadStateIdle;
+    instance->load_context = NULL;
 
     NfcSupportedCardsPluginCache_init(instance->plugins_cache_arr);
 
@@ -76,6 +78,7 @@ void nfc_supported_cards_free(NfcSupportedCards* instance) {
 
 static NfcSupportedCardsLoadContext* nfc_supported_cards_load_context_alloc(void) {
     NfcSupportedCardsLoadContext* instance = malloc(sizeof(NfcSupportedCardsLoadContext));
+    instance->app = NULL;
 
     instance->storage = furi_record_open(RECORD_STORAGE);
     instance->directory = storage_file_alloc(instance->storage);
@@ -88,6 +91,8 @@ static NfcSupportedCardsLoadContext* nfc_supported_cards_load_context_alloc(void
 }
 
 static void nfc_supported_cards_load_context_free(NfcSupportedCardsLoadContext* instance) {
+    if(!instance) return;
+
     if(instance->app) {
         flipper_application_free(instance->app);
     }
@@ -173,6 +178,7 @@ void nfc_supported_cards_load_cache(NfcSupportedCards* instance) {
            (instance->load_state == NfcSupportedCardsLoadStateFail))
             break;
 
+        instance->load_state = NfcSupportedCardsLoadStateInProgress;
         instance->load_context = nfc_supported_cards_load_context_alloc();
 
         while(true) {
@@ -198,6 +204,7 @@ void nfc_supported_cards_load_cache(NfcSupportedCards* instance) {
         }
 
         nfc_supported_cards_load_context_free(instance->load_context);
+        instance->load_context = NULL;
 
         size_t plugins_loaded = NfcSupportedCardsPluginCache_size(instance->plugins_cache_arr);
         if(plugins_loaded == 0) {
@@ -251,6 +258,7 @@ bool nfc_supported_cards_read(NfcSupportedCards* instance, NfcDevice* device, Nf
         }
 
         nfc_supported_cards_load_context_free(instance->load_context);
+        instance->load_context = NULL;
     } while(false);
 
     return card_read;
@@ -295,6 +303,7 @@ bool nfc_supported_cards_parse(
         }
 
         nfc_supported_cards_load_context_free(instance->load_context);
+        instance->load_context = NULL;
     } while(false);
 
     return card_parsed;
