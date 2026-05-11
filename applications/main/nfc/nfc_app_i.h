@@ -91,11 +91,7 @@
 
 #define NFC_MFKEY32_APP_PATH (EXT_PATH("apps/NFC/mfkey.fap"))
 
-#ifdef MOMENTUM_UI_LANG_ZH_CN
-#define NFC_UI_TEXT(en, zh) (zh)
-#else
 #define NFC_UI_TEXT(en, zh) (en)
-#endif
 
 typedef enum {
     NfcRpcStateIdle,
