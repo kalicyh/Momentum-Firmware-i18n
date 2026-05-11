@@ -124,9 +124,6 @@ static const uint8_t* canvas_push_zh_font(Canvas* canvas, const char* str) {
 static void canvas_pop_zh_font(Canvas* canvas, const uint8_t* previous_font) {
     if(previous_font) {
         u8g2_SetFont(&canvas->fb, previous_font);
-#ifdef MOMENTUM_UI_LANG_ZH_CN
-        canvas_release_zh_font();
-#endif
     }
 }
 
