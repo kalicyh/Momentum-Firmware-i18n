@@ -7,7 +7,7 @@ App(
     icon="A_Sub1ghz_14",
     stack_size=3 * 1024,
     order=10,
-    # Sources separation breaks linking with subghz on internal, commented for now
+    # Sources separation breaks linking with subghz on internal
     sources=[
         "*.c",
         "!subghz_fap.c",
