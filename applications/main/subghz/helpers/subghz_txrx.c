@@ -59,11 +59,13 @@ SubGhzTxRx* subghz_txrx_alloc(void) {
         instance->worker, (SubGhzWorkerPairCallback)subghz_receiver_decode);
     subghz_worker_set_context(instance->worker, instance->receiver);
 
+#ifndef SUBGHZ_ADD_MANUALLY
     //set default device External
     subghz_devices_init();
     instance->radio_device_type = SubGhzRadioDeviceTypeInternal;
     instance->radio_device_type =
         subghz_txrx_radio_device_set(instance, SubGhzRadioDeviceTypeExternalCC1101);
+#endif
 
     return instance;
 }
@@ -71,12 +73,14 @@ SubGhzTxRx* subghz_txrx_alloc(void) {
 void subghz_txrx_free(SubGhzTxRx* instance) {
     furi_assert(instance);
 
+#ifndef SUBGHZ_ADD_MANUALLY
     if(instance->radio_device_type != SubGhzRadioDeviceTypeInternal) {
         subghz_txrx_radio_device_power_off(instance);
         subghz_devices_end(instance->radio_device);
     }
 
     subghz_devices_deinit();
+#endif
 
     subghz_worker_free(instance->worker);
     subghz_receiver_free(instance->receiver);
@@ -122,7 +126,7 @@ uint8_t*
 
     //I had to skip the +10dBM and -6dBm Values, use only ones AM/FM have in common.
     //Highest Value is 12dBm for AM, 10 for FM. So Menu needs to reflect that.
-    const uint8_t tx_pa_table[TX_PATABLE_COUNT] = {
+    static const uint8_t tx_pa_table[TX_PATABLE_COUNT] = {
         0,
         0xC0, //12dBm
         0xCD, //7dBm
