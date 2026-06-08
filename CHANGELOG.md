@@ -1,10 +1,20 @@
 # Changelog
 
-## v0.9.11 - 2026-06-08
+## v1.0.0 - 2026-06-08
 
 ### Changed
 - 合并 `Next-Flip/Momentum-Firmware:dev` 的 104 个上游更新，保留 CN/Clipper 分支的中文本地化与构建配置。
 - 同步 NFC、Sub-GHz、HID、JS SDK、API symbols 与外部应用引用相关更新。
+
+## v0.9.10 - 2026-05-07
+
+### Changed
+- 移除NFC和部分游戏的汉化。
+
+## v0.9.8 - 2026-05-07
+
+### Changed
+- 全量汉化。
 
 ## v0.9.0 - 2026-05-07
 
