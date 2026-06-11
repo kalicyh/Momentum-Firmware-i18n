@@ -23,7 +23,11 @@ momentum_manifest_files = [
 ]
 
 momentum_zh_font_gen = env.Command(
-    [momentum_zh_font_stamp, momentum_zh_fonts_out_dir.File("primary_zh.u8f")],
+    [
+        momentum_zh_font_stamp,
+        momentum_zh_fonts_out_dir.File("primary_zh.u8f"),
+        momentum_zh_fonts_work_dir.File("primary_zh.c"),
+    ],
     [
         File("#/scripts/momentum_zh_font_gen.py"),
         File("#/localization/zh_CN/strings.json"),
@@ -55,6 +59,7 @@ momentum_zh_font_gen = env.Command(
 
 env.Replace(
     MOMENTUM_ZH_FONT_GEN=momentum_zh_font_gen,
+    MOMENTUM_ZH_FONT_C=momentum_zh_fonts_work_dir.File("primary_zh.c"),
     ZH_FONTS_OUT_DIR=momentum_zh_fonts_out_dir,
 )
 

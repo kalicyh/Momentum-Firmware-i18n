@@ -4,14 +4,10 @@
 
 #include <furi.h>
 #include <furi_hal.h>
-#include <storage/storage.h>
 #include <stdint.h>
 #include <u8g2_glue.h>
 #include <momentum/asset_packs_i.h>
 #include <momentum/settings.h>
-
-#define CANVAS_ZH_FONT_PATH EXT_PATH("zh_fonts/primary_zh.u8f")
-#define U8G2_FONT_DATA_STRUCT_SIZE 23
 
 const CanvasFontParameters canvas_font_params[FontTotalNumber] = {
     [FontPrimary] = {.leading_default = 12, .leading_min = 11, .height = 8, .descender = 2},
@@ -35,72 +31,12 @@ static bool canvas_string_has_non_ascii(const char* str) {
 }
 
 #ifdef MOMENTUM_UI_LANG_ZH_CN
-static uint8_t* canvas_zh_font = NULL;
-
-static void canvas_release_zh_font(void) {
-    free(canvas_zh_font);
-    canvas_zh_font = NULL;
-}
-
-static bool canvas_try_load_zh_font_file(File* file, uint8_t** font, const char* path) {
-    if(!storage_file_open(file, path, FSAM_READ, FSOM_OPEN_EXISTING)) {
-        return false;
-    }
-
-    bool ok = false;
-    do {
-        uint64_t size = storage_file_size(file);
-        if(size <= U8G2_FONT_DATA_STRUCT_SIZE || size > UINT32_MAX) {
-            break;
-        }
-
-        *font = malloc(size);
-        if(!*font) {
-            break;
-        }
-
-        if(storage_file_read(file, *font, size) != size) {
-            free(*font);
-            *font = NULL;
-            break;
-        }
-
-        ok = true;
-    } while(false);
-
-    storage_file_close(file);
-    return ok;
-}
+extern const uint8_t primary_zh[];
 #endif
 
 static const uint8_t* canvas_get_zh_font(void) {
 #ifdef MOMENTUM_UI_LANG_ZH_CN
-    if(canvas_zh_font) {
-        return canvas_zh_font;
-    }
-
-    // Early boot paths can render before the storage service registers its record.
-    // In that case, skip zh font loading instead of blocking or crashing.
-    if(!furi_record_exists(RECORD_STORAGE)) {
-        return NULL;
-    }
-
-    Storage* storage = furi_record_open(RECORD_STORAGE);
-    File* file = storage_file_alloc(storage);
-    uint8_t* font = NULL;
-
-    do {
-        if(!canvas_try_load_zh_font_file(file, &font, CANVAS_ZH_FONT_PATH)) {
-            break;
-        }
-
-        canvas_zh_font = font;
-    } while(false);
-
-    storage_file_free(file);
-    furi_record_close(RECORD_STORAGE);
-
-    return canvas_zh_font;
+    return primary_zh;
 #else
     return NULL;
 #endif
@@ -159,9 +95,6 @@ void canvas_free(Canvas* canvas) {
     CanvasCallbackPairArray_clear(canvas->canvas_callback_pair);
     furi_mutex_free(canvas->mutex);
     free(canvas);
-#ifdef MOMENTUM_UI_LANG_ZH_CN
-    canvas_release_zh_font();
-#endif
 }
 
 static void canvas_lock(Canvas* canvas) {

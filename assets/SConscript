@@ -73,14 +73,18 @@ assetsenv.Depends(proto_ver, proto)
 assetsenv.Alias("proto_ver", proto_ver)
 
 # Gather everything into a static lib
-assets_parts = (icons, proto, dolphin_blocking, dolphin_internal, proto_ver)
+assets_parts = [icons, proto, dolphin_blocking, dolphin_internal, proto_ver]
+if assetsenv["MOMENTUM_UI_LANG_ZH"] == "1":
+    assets_parts.append(assetsenv["MOMENTUM_ZH_FONT_C"])
 env.Replace(FW_ASSETS_HEADERS=assets_parts)
 
 assetslib = assetsenv.Library("fw${FW_LIB_NAME}", assets_parts)
 assetsenv.Install("${LIB_DIST_DIR}", assetslib)
 
 if assetsenv["IS_BASE_FIRMWARE"]:
-    dropin_parts = (dropin_icons, proto, dolphin_blocking, dolphin_internal, proto_ver)
+    dropin_parts = [dropin_icons, proto, dolphin_blocking, dolphin_internal, proto_ver]
+    if assetsenv["MOMENTUM_UI_LANG_ZH"] == "1":
+        dropin_parts.append(assetsenv["MOMENTUM_ZH_FONT_C"])
     dropin_assetslib = assetsenv.Library("${FW_LIB_NAME}", dropin_parts)
     assetsenv.Install("${LIB_DIST_DIR}", dropin_assetslib)
 

@@ -158,6 +158,18 @@ def c_to_u8f(c_path: Path, u8f_path: Path):
     u8f_path.write_bytes(font)
 
 
+def make_c_file_compilable(c_path: Path):
+    contents = c_path.read_text(encoding="utf-8")
+    if contents.startswith("#include <stdint.h>"):
+        return
+
+    c_path.write_text(
+        '#include <stdint.h>\n#include <u8g2.h>\n\n' + contents,
+        encoding="utf-8",
+        newline="\n",
+    )
+
+
 def sanitize_symbol_name(name: str):
     return re.sub(r"[^A-Za-z0-9_]", "_", name)
 
@@ -187,6 +199,7 @@ def generate_font(
         capture_output=True,
         text=True,
     )
+    make_c_file_compilable(c_file)
     c_to_u8f(c_file, u8f_file)
 
 
@@ -204,6 +217,11 @@ def main():
             stale_path.unlink()
 
     if args.enabled != "1":
+        (work_dir / "primary_zh.c").write_text(
+            "#include <stdint.h>\n\nconst uint8_t primary_zh[1] = {0};\n",
+            encoding="utf-8",
+            newline="\n",
+        )
         (out_dir / "primary_zh.u8f").write_bytes(b"")
         stamp.parent.mkdir(parents=True, exist_ok=True)
         stamp.write_text("disabled\n", encoding="utf-8", newline="\n")
