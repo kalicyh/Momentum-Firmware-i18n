@@ -5,6 +5,7 @@
 - 编译时生成一份总中文字库 `primary_zh.c`
 - 字体数据链接进固件 `.rodata`
 - 检测到中文字符串时临时切换字体绘制
+- updater stage 运行在 RAM 中，不链接完整中文字库，避免超过旧固件 128KB loader 限制
 
 不再使用：
 
@@ -33,7 +34,7 @@ extern const uint8_t primary_zh[];
 3. 调用 `scripts/momentum_zh_font_gen.py`
 4. 使用仓库内的 `tools/u8g2_cn_tools/bdfconv`
 5. 生成 `primary_zh.c` 和兼容用的 `primary_zh.u8f`
-6. 将 `primary_zh.c` 编入 `fwassets` 静态库
+6. 主固件构建时将 `primary_zh.c` 编入 `fwassets` 静态库
 
 只有：
 
@@ -56,3 +57,4 @@ MOMENTUM_UI_LANG=zh_CN ./fbt ...
 
 - 英文仍走原生字体
 - 中文走独立总字库，但不占用运行时 heap
+- updater stage 使用英文/内置字体回退，保证 `updater.bin` 不被中文字体放大

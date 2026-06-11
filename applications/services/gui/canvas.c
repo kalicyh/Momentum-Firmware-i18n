@@ -30,12 +30,12 @@ static bool canvas_string_has_non_ascii(const char* str) {
     return false;
 }
 
-#ifdef MOMENTUM_UI_LANG_ZH_CN
+#if defined(MOMENTUM_UI_LANG_ZH_CN) && !defined(FURI_RAM_EXEC)
 extern const uint8_t primary_zh[];
 #endif
 
 static const uint8_t* canvas_get_zh_font(void) {
-#ifdef MOMENTUM_UI_LANG_ZH_CN
+#if defined(MOMENTUM_UI_LANG_ZH_CN) && !defined(FURI_RAM_EXEC)
     return primary_zh;
 #else
     return NULL;
