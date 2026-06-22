@@ -16,6 +16,12 @@
 
 #define LOADER_MAGIC_THREAD_VALUE 0xDEADBEEF
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define LOADER_UI_TEXT(en, zh) (zh)
+#else
+#define LOADER_UI_TEXT(en, zh) (en)
+#endif
+
 // helpers
 
 static const char* loader_find_external_application_by_name(const char* app_name) {
@@ -144,22 +150,30 @@ static void loader_show_gui_error(
             break;
         case LoaderStatusErrorOutOfMemory:
             dialog_message_set_header(
-                message, "Error: Out of Memory", 64, 0, AlignCenter, AlignTop);
+                message,
+                LOADER_UI_TEXT("Error: Out of Memory", "错误: 内存不足"),
+                64,
+                0,
+                AlignCenter,
+                AlignTop);
             dialog_message_set_text(
                 message,
-                "Not enough RAM to run the\napp. Please reboot the device",
+                LOADER_UI_TEXT(
+                    "Not enough RAM to run the\napp. Please reboot the device",
+                    "运行应用的 RAM 不足。\n请重启设备。"),
                 64,
                 13,
                 AlignCenter,
                 AlignTop);
-            dialog_message_set_buttons(message, NULL, NULL, "Reboot");
+            dialog_message_set_buttons(message, NULL, NULL, LOADER_UI_TEXT("Reboot", "重启"));
             if(dialog_message_show(dialogs, message) == DialogMessageButtonRight) {
                 furi_hal_power_reset();
             }
             break;
         default:
             // Generic error
-            dialog_message_set_header(message, "Error", 64, 0, AlignCenter, AlignTop);
+            dialog_message_set_header(
+                message, LOADER_UI_TEXT("Error", "错误"), 64, 0, AlignCenter, AlignTop);
 
             furi_string_replace(error_message, "/ext/apps/", "");
             furi_string_replace(error_message, ", ", "\n");

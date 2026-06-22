@@ -14,6 +14,12 @@ typedef enum {
     FormatFlagAll = (FormatFlagContinue | FormatFlagCancel),
 } FormatFlag;
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define LOADER_STORAGE_UI_TEXT(en, zh) (zh)
+#else
+#define LOADER_STORAGE_UI_TEXT(en, zh) (en)
+#endif
+
 static void loader_menu_storage_settings_callback(DialogExResult result, void* context) {
     FuriThread* thread = context;
     furi_thread_flags_set(
@@ -47,36 +53,65 @@ int32_t loader_menu_storage_settings(void* context) {
         view_holder_set_back_callback(
             view_holder, loader_menu_storage_settings_back, furi_thread_get_current());
 
-        dialog_ex_set_header(dialog_ex, "Update needed", 64, 0, AlignCenter, AlignTop);
+        dialog_ex_set_header(
+            dialog_ex,
+            LOADER_STORAGE_UI_TEXT("Update needed", "需要更新"),
+            64,
+            0,
+            AlignCenter,
+            AlignTop);
         dialog_ex_set_text(
             dialog_ex,
-            "Reinstall firmware\n"
-            "to run this app.\n"
-            "Can format SD\n"
-            "here if needed.",
+            LOADER_STORAGE_UI_TEXT(
+                "Reinstall firmware\n"
+                "to run this app.\n"
+                "Can format SD\n"
+                "here if needed.",
+                "请重装固件\n"
+                "以运行此应用。\n"
+                "如有需要\n"
+                "可在此格式化 SD。"),
             3,
             17,
             AlignLeft,
             AlignTop);
         dialog_ex_set_icon(dialog_ex, 83, 11, &I_WarningDolphinFlip_45x42);
-        dialog_ex_set_right_button_text(dialog_ex, "Format SD");
+        dialog_ex_set_right_button_text(
+            dialog_ex, LOADER_STORAGE_UI_TEXT("Format SD", "格式化 SD"));
 
         FormatFlag flag = furi_thread_flags_wait(FormatFlagAll, FuriFlagWaitAny, FuriWaitForever);
         if(flag == FormatFlagContinue) {
-            char text[39];
-            dialog_ex_set_header(dialog_ex, "Format SD Card?", 64, 0, AlignCenter, AlignTop);
+            char text[96];
+            dialog_ex_set_header(
+                dialog_ex,
+                LOADER_STORAGE_UI_TEXT("Format SD Card?", "格式化 SD 卡?"),
+                64,
+                0,
+                AlignCenter,
+                AlignTop);
             dialog_ex_set_icon(dialog_ex, 0, 0, NULL);
-            dialog_ex_set_left_button_text(dialog_ex, "Cancel");
-            dialog_ex_set_right_button_text(dialog_ex, "Format");
+            dialog_ex_set_left_button_text(dialog_ex, LOADER_STORAGE_UI_TEXT("Cancel", "取消"));
+            dialog_ex_set_right_button_text(dialog_ex, LOADER_STORAGE_UI_TEXT("Format", "格式化"));
             for(uint8_t counter = 5; counter > 0; counter--) {
-                snprintf(text, sizeof(text), "All data will be lost!\n%d presses left", counter);
+                snprintf(
+                    text,
+                    sizeof(text),
+                    LOADER_STORAGE_UI_TEXT(
+                        "All data will be lost!\n%d presses left",
+                        "所有数据将丢失!\n还需按 %d 次"),
+                    counter);
                 dialog_ex_set_text(dialog_ex, text, 64, 12, AlignCenter, AlignTop);
                 flag = furi_thread_flags_wait(FormatFlagAll, FuriFlagWaitAny, FuriWaitForever);
                 if(flag != FormatFlagContinue) break;
 
                 if(counter == 1) {
                     dialog_ex_set_header(
-                        dialog_ex, "Formatting...", 70, 32, AlignCenter, AlignCenter);
+                        dialog_ex,
+                        LOADER_STORAGE_UI_TEXT("Formatting...", "格式化中..."),
+                        70,
+                        32,
+                        AlignCenter,
+                        AlignCenter);
                     dialog_ex_set_text(dialog_ex, NULL, 0, 0, AlignCenter, AlignCenter);
                     dialog_ex_set_icon(dialog_ex, 15, 20, &I_LoadingHourglass_24x24);
                     dialog_ex_set_left_button_text(dialog_ex, NULL);
@@ -85,7 +120,12 @@ int32_t loader_menu_storage_settings(void* context) {
                     FS_Error error = storage_sd_format(storage);
                     if(error != FSE_OK) {
                         dialog_ex_set_header(
-                            dialog_ex, "Cannot Format SD Card", 64, 10, AlignCenter, AlignCenter);
+                            dialog_ex,
+                            LOADER_STORAGE_UI_TEXT("Cannot Format SD Card", "无法格式化 SD 卡"),
+                            64,
+                            10,
+                            AlignCenter,
+                            AlignCenter);
                         dialog_ex_set_icon(dialog_ex, 0, 0, NULL);
                         dialog_ex_set_text(
                             dialog_ex,
@@ -96,9 +136,16 @@ int32_t loader_menu_storage_settings(void* context) {
                             AlignCenter);
                     } else {
                         dialog_ex_set_icon(dialog_ex, 48, 6, &I_DolphinDone_80x58);
-                        dialog_ex_set_header(dialog_ex, "Formatted", 5, 10, AlignLeft, AlignTop);
+                        dialog_ex_set_header(
+                            dialog_ex,
+                            LOADER_STORAGE_UI_TEXT("Formatted", "已格式化"),
+                            5,
+                            10,
+                            AlignLeft,
+                            AlignTop);
                     }
-                    dialog_ex_set_left_button_text(dialog_ex, "Finish");
+                    dialog_ex_set_left_button_text(
+                        dialog_ex, LOADER_STORAGE_UI_TEXT("Finish", "完成"));
                     furi_thread_flags_wait(FormatFlagAll, FuriFlagWaitAny, FuriWaitForever);
                 }
             }
