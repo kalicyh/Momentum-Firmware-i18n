@@ -3,6 +3,12 @@
 #include <gui/elements.h>
 #include <assets_icons.h>
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define POWER_OFF_UI_TEXT(en, zh) (zh)
+#else
+#define POWER_OFF_UI_TEXT(en, zh) (en)
+#endif
+
 struct PowerOff {
     View* view;
 };
@@ -15,28 +21,34 @@ typedef struct {
 static void power_off_draw_callback(Canvas* canvas, void* _model) {
     furi_assert(_model);
     PowerOffModel* model = _model;
-    char buff[32];
+    char buff[64];
 
     canvas_set_color(canvas, ColorBlack);
     canvas_set_font(canvas, FontPrimary);
-    canvas_draw_str_aligned(canvas, 64, 1, AlignCenter, AlignTop, "Battery low!");
+    canvas_draw_str_aligned(
+        canvas, 64, 1, AlignCenter, AlignTop, POWER_OFF_UI_TEXT("Battery low!", "电量低!"));
     canvas_draw_icon(canvas, 0, 18, &I_BatteryBody_52x28);
     canvas_draw_icon(canvas, 16, 25, &I_FaceNopower_29x14);
     elements_bubble(canvas, 54, 17, 70, 30);
 
     canvas_set_font(canvas, FontSecondary);
     if(model->response == PowerOffResponseDefault) {
-        snprintf(buff, sizeof(buff), "Charge me!\nOff in %lus!", model->time_left_sec);
+        snprintf(
+            buff,
+            sizeof(buff),
+            POWER_OFF_UI_TEXT("Charge me!\nOff in %lus!", "请充电!\n%lu 秒后关机!"),
+            model->time_left_sec);
         elements_multiline_text_aligned(canvas, 70, 23, AlignLeft, AlignTop, buff);
 
-        elements_button_left(canvas, "Cancel");
-        elements_button_center(canvas, "OK");
-        elements_button_right(canvas, "Hide");
+        elements_button_left(canvas, POWER_OFF_UI_TEXT("Cancel", "取消"));
+        elements_button_center(canvas, POWER_OFF_UI_TEXT("OK", "确定"));
+        elements_button_right(canvas, POWER_OFF_UI_TEXT("Hide", "隐藏"));
     } else {
-        snprintf(buff, sizeof(buff), "Charge me!\nDon't forget!");
+        snprintf(buff, sizeof(buff), POWER_OFF_UI_TEXT("Charge me!\nDon't forget!", "请充电!\n不要忘记!"));
         elements_multiline_text_aligned(canvas, 70, 23, AlignLeft, AlignTop, buff);
 
-        canvas_draw_str_aligned(canvas, 64, 60, AlignCenter, AlignBottom, "Hold a second...");
+        canvas_draw_str_aligned(
+            canvas, 64, 60, AlignCenter, AlignBottom, POWER_OFF_UI_TEXT("Hold a second...", "请稍候..."));
     }
 }
 

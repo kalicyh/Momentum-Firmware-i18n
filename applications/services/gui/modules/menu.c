@@ -14,6 +14,12 @@
 #include <momentum/momentum.h>
 #include <m-string.h>
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define MENU_UI_TEXT(en, zh) (zh)
+#else
+#define MENU_UI_TEXT(en, zh) (en)
+#endif
+
 struct Menu {
     View* view;
 
@@ -232,7 +238,11 @@ static void menu_draw_callback(Canvas* canvas, void* _model) {
                 canvas, 1, 1, AlignLeft, AlignTop, furi_hal_version_get_name_ptr());
             char str[10];
             Dolphin* dolphin = furi_record_open(RECORD_DOLPHIN);
-            snprintf(str, 10, "Level %i", dolphin_get_level(dolphin->state->data.icounter));
+            snprintf(
+                str,
+                10,
+                MENU_UI_TEXT("Level %i", "%i 级"),
+                dolphin_get_level(dolphin->state->data.icounter));
             furi_record_close(RECORD_DOLPHIN);
             canvas_draw_str_aligned(canvas, 127, 1, AlignRight, AlignTop, str);
             for(int8_t i = -1; i <= 4; i++) {
@@ -251,7 +261,12 @@ static void menu_draw_callback(Canvas* canvas, void* _model) {
                     canvas_set_color(canvas, ColorWhite);
                     canvas_set_font(canvas, FontBatteryPercent);
                     canvas_draw_str_aligned(
-                        canvas, pos_x, pos_y + height / 2 + 1, AlignCenter, AlignTop, "Start");
+                        canvas,
+                        pos_x,
+                        pos_y + height / 2 + 1,
+                        AlignCenter,
+                        AlignTop,
+                        MENU_UI_TEXT("Start", "启动"));
 
                     canvas_set_color(canvas, ColorBlack);
                     canvas_set_font(canvas, FontSecondary);
@@ -436,7 +451,11 @@ static void menu_draw_callback(Canvas* canvas, void* _model) {
 
             // Display OTG state
             char ext5v_display[20];
-            snprintf(ext5v_display, sizeof(ext5v_display), "5v: %s", ext5v ? "On" : "Off");
+            snprintf(
+                ext5v_display,
+                sizeof(ext5v_display),
+                MENU_UI_TEXT("5v: %s", "5V: %s"),
+                ext5v ? MENU_UI_TEXT("On", "开") : MENU_UI_TEXT("Off", "关"));
             canvas_draw_str(canvas, 5, 56, ext5v_display);
 
             MenuItem* item = MenuItemArray_get(model->items, position);
@@ -575,7 +594,7 @@ static void menu_draw_callback(Canvas* canvas, void* _model) {
 
         furi_string_free(name);
     } else {
-        canvas_draw_str(canvas, 2, 32, "Empty");
+        canvas_draw_str(canvas, 2, 32, MENU_UI_TEXT("Empty", "空"));
         elements_scrollbar(canvas, 0, 0);
     }
 }

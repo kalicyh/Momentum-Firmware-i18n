@@ -17,6 +17,12 @@
 
 #define ICON_SPACER 2
 
+#ifdef MOMENTUM_UI_LANG_ZH_CN
+#define BT_UI_TEXT(en, zh) (zh)
+#else
+#define BT_UI_TEXT(en, zh) (en)
+#endif
+
 static void bt_draw_statusbar_callback(Canvas* canvas, void* context) {
     furi_assert(context);
 
@@ -46,9 +52,13 @@ static void bt_pin_code_view_port_draw_callback(Canvas* canvas, void* context) {
     Bt* bt = context;
     char pin_code_info[24];
     canvas_draw_icon(canvas, 0, 0, &I_BLE_Pairing_128x64);
-    snprintf(pin_code_info, sizeof(pin_code_info), "Pairing code\n%06lu", bt->pin_code);
+    snprintf(
+        pin_code_info,
+        sizeof(pin_code_info),
+        BT_UI_TEXT("Pairing code\n%06lu", "配对码\n%06lu"),
+        bt->pin_code);
     elements_multiline_text_aligned(canvas, 64, 4, AlignCenter, AlignTop, pin_code_info);
-    elements_button_left(canvas, "Quit");
+    elements_button_left(canvas, BT_UI_TEXT("Quit", "退出"));
 }
 
 static void bt_pin_code_view_port_input_callback(InputEvent* event, void* context) {
